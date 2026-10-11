@@ -43,8 +43,8 @@ local SIG_RING = 2
 local SIG_GAUSS_1 = 4
 local SIG_GAUSS_2 = 8
 local SIG_GAUSS_3 = 16
-local MIRROR_BASE_TILT = math.rad(45)
-local MIRROR_TURN_SPEED = math.rad(80)
+local RING_NORMAL_BASE_TILT = math.rad(90)
+local RING_AIM_SPEED = math.rad(80)
 
 local active = true
 local alive = true
@@ -115,7 +115,7 @@ local function DockRings()
 	SetFiringState(false)
 	StopRings()
 	-- Gray optical aiming ring does not spin, and docks flat.
-	Turn(ring5Pitch, x_axis, 0, MIRROR_TURN_SPEED)
+	Turn(ring5Pitch, x_axis, 0, RING_AIM_SPEED)
 	WaitForTurn(ring5Pitch, x_axis)
 	Move(ringAnchor, y_axis, RING_REST, RING_RISE_SPEED)
 	WaitForMove(ringAnchor, y_axis)
@@ -307,7 +307,7 @@ function script.AimFromWeapon1()
 end
 
 function script.QueryWeapon1()
-	return beamMuzzle
+	return beamMuzzle -- must be centered in ring5, on independent beam direction pivot
 end
 
 function script.AimWeapon1(heading, pitch)
@@ -326,13 +326,14 @@ function script.AimWeapon1(heading, pitch)
 	end
 	oldHeading = heading
 
-	-- The gray ring turns as if a mirror redirects upward energy toward
-	-- the target. Tilt is 45 degrees plus half the target elevation;
-	-- the actual game beam continues to use the existing beamPitch/muzzle.
-	local mirrorTilt = -(MIRROR_BASE_TILT + pitch * 0.5)
+	-- In the model's horizontal rest pose the ring plane is horizontal.
+	-- A horizontal laser needs the ring plane vertical: 90 degrees from rest.
+	-- For laser elevation pitch, the plane's normal follows the laser exactly.
+	-- The laser emerges from its center, perpendicular to the ring plane.
+	local ringAimTilt = -(RING_NORMAL_BASE_TILT - pitch)
 	Turn(beamYaw, y_axis, heading, math.rad(30))
 	Turn(beamPitch, x_axis, -pitch, math.rad(15))
-	Turn(ring5Pitch, x_axis, mirrorTilt, MIRROR_TURN_SPEED)
+	Turn(ring5Pitch, x_axis, ringAimTilt, RING_AIM_SPEED)
 	WaitForTurn(beamYaw, y_axis)
 	WaitForTurn(beamPitch, x_axis)
 	WaitForTurn(ring5Pitch, x_axis)
