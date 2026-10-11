@@ -1,0 +1,23 @@
+name: Package Epic Bastion Engine Script
+on:
+  workflow_dispatch:
+  push:
+    paths:
+      - ".github/workflows/package-epic-bastion-script.yml"
+      - "tools/epic_bastion_v11/legbastiont3.lua"
+jobs:
+  script:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Check Lua syntax
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y lua5.4
+          luac -p tools/epic_bastion_v11/legbastiont3.lua
+          mkdir -p deploy/scripts/Units
+          cp tools/epic_bastion_v11/legbastiont3.lua deploy/scripts/Units/legbastiont3.lua
+      - uses: actions/upload-artifact@v4
+        with:
+          name: epic-bastion-script-validated
+          path: deploy/scripts/Units/legbastiont3.lua
