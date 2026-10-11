@@ -53,8 +53,8 @@ local deploying = false
 local firing = false
 local fireSerial = 0
 
-local RING_REST = 0 -- New V11 mesh is authored directly in the docked pose
-local RING_RISE = 48 -- Preserve original 48-unit deployment travel
+local RING_REST = 0 -- S3O ringanchor begins at its physical resting position
+local RING_RISE = 48 -- Five rings rise together; original 48-unit deployment travel
 local RING_RISE_SPEED = 44 -- twice the previous deployment speed
 
 local fireTimeFrames = 96
@@ -286,11 +286,13 @@ end
 
 function script.Activate()
 	active = true
+	oldHeading = nil
 	return 1
 end
 
 function script.Deactivate()
 	active = false
+	oldHeading = nil
 	Signal(SIG_AIM_MAIN)
 	Signal(SIG_GAUSS_1)
 	Signal(SIG_GAUSS_2)
@@ -300,7 +302,8 @@ function script.Deactivate()
 end
 
 function script.AimFromWeapon1()
-	return ring5
+	-- Stable direction pivot; the fifth ring itself has an optical tilt.
+	return beamPitch
 end
 
 function script.QueryWeapon1()
