@@ -9,6 +9,9 @@ if tostring(stockReferenceOptions.prototype_stock_transport_reference)=='1'then
  assert(off(stockReferenceOptions.prototype_development_playtest)and off(stockReferenceOptions.prototype_source_progression),'Stock reference must disable authored gameplay overlays')
  return
 end
+-- Capture unchanged native costs/shield before the Ork presentation replaces it.
+local commanderShield=VFS.Include('40k_configs/ork_commander_shield.lua')
+local commanderShieldReference=commanderShield.Capture(UnitDefs.corcom,UnitDefs.corgate)
 local nativeFactoryPilots=VFS.Include('40k_configs/native_factory_pilots.lua')
 local function copyNative(v)if type(v)~='table'then return v end;local r={};for k,x in pairs(v)do r[k]=copyNative(x)end;return r end
 local nativeFactoryContracts=nativeFactoryPilots.Capture(UnitDefs,copyNative)
@@ -416,6 +419,9 @@ VFS.Include('40k_configs/ork_t1_structure_footprints.lua').Apply(UnitDefs,VFS)
 
 -- Final cosmetic impact completion after all roster/presentation adapters.
 VFS.Include('40k_configs/weapon_impact_completion.lua').Apply(UnitDefs,VFS.Include('40k_configs/ork_v13_build_graph.lua'))
+if fourFaction.Enabled(sourceOptions)then commanderShield.Apply(UnitDefs,commanderShieldReference)end
+-- The replaced native model's seasonal hat count is not part of these GLBs.
+VFS.Include('40k_configs/native_hat_piece_guard.lua').ApplyRaw(UnitDefs)
 
 -- Release-only commander discovery uses RandomGuy Hosting's startunit customparam.
 VFS.Include('40k_configs/randomguy_startunits.lua').ApplyRaw(UnitDefs)

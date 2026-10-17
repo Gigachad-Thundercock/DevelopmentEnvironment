@@ -1,6 +1,6 @@
 # Warhammer 40K BAR — alpha
 
-Generated from normal development r99, retaining its shared four-faction gameplay.
+Generated from normal development r107, retaining its shared four-faction gameplay.
 Imperial Guard, Orks, Space Marines and Necrons are selectable; Random chooses
 among the four starting commanders. Orks remain the main development priority.
 
@@ -33,10 +33,12 @@ for this release context; loading failures should be reported, not bypassed.
 This release uses the launcher's stock Recoil engine and the player's existing
 BAR control preferences. The private development engine's exact plain-WASD pan
 and physical-key release ownership are not carried into this stock-engine
-package. Normal development r99 remains unchanged. Native camera move bindings
+package. Normal development r107 remains unchanged. Native camera move bindings
 in stock BAR tolerate modifiers (Any+); this package does not silently overwrite
 your bindings or substitute another camera. This is an outstanding difference
 for review before publication, not a claim of complete control compatibility.
 
 Sources: [BAR's shared keybind contract](https://github.com/beyond-all-reason/Beyond-All-Reason/blob/2f0a840/common/configs/keybinds.readme.md),
 [pinned native camera press/release implementation](https://github.com/beyond-all-reason/RecoilEngine/blob/de69361239d8c8b1012dba3f5aa3122954ea4da3/rts/Game/UnsyncedGameCommands.cpp#L760).
+
+This alpha.5 incorporates the commander birth/animation repair and half-radius plasma shield with standard native recharge costs. Release-specific validation is recorded separately.

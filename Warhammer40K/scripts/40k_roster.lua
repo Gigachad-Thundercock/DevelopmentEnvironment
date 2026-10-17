@@ -773,6 +773,13 @@ function script.BlockShot(n)
  if diagnostic then local permit=Spring.GetUnitRulesParam(unitID,'40k_validation_mount');if permit~=nil and permit~=n then return true end end
  return jumpState()~=nil or transition(now())~=nil or weaponsBuilding()or (mounts[n] and not mounts[n].aimEnabled) or (currentMelee~=nil and not (mounts[n] and mounts[n].melee))
 end
+-- BAR's shield wrapper calls AimShield, separately from offensive AimWeapon.
+if cp.prototype40k_commander_shield=='native_corgate_half_standard_cost_v2'then
+ function script.AimShield(n)
+  local m=mounts[n]
+  return m~=nil and m.passive and m.enabled and Spring.GetUnitRulesParam(unitID,'40k_commander_shield_active')==1
+ end
+end
 function script.AimWeapon(n,h,p)
  local clearanceMount=mounts[n]
  if torso and clearanceMount then clearanceMount.clearanceAllowed=false end
@@ -793,7 +800,12 @@ function script.AimWeapon(n,h,p)
   if boomyH==nil then Signal(2^n);return false end
  end
  local ownedContact=source=='ork_slugga' or (source=='ork_kustim_hammer_candidate' and n==3 and cp.kustim_hammer_runtime_required=='kustim_completed_contact_reaim_v1' and m and m.params.source_contact_method=='literal_EBP_special_attack_02_area_effect_time' and m.contact==62 and m.clip and m.clip.source=='special_attack_2' and m.clip.source_fps==30)
- if m and m.passive then return m.enabled end
+ if m and m.passive then
+  if cp.prototype40k_commander_shield then
+   return m.enabled and Spring.GetUnitRulesParam(unitID,'40k_commander_shield_active')==1
+  end
+  return m.enabled
+ end
  if diagnostic and testMount then return testMount==n end
  if not m or not m.aimEnabled or transition(now()) or weaponsBuilding()or (moving and(wholeBody or(dakkaRecoil and tostring(m.params.source_wholebodyaim)=='1'))) then return false end
  if currentMelee and currentMelee~=m then return false end
