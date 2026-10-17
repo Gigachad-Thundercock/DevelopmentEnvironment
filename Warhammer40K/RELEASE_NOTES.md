@@ -1,0 +1,42 @@
+# Warhammer 40K BAR — alpha
+
+Generated from normal development r99, retaining its shared four-faction gameplay.
+Imperial Guard, Orks, Space Marines and Necrons are selectable; Random chooses
+among the four starting commanders. Orks remain the main development priority.
+
+The existing launcher lobby keeps its native names: Armada starts Imperial Guard,
+Cortex starts Orks, and Legion (when enabled in the lobby) starts Space Marines.
+For all four factions, select Choose Start Position before launching; in the
+stock in-game prestart faction picker choose Imperial Guard, Orks, Space Marines
+or Necrons before pressing Ready. Random uses the four 40K commanders. Fixed or
+random-position quick starts can auto-start before selection; those modes do
+not guarantee an opportunity to choose Necrons. AI teams retain their lobby
+choice/Random; the human prestart picker does not select another team's faction.
+
+This is an unfinished alpha, not complete faction acceptance. Some units and
+routes remain unavailable. Temporary native constructor appearances are labelled
+in their unit descriptions. Pending Gunship refinements and balance work are
+not silently included. No funded diagnostic scene is enabled in ordinary play.
+
+Use the launcher-provided engine and install the complete mod. This package is
+prepared for the single Warhammer 40K Mod Stack; arbitrary mutator combinations
+are not accepted. All players and the host need the same engine, stack and mod
+files. Local preparation, catalog acceptance and download success do not by
+themselves establish multiplayer readiness; consult the separate test record.
+
+The normal development launcher and its independent previous backup are not
+part of this download. Existing native loading/render safeguards are adapted
+for this release context; loading failures should be reported, not bypassed.
+
+## Controls compatibility difference
+
+This release uses the launcher's stock Recoil engine and the player's existing
+BAR control preferences. The private development engine's exact plain-WASD pan
+and physical-key release ownership are not carried into this stock-engine
+package. Normal development r99 remains unchanged. Native camera move bindings
+in stock BAR tolerate modifiers (Any+); this package does not silently overwrite
+your bindings or substitute another camera. This is an outstanding difference
+for review before publication, not a claim of complete control compatibility.
+
+Sources: [BAR's shared keybind contract](https://github.com/beyond-all-reason/Beyond-All-Reason/blob/2f0a840/common/configs/keybinds.readme.md),
+[pinned native camera press/release implementation](https://github.com/beyond-all-reason/RecoilEngine/blob/de69361239d8c8b1012dba3f5aa3122954ea4da3/rts/Game/UnsyncedGameCommands.cpp#L760).
