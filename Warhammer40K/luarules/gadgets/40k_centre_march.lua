@@ -15,7 +15,7 @@ local GRACE = 240 * Game.gameSpeed
 local WAVE_INTERVAL = 90 * Game.gameSpeed
 local teams, teamOrder = {}, {}
 local factionNames={Imperium=true,['Imperial Guard']=true,['Space Marines']=true,Orks=true,Necrons=true}
-local nativeConstructors={armck=true,armcv=true,armack=true,armacv=true,corck=true,corcv=true,corack=true,coracv=true}
+local nativeConstructors={wh40k_armck=true,wh40k_armcv=true,wh40k_armack=true,wh40k_armacv=true,wh40k_corck=true,wh40k_corcv=true,wh40k_corack=true,wh40k_coracv=true}
 local baseline={imp_guardsman=true,imp_marine=true,imp_russ=true,ork_boy=true,ork_meganob=true,ork_killa_kan=true}
 local weights={imp_guardsman=10,imp_marine=3,imp_commissar=2,imp_kasrkin=3,imp_scout=3,imp_devastator=2,imp_ogryn=2,imp_heavy_weapon_team=2,
  ork_boy=10,ork_meganob=3,ork_slugga=6,ork_burna=3,ork_tankbusta=3,ork_loota=2,ork_nob=3,ork_warboss=1,
@@ -54,7 +54,7 @@ local function accepted(ud)
 end
 local function commander(ud)
  local cp=ud.customParams or {}
- return ud.name=='smcom' or ud.name=='armcom' or ud.name=='corcom' or ud.name=='nec_lord' or flag(cp.iscommander) or cp.prototype40k_vital=='commander'
+ return ud.name=='smcom' or ud.name=='imp_field_commander' or ud.name=='ork_big_mek_commander' or ud.name=='nec_lord' or flag(cp.iscommander) or cp.prototype40k_vital=='commander'
 end
 local function mobile(ud)return (ud.speed or 0)>0 end
 local function qualifiedConstructor(ud)
@@ -69,7 +69,7 @@ local function productRole(ud)
  if role=='tank' or role=='artillery' or role=='vehicle' or role=='transport' or ud.name=='imp_russ' then return 'tank' end
  return 'infantry'
 end
-local aliases={armmex='mex',cormex='mex',armsolar='solar',corsolar='solar',armlab='infantry',corlab='infantry',armvp='tank',corvp='walker'}
+local aliases={wh40k_armmex='mex',wh40k_cormex='mex',wh40k_armsolar='solar',wh40k_corsolar='solar',wh40k_armlab='infantry',wh40k_corlab='infantry',wh40k_armvp='tank',corvp='walker'}
 local function structureRole(ud)
  local cp=ud.customParams or {};local r=cp.prototype40k_vital or cp.production_role or cp.rosterrole
  if aliases[ud.name] then return aliases[ud.name] end

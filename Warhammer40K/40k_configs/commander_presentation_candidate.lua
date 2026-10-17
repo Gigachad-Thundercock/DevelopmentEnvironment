@@ -1,6 +1,6 @@
 -- Explicit presentation adaptation; stable native armcom/corcom identities remain.
 local M={}
-local choices={Orks={key='corcom',donor='ork_big_mek_defence',name='Big Mek Commander',build='build',nano='marker_big_mek_axe_blade'},Imperium={key='armcom',donor='imp_force_commander_candidate',name='Imperial Force Commander',build='command_build',nano='bip01 l hand'}}
+local choices={Orks={key='ork_big_mek_commander',donor='ork_big_mek_defence',name='Big Mek Commander',build='build',nano='marker_big_mek_axe_blade'},Imperium={key='imp_field_commander',donor='imp_force_commander_candidate',name='Imperial Force Commander',build='command_build',nano='bip01 l hand'}}
 local function copy(v)if type(v)~='table'then return v end;local o={};for k,x in pairs(v)do o[k]=copy(x)end;return o end
 local fields={'objectname','script','buildpic','sfxtypes','collisionvolumetype','collisionvolumescales','collisionvolumeoffsets','selectionvolumetype','selectionvolumescales','selectionvolumeoffsets','footprintx','footprintz','upright','speed','maxacc','maxdec','turnrate','movementclass','maxslope','maxwaterdepth','weapondefs','weapons','canattack'}
 function M.Apply(defs,config)

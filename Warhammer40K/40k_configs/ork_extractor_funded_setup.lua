@@ -8,7 +8,7 @@ function M.New(S,D,N,W,team,enemy,frame,emit,contract,observer,geometry,cmd,watc
  assert(type(watch)=='function' and cmd.ATTACK and cmd.FIRE_STATE and cmd.MOVE_STATE,'native_watch_and_commands_required')
  assert(spots,'stock_spot_provider_required')
  local targetDef=N.imp_russ and N.imp_russ.id;assert(targetDef and D[targetDef] and not D[targetDef].canFly and (D[targetDef].speed or 0)>0,'genuine_ground_target_required')
- local anchor;for _,id in ipairs(S.GetTeamUnits(team)or{})do if S.GetUnitDefID(id)==(N.corcom or{}).id and not S.GetUnitIsDead(id)then anchor=id;break end end
+ local anchor;for _,id in ipairs(S.GetTeamUnits(team)or{})do if S.GetUnitDefID(id)==(N.ork_big_mek_commander or{}).id and not S.GetUnitIsDead(id)then anchor=id;break end end
  assert(anchor,'actual_Ork_commander_required')
  local C={owned={},actors={},targets={},started=frame,phase='actors'}
  local function add(def,pos,owner)

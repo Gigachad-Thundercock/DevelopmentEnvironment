@@ -3,12 +3,12 @@
 -- adaptation for the three Ork/Mek roles, never a copied commander or KFF unit.
 local M={}
 M.Rows={
- corck={id='ORK-BLD-I1',domain='infantry',tier=1,name='Gretchin Builder',actor='ork_grot'},
- corack={id='ORK-BLD-I2',domain='infantry',tier=2,name='Ork Builder',actor='ork_big_mek_defence'},
- corcv={id='ORK-BLD-V1',domain='vehicle',tier=1,name='Mek Builder',actor='ork_big_mek_defence'},
- coracv={id='ORK-BLD-V2',domain='vehicle',tier=2,name='Big Mek Constructor',actor='ork_big_mek_defence'},
+ wh40k_corck={id='ORK-BLD-I1',domain='infantry',tier=1,name='Gretchin Builder',actor='ork_grot'},
+ wh40k_corack={id='ORK-BLD-I2',domain='infantry',tier=2,name='Ork Builder',actor='ork_big_mek_defence'},
+ wh40k_corcv={id='ORK-BLD-V1',domain='vehicle',tier=1,name='Mek Builder',actor='ork_big_mek_defence'},
+ wh40k_coracv={id='ORK-BLD-V2',domain='vehicle',tier=2,name='Big Mek Constructor',actor='ork_big_mek_defence'},
 }
-local order={'corck','corack','corcv','coracv'}
+local order={'wh40k_corck','wh40k_corack','wh40k_corcv','wh40k_coracv'}
 local function copy(v)if type(v)~='table'then return v end;local t={};for k,x in pairs(v)do t[k]=copy(x)end;return t end
 local function positive(v)return type(v)=='number'and v>0 and v<math.huge end
 function M.Apply(defs,V)
@@ -39,7 +39,7 @@ function M.Apply(defs,V)
   cp.animsource=r.actor;cp.rosterrole='builder';cp.unitgroup='builder';cp.iscommander=nil
   cp.prototype40k_constructor_singleton=1;cp.constructor_visual_source=r.actor
   cp.constructor_visual_acceptance='native_review_pending'
-  if key~='corck'then
+  if key~='wh40k_corck'then
    out.objectname=r.actor..'.glb';out.script='40k_roster.lua';out.buildpic='40k_'..r.actor..'.png'
    out.collisionvolumetype='CylY';out.collisionvolumescales=nil;out.collisionvolumeoffsets='0 0 0'
    out.selectionvolumetype=nil;out.selectionvolumescales=nil;out.selectionvolumeoffsets=nil

@@ -4,8 +4,8 @@ local function on(v)return v==true or v==1 or v=='1'or v=='true'end
 local function finite(v)return type(v)=='number'and v==v and math.abs(v)<math.huge end
 local bankFacts={}
 local specs={
- bigmek={faction='Orks',key='corcom',donor='ork_big_mek_defence',asset='ork_big_mek_defence',clips={idle='idle_1',walk='run_1',build='choppa_repair',fire='fire',melee='melee_1'},markers={'marker_big_mek_axe_blade','marker_big_mek_slugga_barrel','marker_big_mek_trans_mid'}},
- force={faction='Imperium',key='armcom',donor='imp_force_commander_candidate',asset='imp_force_commander_candidate',clips={idle='idle_1',walk='run_1',command_build='idle_1',fire='fire',melee='power_sword_melee_1'},markers={'bip01 l hand','marker_marine_boltpistol_barrel','marker_marine_power_sword_blade'}},
+ bigmek={faction='Orks',key='ork_big_mek_commander',donor='ork_big_mek_defence',asset='ork_big_mek_defence',clips={idle='idle_1',walk='run_1',build='choppa_repair',fire='fire',melee='melee_1'},markers={'marker_big_mek_axe_blade','marker_big_mek_slugga_barrel','marker_big_mek_trans_mid'}},
+ force={faction='Imperium',key='imp_field_commander',donor='imp_force_commander_candidate',asset='imp_force_commander_candidate',clips={idle='idle_1',walk='run_1',command_build='idle_1',fire='fire',melee='power_sword_melee_1'},markers={'bip01 l hand','marker_marine_boltpistol_barrel','marker_marine_power_sword_blade'}},
 }
 local function facts(V,s)
  local path='scripts/generated/'..s.asset..'_anim.lua'

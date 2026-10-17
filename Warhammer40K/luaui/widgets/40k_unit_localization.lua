@@ -11,8 +11,8 @@ local function refresh()
  local language=Spring.GetConfigString('language','en')
  -- Four-faction labels for the native prefix-based picker.
  local factionStarts={
-  arm={'armcom','Imperial Guard','Infantry supported by heavy weapons, tanks and artillery.'},
-  cor={'corcom','Orks','Numerous infantry supported by walkers and heavy war machines.'},
+  imp={'imp_field_commander','Imperial Guard','Infantry supported by heavy weapons, tanks and artillery.'},
+  ork={'ork_big_mek_commander','Orks','Numerous infantry supported by walkers and heavy war machines.'},
   smc={'smcom','Space Marines','Elite infantry supported by Dreadnoughts and armoured vehicles.'},
   nec={'nec_lord','Necrons','Durable warriors supported by constructs and awakening technology.'},
  }

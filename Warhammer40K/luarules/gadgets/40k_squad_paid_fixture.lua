@@ -19,8 +19,8 @@ local S=Spring;local phase='initial';local startFrame;local team=0
 local family=options.prototype_squad_paid_faction or'marine'
 local routes={
  marine={commander='smcom',factory='imp_marine_barracks',product='imp_marine',profile='marine_tactical'},
- guard={commander='armcom',factory='imp_barracks',product='imp_guardsman',profile='guard_line'},
- ork={commander='corcom',factory='ork_boyz_hut',product='ork_boy',profile='ork_shoota'},
+ guard={commander='imp_field_commander',factory='imp_barracks',product='imp_guardsman',profile='guard_line'},
+ ork={commander='ork_big_mek_commander',factory='ork_boyz_hut',product='ork_boy',profile='ork_shoota'},
  necron={commander='nec_lord',factory='nec_hq',product='nec_warrior',profile='necron_warrior'}}
 local route=routes[family];local profile,capacity,bodyCost
 local commander,factory,site,stance,seed,deadLeader,missingSlot,deliveryFrame

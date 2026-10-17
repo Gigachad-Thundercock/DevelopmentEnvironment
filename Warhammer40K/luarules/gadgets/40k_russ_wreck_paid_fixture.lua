@@ -66,8 +66,8 @@ local killedAt,deathPosition,featureID,featureCount,partial,removedAt;local wrec
 local departureOrigin,viewStarted
 local tasks={{'imp_mex','commander',60,300,600},{'imp_generator','commander',150,0,1400},
  {'imp_mex','commander',60,300,600},{'imp_generator','commander',150,0,1400},
- {'imp_tank_factory','commander',590,1550,5700},{'armcv','imp_tank_factory',135,1950,4050},
- {'armavp','armcv',2600,14000,27000},{'imp_russ','armavp',480,2400,4000}}
+ {'imp_tank_factory','commander',590,1550,5700},{'wh40k_armcv','imp_tank_factory',135,1950,4050},
+ {'wh40k_armavp','wh40k_armcv',2600,14000,27000},{'imp_russ','wh40k_armavp',480,2400,4000}}
 local function emit(event,...)local a={...};for i=1,#a do a[i]=tostring(a[i])end;S.Echo('40K_RUSS_WRECK_PAID '..event..' '..table.concat(a,' '))end
 local function resources(event)
  local m,_,_,mi,me=S.GetTeamResources(team,'metal');local e,_,_,ei,ee=S.GetTeamResources(team,'energy')
@@ -132,7 +132,7 @@ local function departureSite(id)
  local x,_,z=S.GetUnitPosition(id);local candidates=0
  for _,radius in ipairs({192,256,320,384,512})do for k=0,23 do
   local a=k*math.pi/12;candidates=candidates+1
-  local p=moveSite(id,x+radius*math.cos(a),z+radius*math.sin(a),ids.armavp)
+  local p=moveSite(id,x+radius*math.cos(a),z+radius*math.sin(a),ids.wh40k_armavp)
   if p then emit('DEPARTURE_SITE',id,p[1],p[2],p[3],'candidates='..candidates,'full_terrain_objects=true','path_unproven_until_arrival=true');return p end
  end end
  emit('DEPARTURE_SITE_REFUSED',id,'candidates='..candidates);return nil
@@ -174,7 +174,7 @@ function gadget:GameFrame(frame)
   if enabled(options.prototype_source_paid_match)or(options.prototype_source_acceptance and options.prototype_source_acceptance~='')or(options.prototype_diagnostic and options.prototype_diagnostic~='normal')then finish('FAIL funded_or_nonordinary_review');return end
   if not enabled(options.prototype_russ_wreck_pilot)or enabled(options.prototype_scale085_pilot)then finish('FAIL baseline_native_wreck_pilot_required');return end
   local m,e=resources('INITIAL');local units=S.GetTeamUnits(team)or{}
-  if not m or not e or math.abs(m-1000)>5 or math.abs(e-1000)>5 or #units~=1 or not UnitDefNames.armcom or S.GetUnitDefID(units[1])~=UnitDefNames.armcom.id or not live(units[1])then finish('FAIL natural_Guard_1000_start');return end;commander=units[1]
+  if not m or not e or math.abs(m-1000)>5 or math.abs(e-1000)>5 or #units~=1 or not UnitDefNames.imp_field_commander or S.GetUnitDefID(units[1])~=UnitDefNames.imp_field_commander.id or not live(units[1])then finish('FAIL natural_Guard_1000_start');return end;commander=units[1]
   for _,row in ipairs(tasks)do local n=UnitDefNames[row[1]];if not n or not bill(UnitDefs[n.id],row[3],row[4],row[5])then finish('FAIL actual_bill_'..row[1]);return end end
   local russ=UnitDefs[UnitDefNames.imp_russ.id];local cp=russ.customParams or{};local fn=FeatureDefNames.imp_russ_native_wreck;local f=fn and FeatureDefs[fn.id]
   if not enabled(cp.prototype40k_russ_native_wreck)or not fn or not f or not f.reclaimable or f.resurrectable~=0 or f.metal~=120 or f.energy~=0 or f.reclaimTime~=1000 or not enabled((f.customParams or{}).prototype40k_russ_native_wreck)or(f.customParams or{}).parent_actor~='leman_russ' or russ.wreckName~='imp_russ_native_wreck'then finish('FAIL native_wreck_definition');return end;wreckDef=fn.id

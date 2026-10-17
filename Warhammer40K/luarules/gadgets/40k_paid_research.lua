@@ -98,7 +98,7 @@ if not mixedEnabled and mode=='expandedproduction' and options.prototype_source_
  if type(registry.NativeReviewConfig)=='function'then
   local reason;nativeReview,reason=registry.NativeReviewConfig(UnitDefs,options)
   Spring.Echo('40K MARINE NATIVE REGISTRY',nativeReview and 'READY_SOURCE_ONLY'or 'REFUSED',reason or 'none')
-  if not nativeReview then for _,name in ipairs({'imp_scout','imp_marine','imp_tactical_bike','armcom','imp_mex','imp_generator','imp_hq','imp_marine_hq','imp_marine_barracks','imp_marine_armoury'})do
+  if not nativeReview then for _,name in ipairs({'imp_scout','imp_marine','imp_tactical_bike','imp_field_commander','imp_mex','imp_generator','imp_hq','imp_marine_hq','imp_marine_barracks','imp_marine_armoury'})do
    local d=UnitDefNames[name];local cp=d and d.customParams or{}
    Spring.Echo('40K MARINE NATIVE CONTRACT',name,d and d.id or 'missing',d and d.metalCost or 'nil',d and d.energyCost or 'nil',d and d.buildTime or 'nil',d and tostring(d.isBuilding)or 'nil',cp.animsource or 'nil',cp.prototype40k_donor or 'nil',cp.prototype40k_source_progression or 'nil',cp.faction or 'nil',cp.source_entity or 'nil')
   end end

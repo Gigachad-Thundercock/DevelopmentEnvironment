@@ -335,7 +335,7 @@ function gadget:GameFrame(frame)
  if phase=='initial'then
   if options.prototype_diagnostic~='normal'or not(options.prototype_test_speed==1 or options.prototype_test_speed=='1')then fail('normal_speed_one_required');return end
   for _,key in ipairs({'prototype_squad_fixture','prototype_squad_paid_fixture','prototype_squad_egress_fixture','prototype_corpse_blast_fixture','prototype_squad_paid_research_fixture'})do if enabled(options[key])then fail('conflicting_fixture '..key);return end end
-  for _,key in ipairs({'corcom','corck','ork_listening_post','ork_generator','ork_boyz_hut','ork_boyz_hut_t2','ork_waaagh_banner','ork_boy','ork_boy_member','ork_boy_rokkit_member'})do if not UnitDefNames[key]then fail('missing_definition '..key);return end end
+  for _,key in ipairs({'ork_big_mek_commander','wh40k_corck','ork_listening_post','ork_generator','ork_boyz_hut','ork_boyz_hut_t2','ork_waaagh_banner','ork_boy','ork_boy_member','ork_boy_rokkit_member'})do if not UnitDefNames[key]then fail('missing_definition '..key);return end end
   local R,C=GG.Recoil40KSquads,GG.Recoil40KResearch
   if not R or not C or next(R.squads)then fail('missing_or_preexisting_controller_squads');return end
   profile=VFS.Include('40k_configs/active_squad_profiles.lua').profiles.ork_shoota
@@ -344,7 +344,7 @@ function gadget:GameFrame(frame)
   record=C.records[profile.research]
   if profile.capacity~=8 or profile.specialSlot~=8 or not record or record.producer~='ork_waaagh_banner'
    or record.row.cost.metal~=300 or record.row.cost.energy~=1500 or record.row.time~=40 or record.frames~=40*Game.gameSpeed then fail('wrong_genuine_research_contract');return end
-  local units=S.GetTeamUnits(team)or{};if #units~=1 or not role(units[1],'corcom')then fail('need_natural_single_corcom');return end;commander=units[1]
+  local units=S.GetTeamUnits(team)or{};if #units~=1 or not role(units[1],'ork_big_mek_commander')then fail('need_natural_single_corcom');return end;commander=units[1]
   local m,e=resources('INITIAL_RESOURCES');if not near(m,1000)and math.abs((m or 0)-1000)>5 or not near(e,1000)and math.abs((e or 0)-1000)>5 then fail('not_ordinary_start');return end
   local pd,md=UnitDefs[UnitDefNames.ork_boy.id],UnitDefs[UnitDefNames[profile.member].id]
   if not UnitDefs[UnitDefNames.ork_boyz_hut_t2.id].isFactory

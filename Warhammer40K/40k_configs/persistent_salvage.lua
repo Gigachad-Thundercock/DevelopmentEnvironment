@@ -37,7 +37,12 @@ function M.ProtectedFeatures(units,features)
    key=resolve(d.deathFeatureID,features,names)
   end
  end
- for _,u in pairs(units)do chain(resolve(u.wreckName,features,names)or resolve(u.corpse,features,names))end
+ -- Added 40K units alone receive the faction's persistent-wreck policy.
+ -- Restored BAR factions and unrelated scenery retain native combat damage.
+ for _,u in pairs(units)do
+  local p=u.customParams or{}
+  if yes(p.prototype40k)then chain(resolve(u.wreckName,features,names)or resolve(u.corpse,features,names))end
+ end
  for key,d in pairs(features)do
   local p=d.customParams or{}
   if yes(p.prototype40k_tactical_remains)or yes(p.prototype40k_infantry_pile)or yes(p.corpse_reclaim_review)

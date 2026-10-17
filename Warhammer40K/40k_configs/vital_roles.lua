@@ -7,49 +7,49 @@ local function clone(value)
  local out={};for k,v in pairs(value)do out[k]=clone(v)end;return out
 end
 local aliases={
- armcom={'imp_commissar','Imperial Field Commander','commander'},
- corcom={'ork_warboss','Ork Warboss Commander','commander'},
- armck={'imp_enginseer','Techpriest Enginseer','constructor'},armcv={'imp_enginseer','Vehicle Works Enginseer','constructor'},
- armack={'imp_enginseer','Senior Enginseer','constructor'},armacv={'imp_enginseer','Senior Vehicle Works Enginseer','constructor'},
- corck={'ork_grot','Grot Builder','constructor'},corcv={'ork_grot','Mek Shop Grot','constructor'},
- corack={'ork_grot','Senior Grot Builder','constructor'},coracv={'ork_grot','Senior Mek Shop Grot','constructor'},
- armlab={'imp_barracks','Imperium Barracks','barracks'},armalab={'imp_barracks','Veteran Imperium Barracks','barracks'},
- armvp={'imp_tank_factory','Imperium Tank Factory','tank_factory'},armavp={'imp_tank_factory','Veteran Imperium Tank Factory','tank_factory'},
- corlab={'ork_boyz_hut','Ork Boyz Hut','barracks'},coralab={'ork_boyz_hut','Veteran Ork Boyz Hut','barracks'},
+ imp_field_commander={'imp_commissar','Imperial Field Commander','commander'},
+ ork_big_mek_commander={'ork_warboss','Ork Warboss Commander','commander'},
+ wh40k_armck={'imp_enginseer','Techpriest Enginseer','constructor'},wh40k_armcv={'imp_enginseer','Vehicle Works Enginseer','constructor'},
+ wh40k_armack={'imp_enginseer','Senior Enginseer','constructor'},wh40k_armacv={'imp_enginseer','Senior Vehicle Works Enginseer','constructor'},
+ wh40k_corck={'ork_grot','Grot Builder','constructor'},wh40k_corcv={'ork_grot','Mek Shop Grot','constructor'},
+ wh40k_corack={'ork_grot','Senior Grot Builder','constructor'},wh40k_coracv={'ork_grot','Senior Mek Shop Grot','constructor'},
+ wh40k_armlab={'imp_barracks','Imperium Barracks','barracks'},wh40k_armalab={'imp_barracks','Veteran Imperium Barracks','barracks'},
+ wh40k_armvp={'imp_tank_factory','Imperium Tank Factory','tank_factory'},wh40k_armavp={'imp_tank_factory','Veteran Imperium Tank Factory','tank_factory'},
+ wh40k_corlab={'ork_boyz_hut','Ork Boyz Hut','barracks'},wh40k_coralab={'ork_boyz_hut','Veteran Ork Boyz Hut','barracks'},
  corvp={'ork_mek_lab','Ork Walker Factory','walker_factory'},coravp={'ork_mek_lab','Veteran Ork Walker Factory','walker_factory'},
- armsolar={'imp_generator','Plasma Generator','generator'},armwin={'imp_generator','Plasma Generator Array','generator'},
- armadvsol={'imp_generator','Improved Plasma Generator','generator'},armfus={'imp_thermo','Plasma Reactor','generator'},
- armafus={'imp_thermo','Large Plasma Reactor','generator'},armgeo={'imp_thermo','Thermo Plasma Generator','geothermal'},
- corsolar={'ork_generator','Ork Generator','generator'},corwin={'ork_generator','Ork Generator Array','generator'},
- coradvsol={'ork_generator','Improved Ork Generator','generator'},corfus={'ork_generator','Ork Reactor','generator'},
- corafus={'ork_generator','Large Ork Reactor','generator'},corgeo={'ork_generator','Ork Geothermal Generator','geothermal'},
- armmex={'imp_mex','Imperial Listening Post Extractor','extractor'},armmoho={'imp_mex','Deep Imperial Listening Post Extractor','extractor'},
- cormex={'ork_resource_factory','Ork Resource Factory','extractor'},cormoho={'ork_resource_factory','Deep Ork Resource Factory','extractor'},
+ wh40k_armsolar={'imp_generator','Plasma Generator','generator'},wh40k_armwin={'imp_generator','Plasma Generator Array','generator'},
+ wh40k_armadvsol={'imp_generator','Improved Plasma Generator','generator'},wh40k_armfus={'imp_thermo','Plasma Reactor','generator'},
+ wh40k_armafus={'imp_thermo','Large Plasma Reactor','generator'},wh40k_armgeo={'imp_thermo','Thermo Plasma Generator','geothermal'},
+ wh40k_corsolar={'ork_generator','Ork Generator','generator'},wh40k_corwin={'ork_generator','Ork Generator Array','generator'},
+ wh40k_coradvsol={'ork_generator','Improved Ork Generator','generator'},wh40k_corfus={'ork_generator','Ork Reactor','generator'},
+ wh40k_corafus={'ork_generator','Large Ork Reactor','generator'},wh40k_corgeo={'ork_generator','Ork Geothermal Generator','geothermal'},
+ wh40k_armmex={'imp_mex','Imperial Listening Post Extractor','extractor'},wh40k_armmoho={'imp_mex','Deep Imperial Listening Post Extractor','extractor'},
+ wh40k_cormex={'ork_resource_factory','Ork Resource Factory','extractor'},wh40k_cormoho={'ork_resource_factory','Deep Ork Resource Factory','extractor'},
  armestor={'imp_generator','Plasma Capacitor Depot','energy_storage'},armmstor={'imp_hq','Imperial Supply Depot','metal_storage'},
- corestor={'ork_generator','Ork Power Depot','energy_storage'},cormstor={'ork_resource_factory','Ork Scrap Depot','metal_storage'},
+ wh40k_corestor={'ork_generator','Ork Power Depot','energy_storage'},wh40k_cormstor={'ork_resource_factory','Ork Scrap Depot','metal_storage'},
  armrad={'imp_research','Imperial Auspex Command','radar'},armarad={'imp_research','Long Range Auspex Command','radar'},
- corrad={'ork_waaagh_banner','Ork Lookout Banner','radar'},corarad={'ork_waaagh_banner','Long Range Ork Lookout Banner','radar'},
+ wh40k_corrad={'ork_waaagh_banner','Ork Lookout Banner','radar'},wh40k_corarad={'ork_waaagh_banner','Long Range Ork Lookout Banner','radar'},
  armjamt={'imp_research','Imperial Signal Disruptor','jammer'},armveil={'imp_research','Imperial Signal Veil','jammer'},
- corjamt={'ork_waaagh_banner','Ork Signal Disruptor','jammer'},corshroud={'ork_waaagh_banner','Ork Signal Shroud','jammer'},
+ wh40k_corjamt={'ork_waaagh_banner','Ork Signal Disruptor','jammer'},wh40k_corshroud={'ork_waaagh_banner','Ork Signal Shroud','jammer'},
  armnanotc={'imp_research','Enginseer Repair Station','repair'},armnanotcplat={'imp_research','Raised Enginseer Repair Station','repair'},
- cornanotc={'ork_mek_shop','Mek Repair Station','repair'},cornanotcplat={'ork_mek_shop','Raised Mek Repair Station','repair'},
+ wh40k_cornanotc={'ork_mek_shop','Mek Repair Station','repair'},wh40k_cornanotcplat={'ork_mek_shop','Raised Mek Repair Station','repair'},
  armmakr={'imp_generator','Imperial Resource Converter','converter'},armmmkr={'imp_generator','Large Imperial Resource Converter','converter'},
- cormakr={'ork_resource_factory','Ork Scrap Converter','converter'},cormmkr={'ork_resource_factory','Large Ork Scrap Converter','converter'},
+ wh40k_cormakr={'ork_resource_factory','Ork Scrap Converter','converter'},wh40k_cormmkr={'ork_resource_factory','Large Ork Scrap Converter','converter'},
 }
 local rosters={
  Imperium={
-  structures={'armlab','armvp','imp_walker_factory','imp_hq','armsolar','armmex','armgeo','armestor','armmstor','armrad','armjamt','armnanotc','armmakr','imp_research'},
-  infantry={'armck','imp_guardsman','imp_marine','imp_commissar','imp_kasrkin','imp_scout','imp_devastator','imp_ogryn','imp_heavy_weapon_team'},
-  tanks={'armcv','imp_russ','imp_basilisk','imp_hellhound','imp_predator'},walkers={'imp_enginseer','imp_sentinel','imp_dreadnought'},
+  structures={'wh40k_armlab','wh40k_armvp','imp_walker_factory','imp_hq','wh40k_armsolar','wh40k_armmex','wh40k_armgeo','armestor','armmstor','armrad','armjamt','armnanotc','armmakr','imp_research'},
+  infantry={'wh40k_armck','imp_guardsman','imp_marine','imp_commissar','imp_kasrkin','imp_scout','imp_devastator','imp_ogryn','imp_heavy_weapon_team'},
+  tanks={'wh40k_armcv','imp_russ','imp_basilisk','imp_hellhound','imp_predator'},walkers={'imp_enginseer','imp_sentinel','imp_dreadnought'},
   headquarters={'imp_enginseer','imp_commissar'},
   sourceStructures={'imp_hq','imp_barracks','imp_tank_factory','imp_walker_factory','imp_generator','imp_mex','imp_thermo','imp_research','armestor','armmstor','armrad','armjamt','armnanotc','armmakr'},
  },
  Orks={
-  structures={'corlab','corvp','ork_mek_shop','ork_settlement','corsolar','cormex','corgeo','corestor','cormstor','corrad','corjamt','cornanotc','cormakr','ork_waaagh_banner','ork_listening_post'},
-  infantry={'corck','ork_grot','ork_boy','ork_meganob','ork_slugga','ork_burna','ork_tankbusta','ork_loota','ork_nob','ork_warboss'},
-  tanks={'corcv','ork_wartrak','ork_trukk','ork_gunwagon','ork_lobba'},walkers={'ork_grot','ork_killa_kan','ork_deff_dread'},
+  structures={'wh40k_corlab','corvp','ork_mek_shop','ork_settlement','wh40k_corsolar','wh40k_cormex','wh40k_corgeo','wh40k_corestor','wh40k_cormstor','wh40k_corrad','wh40k_corjamt','wh40k_cornanotc','wh40k_cormakr','ork_waaagh_banner','ork_listening_post'},
+  infantry={'wh40k_corck','ork_grot','ork_boy','ork_meganob','ork_slugga','ork_burna','ork_tankbusta','ork_loota','ork_nob','ork_warboss'},
+  tanks={'wh40k_corcv','ork_wartrak','ork_trukk','ork_gunwagon','ork_lobba'},walkers={'ork_grot','ork_killa_kan','ork_deff_dread'},
   headquarters={'ork_grot','ork_warboss'},
-  sourceStructures={'ork_settlement','ork_boyz_hut','ork_mek_shop','ork_mek_lab','ork_generator','ork_resource_factory','ork_listening_post','ork_waaagh_banner','corestor','cormstor','corrad','corjamt','cornanotc','cormakr','corgeo'},
+  sourceStructures={'ork_settlement','ork_boyz_hut','ork_mek_shop','ork_mek_lab','ork_generator','ork_resource_factory','ork_listening_post','ork_waaagh_banner','wh40k_corestor','wh40k_cormstor','wh40k_corrad','wh40k_corjamt','wh40k_cornanotc','wh40k_cormakr','wh40k_corgeo'},
  },
 }
 local visualFields={'objectname','script','buildpic','sfxtypes','collisionvolumetype','collisionvolumescales','collisionvolumeoffsets','selectionvolumetype','selectionvolumescales','selectionvolumeoffsets','footprintx','footprintz','upright'}
@@ -144,7 +144,7 @@ function M.Apply(defs,mode)
    if accepted[key]then options(defs[key],r.infantry)end
   end
   if faction=='Imperium' then
-   for _,key in ipairs({'armvp','armavp','imp_tank_factory'})do if accepted[key]then options(defs[key],r.tanks)end end
+   for _,key in ipairs({'wh40k_armvp','wh40k_armavp','imp_tank_factory'})do if accepted[key]then options(defs[key],r.tanks)end end
    if accepted.imp_walker_factory then options(defs.imp_walker_factory,r.walkers)end
    if accepted.imp_hq then options(defs.imp_hq,r.headquarters)end
   else

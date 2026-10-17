@@ -150,7 +150,7 @@ function M.New(S,D,N,W,G,Script,Game,emit)
  if Game.mapName~=M.MapName or Game.mapSizeX~=4096 or Game.mapSizeZ~=4096 then fail('exclusive_approved_flat_map_required');return C end
  for _,name in ipairs({'GetFeaturePosition','GetGroundNormal','SetUnitPosition','GetUnitCollisionVolumeData','GetUnitExperience','GetUnitTransporter','GetGameFrame','GetAllUnits','ValidUnitID','GetUnitIsDead','GetUnitDefID','GetUnitTeam','GetUnitHealth','GetUnitCosts','GetUnitPosition','GetUnitPieceMap','GetUnitPiecePosDir','GetUnitWeaponVectors','GetUnitWeaponState','GetUnitWeaponTestTarget','GetUnitWeaponTestRange','GetUnitWeaponTryTarget','GetUnitWeaponHaveFreeLineOfFire','GetProjectilePosition','GetUnitAllyTeam','GetUnitLosState','GetGroundHeight','GetUnitsInRectangle','GetFeaturesInRectangle','TestBuildOrder','TestMoveOrder','GetFactoryCommands','GiveOrderToUnit','GetTeamList','GetTeamInfo','GetGaiaTeamID','GetUnitNeutral','GetUnitRulesParam','AreTeamsAllied','SetTeamResource','CreateUnit','DestroyUnit'})do if type(S[name])~='function'then fail('actual_native_API_missing_'..name);return C end end
  if type(Script.SetWatchProjectile)~='function'or not finite(Game.mapSizeX)or not finite(Game.mapSizeZ)or Game.gameSpeed~=30 or S.GetGameFrame()~=1 then fail('fresh_native30_frame1_required');return C end
- for key in pairs({corcom=true,armcom=true,['40k_relic_objective']=true,ork_boyz_hut_t2=true,ork_burna=true,ork_burna_member=true,imp_russ=true})do if not N[key]or not int(N[key].id,1)or not D[N[key].id]then fail('actual_definition_required_'..key);return C end end
+ for key in pairs({ork_big_mek_commander=true,imp_field_commander=true,['40k_relic_objective']=true,ork_boyz_hut_t2=true,ork_burna=true,ork_burna_member=true,imp_russ=true})do if not N[key]or not int(N[key].id,1)or not D[N[key].id]then fail('actual_definition_required_'..key);return C end end
  C.product=N.ork_burna.id;C.member=N.ork_burna_member.id;C.factoryDef=N.ork_boyz_hut_t2.id;C.targetDef=N.imp_russ.id
  local d=D[C.product];local cp=d.customParams or{};local md=D[C.member];local mcp=md.customParams or{}
  local factory=D[C.factoryDef];local menu=false;for _,id in ipairs(factory.buildOptions or{})do menu=menu or id==C.product end
@@ -188,8 +188,8 @@ function M.New(S,D,N,W,G,Script,Game,emit)
  local ownCount,enemyCount,gaiaCount=0,0,0
  for _,id in ipairs(ids)do
   local def,team=S.GetUnitDefID(id),S.GetUnitTeam(id);local role='foreign'
-  if live(id,N.corcom.id,0)then ownCount=ownCount+1;C.commander=id;role='own_commander'
-  elseif live(id,N.armcom.id,1)then enemyCount=enemyCount+1;C.initialEnemy=id;C.initialEnemyDef=N.armcom.id;role='enemy_commander'
+  if live(id,N.ork_big_mek_commander.id,0)then ownCount=ownCount+1;C.commander=id;role='own_commander'
+  elseif live(id,N.imp_field_commander.id,1)then enemyCount=enemyCount+1;C.initialEnemy=id;C.initialEnemyDef=N.imp_field_commander.id;role='enemy_commander'
   elseif live(id,C.relicDef,gaia)and S.GetUnitNeutral(id)==true and S.GetUnitRulesParam(id,'40k_relic_reviewed')==1 then
    gaiaCount=gaiaCount+1;C.initialGaia[id]={def=C.relicDef,team=gaia};role='gaia_relic'end
   local _,_,_,_,progress=S.GetUnitHealth(id)
@@ -198,9 +198,9 @@ function M.New(S,D,N,W,G,Script,Game,emit)
   if role=='gaia_relic'then log('INITIAL_GAIA','actor='..id,'def='..C.relicDef,'team='..gaia,'reviewed=true','neutral=true','unowned=true')end
  end
  if ownCount~=1 or enemyCount~=1 or gaiaCount>1 or #ids~=2+gaiaCount then inconclusive('exact_fresh_commanders_and_disclosed_reviewed_Gaia_relic_required');return C end
- log('INITIAL_ROSTER','count=2','own_commander='..C.commander,'own_def='..N.corcom.id,'enemy_commander='..C.initialEnemy,
+ log('INITIAL_ROSTER','count=2','own_commander='..C.commander,'own_def='..N.ork_big_mek_commander.id,'enemy_commander='..C.initialEnemy,
   'enemy_def='..C.initialEnemyDef,'enemy_team=1','enemy_inactive_ai=true','unowned_enemy_preserved=true','gaia_team='..gaia,'gaia_count='..gaiaCount,'global_count='..#ids,'scene_scope=two_relevant_teams_plus_unowned_reviewed_relic')
- C.commanderDef=N.corcom.id;G.Recoil40KStompaWeaponWitness=C;C.watched={}
+ C.commanderDef=N.ork_big_mek_commander.id;G.Recoil40KStompaWeaponWitness=C;C.watched={}
  for _,weapon in pairs(C.weapons)do if not C.watched[weapon]then Script.SetWatchProjectile(weapon,true);C.watched[weapon]=true end end
  log('BEGIN','profile=18','capacity=4','factory_native_speed_unchanged=true','ordinary_paid_fixture_independent=true')
  local function intact()

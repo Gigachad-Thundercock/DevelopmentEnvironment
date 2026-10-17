@@ -23,7 +23,7 @@ function M.New(S,D,N,P,R,F,GG,G,options,physical,emit)
   elseif yes(options[k])then fail('competing_fixture_'..k);return C end
  end
  local p=P and P.profiles and P.profiles.ork_slugga
- if not p or p.id~=19 or p.capacity~=8 or p.product~='ork_slugga'or p.member~='ork_slugga_member'or not N[p.product]or not N[p.member]or not N.ork_boyz_hut or not N.corfort or not N.corck then unclear('actual_Slugga8_factory_builder_and_native_blocker_definitions_required');return C end
+ if not p or p.id~=19 or p.capacity~=8 or p.product~='ork_slugga'or p.member~='ork_slugga_member'or not N[p.product]or not N[p.member]or not N.ork_boyz_hut or not N.corfort or not N.wh40k_corck then unclear('actual_Slugga8_factory_builder_and_native_blocker_definitions_required');return C end
  C.profile=p;C.product=N[p.product].id;C.member=N[p.member].id;C.factoryDef=N.ork_boyz_hut.id;C.wallDef=N.corfort.id
  local a,b,f,w=D[C.product],D[C.member],D[C.factoryDef],D[C.wallDef]
  if a.metalCost~=96 or a.energyCost~=480 or a.buildTime~=1152 or b.metalCost~=12 or b.energyCost~=60 or b.buildTime~=144 or not f.isFactory or not f.isBuilder or not w.isBuilding or w.canAttack or w.canMove or w.blocking==false then fail('actual_full8_bills_native_factory_static_blocker_required');return C end
@@ -369,10 +369,10 @@ function M.New(S,D,N,P,R,F,GG,G,options,physical,emit)
     local q=queue(C.leader);if not q or #q~=2 or not same(q[1].params,C.q1)or not same(q[2].params,C.q2)then return fail('successor_did_not_inherit_exact_stock_queued_MOVEs')end
     emit('SUCCESSION_QUEUE',C.seed,C.original,C.leader,#q,'native_tag_numbers_not_compared_across_units=true')
     local at=position(C.leader);local site
-    for _,offset in ipairs({{80,0},{-80,0},{0,80},{0,-80}})do local s=point(at[1]+offset[1],at[3]+offset[2]);if S.TestMoveOrder(N.corck.id,s[1],s[2],s[3],0,0,0,true,true,false)==true then site=s;break end end
-    local bd=D[N.corck.id];if not site or not bd.isBuilder or bd.isFactory or bd.canFly or not finite(bd.buildSpeed)or bd.buildSpeed<=0 then return unclear('real_ground_builder_paid_repair_interface_unavailable')end
-    C.previousLiveLeader=C.leader;C.repairBuilder=S.CreateUnit('corck',site[1],site[2],site[3],0,0)
-    if not live(C.repairBuilder)or S.GetUnitDefID(C.repairBuilder)~=N.corck.id then return fail('controlled_ground_repair_builder_refused')end
+    for _,offset in ipairs({{80,0},{-80,0},{0,80},{0,-80}})do local s=point(at[1]+offset[1],at[3]+offset[2]);if S.TestMoveOrder(N.wh40k_corck.id,s[1],s[2],s[3],0,0,0,true,true,false)==true then site=s;break end end
+    local bd=D[N.wh40k_corck.id];if not site or not bd.isBuilder or bd.isFactory or bd.canFly or not finite(bd.buildSpeed)or bd.buildSpeed<=0 then return unclear('real_ground_builder_paid_repair_interface_unavailable')end
+    C.previousLiveLeader=C.leader;C.repairBuilder=S.CreateUnit('wh40k_corck',site[1],site[2],site[3],0,0)
+    if not live(C.repairBuilder)or S.GetUnitDefID(C.repairBuilder)~=N.wh40k_corck.id then return fail('controlled_ground_repair_builder_refused')end
     emit('CONTROLLED_UNPAID_REPAIR_BUILDER',C.repairBuilder,site[1],site[2],site[3]);C.phase='paid_repair_promotion';C.stageAt=frame;give(C.repairBuilder,CMD.REPAIR,{C.leader})
    end
   elseif C.phase=='paid_repair_promotion'then

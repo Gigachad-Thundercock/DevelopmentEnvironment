@@ -53,7 +53,7 @@ function M.New(S,D,N,P,R,physical,placement,plan,emit)
   if not finite(id)or id<0 or id%1~=0 or id>2147483647 or not C.births[id]or C.births[id].def~=def or C.births[id].team~=team then return fail('actual_native_finish_birth_identity_required')end
   if C.finishes[id]then return fail('duplicate_native_finish')end
   C.finishes[id]={def=def,team=team,frame=S.GetGameFrame()}
-  if def==N.corck.id or(plan.tier==3 and def==N.corack.id)or def==N[plan.actor].id or def==N[p.member].id then
+  if def==N.wh40k_corck.id or(plan.tier==3 and def==N.wh40k_corack.id)or def==N[plan.actor].id or def==N[p.member].id then
    local hp,max,_,_,progress=S.GetUnitHealth(id);local work,metal,energy=S.GetUnitCosts(id)
    emit('PAID_NATIVE_FINISHED',id,def,team,S.GetGameFrame(),hp,max,progress,work,metal,energy,'actual_UnitFinished=true')
   end
@@ -133,7 +133,7 @@ function M.New(S,D,N,P,R,physical,placement,plan,emit)
    -- Synced native has no saved-game query: root fresh-script/receipt gate excludes SSF/replay.
    if frame~=1 or S.GetGameFrame()~=frame then return fail('fresh_native_frame_one_required')end
    local all=S.GetTeamUnits(C.team);if type(all)~='table'then return fail('typed_native_initial_team_units_required')end;local metal=S.GetTeamResources(C.team,'metal');local energy=S.GetTeamResources(C.team,'energy')
-   if #all~=1 or not N.corcom or S.GetUnitDefID(all[1])~=N.corcom.id or not complete(all[1])or not finite(metal)or not finite(energy)or math.abs(metal-1000)>5 or math.abs(energy-1000)>5 then return fail('ordinary_natural_commander_1000_start_required')end
+   if #all~=1 or not N.ork_big_mek_commander or S.GetUnitDefID(all[1])~=N.ork_big_mek_commander.id or not complete(all[1])or not finite(metal)or not finite(energy)or math.abs(metal-1000)>5 or math.abs(energy-1000)>5 then return fail('ordinary_natural_commander_1000_start_required')end
    C.units.commander=all[1];C.phase='next'
   elseif C.phase=='next'then
    task=C.tasks[C.step]

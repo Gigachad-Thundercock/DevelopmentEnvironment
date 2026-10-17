@@ -1,3 +1,18 @@
+# Additive starting factions — alpha.6
+
+The 40K commanders are additional startunit choices. Genuine Armada, Cortex and
+Legion commanders and build trees remain available. Use the existing Hosting
+disable_armada, disable_cortex and disable_legion options for a 40K-only match;
+use factionlimiter=0 for that combination. Positive faction-limit mode retains
+the foundation's native fallback. Choose Start Position, select a commander in
+the native pregame picker, then Ready. No custom commander spawn system is added.
+
+The package follows rapid://randomguy-hosting:test. Earlier alpha.5 test results
+are historical until the new namespace/selection checks are recorded separately.
+Normal development and its single launcher are unchanged.
+
+## Earlier alpha notes — lobby-alias replacement instructions superseded above
+
 # Warhammer 40K BAR — alpha
 
 Generated from normal development r107, retaining its shared four-faction gameplay.

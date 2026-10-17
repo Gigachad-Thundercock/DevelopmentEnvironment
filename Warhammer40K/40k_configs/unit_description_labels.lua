@@ -46,7 +46,7 @@ function M.Description(key,d)
  local c=params(d);key=tostring(key or'')
  local role=tostring(c.prototype40k_vital or c.production_role or c.rosterrole or''):lower()
  local tier=tonumber(c.prototype40k_constructor_tier or c.prototype40k_builder_tier or c.techlevel)
- local commander=role=='commander'or marked(c.iscommander)or key=='armcom'or key=='corcom'or key=='smcom'or key=='nec_lord'
+ local commander=role=='commander'or marked(c.iscommander)or key=='imp_field_commander'or key=='ork_big_mek_commander'or key=='smcom'or key=='nec_lord'
  if commander then return 'Commander / builder'end
  if marked(c.prototype40k_temporary_constructor_appearance)then
   return(tier and'T'..tier..' 'or'')..'flying builder (temporary BAR model)'

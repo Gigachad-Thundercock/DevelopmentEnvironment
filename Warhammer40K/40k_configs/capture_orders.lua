@@ -59,7 +59,7 @@ function M.New(S,U,N,G,CMD,options,choose,park,clear,emit)
    for team=0,1 do
     local all=S.GetTeamUnits(team);local m=S.GetTeamResources(team,'metal');local e=S.GetTeamResources(team,'energy')
     local n=0;if type(all)=='table'then for k,v in pairs(all)do n=n+1;if k~=1 or not id(v)then return fail('typed_native_team_census')end end end
-    if type(all)~='table'or n~=1 or not N.armcom or S.GetUnitDefID(all[1])~=N.armcom.id or not live(all[1],team)or not finite(m)or not finite(e)or math.abs(m-1000)>5 or math.abs(e-1000)>5 then return fail('ordinary_two_guard_start')end
+    if type(all)~='table'or n~=1 or not N.imp_field_commander or S.GetUnitDefID(all[1])~=N.imp_field_commander.id or not live(all[1],team)or not finite(m)or not finite(e)or math.abs(m-1000)>5 or math.abs(e-1000)>5 then return fail('ordinary_two_guard_start')end
     A.units[team].commander=all[1];if not order(all[1],CMD.FIRE_STATE,{0})then return end
    end
    A.phase='next';return

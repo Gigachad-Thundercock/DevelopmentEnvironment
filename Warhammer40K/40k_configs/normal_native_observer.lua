@@ -56,7 +56,7 @@ function M.New(S,U,W,Names,Watch,JSON)
   s.jammer=one('GetUnitSensorRadius',id,'radarJammer');s.array=sensors[id].array
   s.eligible='unknown'
   if type(s.active)=='boolean'and type(s.stunned)=='boolean'and type(s.beingBuilt)=='boolean'then s.eligible=s.active and not s.stunned and not s.beingBuilt end
-  s.commander700=(s.name=='armcom'or s.name=='smcom'or s.name=='corcom'or s.name=='nec_lord')and s.radar==700
+  s.commander700=(s.name=='imp_field_commander'or s.name=='smcom'or s.name=='ork_big_mek_commander'or s.name=='nec_lord')and s.radar==700
   return s
  end
  local function hasArray(ally)

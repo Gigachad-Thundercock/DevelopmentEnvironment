@@ -14,10 +14,10 @@ if not gadgetHandler:IsSyncedCode()then
 end
 local orderProbe=VFS.Include('40k_configs/native_build_order_probe.lua')
 local S=Spring;local team=0;local started;local phase='initial';local step=1;local task;local units={};local site
-local route=({guard={'armcom','imp_barracks','armck','armalab','armack','imp_mex','armmoho'},
- marine={'smcom','imp_marine_barracks','imp_marine_builder','imp_marine_advanced_barracks','imp_marine_advanced_builder','imp_marine_mex','armmoho'},
- ork={'corcom','ork_boyz_hut','corck','ork_boyz_hut_t2','corack','ork_listening_post','cormoho'},
- necron={'nec_lord','nec_hq','nec_scarab','nec_advanced_factory','nec_advanced_scarab','nec_mex','armmoho'}})[options.prototype_extractor_paid_faction or'guard']
+local route=({guard={'imp_field_commander','imp_barracks','wh40k_armck','wh40k_armalab','wh40k_armack','imp_mex','wh40k_armmoho'},
+ marine={'smcom','imp_marine_barracks','imp_marine_builder','imp_marine_advanced_barracks','imp_marine_advanced_builder','imp_marine_mex','wh40k_armmoho'},
+ ork={'ork_big_mek_commander','ork_boyz_hut','wh40k_corck','ork_boyz_hut_t2','wh40k_corack','ork_listening_post','wh40k_cormoho'},
+ necron={'nec_lord','nec_hq','nec_scarab','nec_advanced_factory','nec_advanced_scarab','nec_mex','wh40k_armmoho'}})[options.prototype_extractor_paid_faction or'guard']
 local tasks
 local incomePower=({guard='imp_generator',marine='imp_marine_generator',ork='ork_generator',necron='nec_generator'})[options.prototype_extractor_paid_faction or'guard']
 local function emit(event,...)

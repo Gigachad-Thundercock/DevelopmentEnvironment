@@ -10,13 +10,13 @@ local function makePlan()
  assert(o.prototype_diagnostic=='normal'and yes(o.prototype_development_playtest)and yes(o.prototype_source_progression)and yes(o.prototype_guard_kasrkin_squad)and not yes(o.prototype_scale085_pilot),'explicit_unscaled_source_Kasrkin5_route_required')
  for key,value in pairs(o)do if yes(value)and(key:match('fixture$')or key:match('driver$')or key=='prototype_mount_burst_observer'or key=='prototype_mixed_force')and key~='prototype_guard_kasrkin_native_fixture'then error('competing_native_diagnostic_owner_'..key)end end
  profiles=VFS.Include('40k_configs/active_squad_profiles.lua');local p=assert(profiles.profiles.guard_kasrkin);assert(p.id==5 and p.capacity==5 and p.product=='imp_kasrkin'and p.member=='imp_kasrkin_member','actual_fixed_profile_required')
- local body=assert(UnitDefNames[p.member]);local full=assert(UnitDefNames[p.product]);local builder=assert(UnitDefNames.armck)
+ local body=assert(UnitDefNames[p.member]);local full=assert(UnitDefNames[p.product]);local builder=assert(UnitDefNames.wh40k_armck)
  assert(builder.metalCost==110 and builder.energyCost==1600 and builder.buildTime==3450,'actual_native_Guard_constructor_bill_required')
- local advanced=assert(UnitDefNames.armalab)
+ local advanced=assert(UnitDefNames.wh40k_armalab)
  assert(advanced.metalCost==2600 and advanced.energyCost==15000 and advanced.buildTime==25000 and advanced.isFactory,'actual_native_T2_MekLab_bill_required')
  assert(body.metalCost==55 and body.energyCost==280 and body.buildTime==520 and full.metalCost==275 and full.energyCost==1400 and full.buildTime==2600,'actual_native_full5_bill_required')
  for _,path in ipairs({'objects3d/imp_kasrkin.glb','scripts/generated/imp_kasrkin_anim.lua','scripts/40k_roster.lua'})do assert(VFS.FileExists(path),'genuine_asset_absent_'..path)end
- return{actor=p.product,profile='guard_kasrkin',capacity=5,id=p.id,cohorts=2,builder='armck',builderFactory='imp_barracks',metal=body.metalCost,energy=body.energyCost,work=body.buildTime,
+ return{actor=p.product,profile='guard_kasrkin',capacity=5,id=p.id,cohorts=2,builder='wh40k_armck',builderFactory='imp_barracks',metal=body.metalCost,energy=body.energyCost,work=body.buildTime,
  productBill={metal=full.metalCost,energy=full.energyCost,work=full.buildTime},builderBill={metal=builder.metalCost,energy=builder.energyCost,work=builder.buildTime},
  advancedBill={metal=advanced.metalCost,energy=advanced.energyCost,work=advanced.buildTime}}
 end

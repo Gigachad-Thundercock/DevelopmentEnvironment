@@ -10,7 +10,7 @@ function gadget:UnitFinished(id)finished[id]=true end
 function gadget:UnitFromFactory(id,def,team,producer)
  local d=UnitDefs[def];local pd=UnitDefs[Spring.GetUnitDefID(producer)]
  if not d or not pd or(d.name~='corhvytrans'and d.name~='corak')then return end
- local target=d.name=='corhvytrans'and'corap'or'corlab'
+ local target=d.name=='corhvytrans'and'corap'or'wh40k_corlab'
  if pd.name~=target then finish('REFUSED stock_reference_nonstock_factory_product');return end
  local reachable=false;for _,v in ipairs(pd.buildOptions or{})do if v==def then reachable=true end end
  if not reachable then finish('REFUSED actual_stock_menu_missing_product');return end

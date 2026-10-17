@@ -4,13 +4,13 @@ local D=VFS.Include('40k_configs/development_playtest.lua')
 local P=VFS.Include('40k_configs/four_faction_constructor_progression.lua')
 local function copy(v)if type(v)~='table'then return v end;local o={};for k,x in pairs(v)do o[k]=copy(x)end;return o end
 function M.Enabled(o)return D.Enabled(o)and D.OptionEnabled(o.prototype_source_progression)end
-M.Sides={{name='Imperial Guard',startunit='armcom'},{name='Orks',startunit='corcom'},{name='Random',startunit='dummycom'},{name='Space Marines',startunit='smcom'},{name='Necrons',startunit='nec_lord'}}
-M.Starts={'armcom','smcom','corcom','nec_lord'}
-M.GuardBuilders={'armcom','armck','armcv','armack','armacv','imp_enginseer'}
+M.Sides={{name='Imperial Guard',startunit='imp_field_commander'},{name='Orks',startunit='ork_big_mek_commander'},{name='Random',startunit='dummycom'},{name='Space Marines',startunit='smcom'},{name='Necrons',startunit='nec_lord'}}
+M.Starts={'imp_field_commander','smcom','ork_big_mek_commander','nec_lord'}
+M.GuardBuilders={'imp_field_commander','wh40k_armck','wh40k_armcv','wh40k_armack','wh40k_armacv','imp_enginseer'}
 M.GuardStructures={'imp_hq','imp_barracks','imp_generator','imp_mex','imp_thermo','imp_tank_factory','imp_research','imp_comms_array','imp_missile_defence','imp_superheavy_factory','imp_titan_factory'}
 M.MarineStructures={'imp_marine_hq','imp_marine_barracks','imp_marine_generator','imp_marine_mex','imp_marine_thermo','imp_marine_armoury','imp_walker_factory','imp_marine_comms_array','imp_marine_missile_defence'}
 M.Menus={
- imp_hq={'imp_enginseer','imp_commissar','armack'},
+ imp_hq={'imp_enginseer','imp_commissar','wh40k_armack'},
  imp_barracks={'imp_guardsman','imp_commissar','imp_heavy_weapon_team','imp_kasrkin','imp_ogryn'},
  imp_tank_factory={'imp_enginseer','imp_sentinel','imp_hellhound','imp_russ','imp_basilisk','imp_hydra'},
  imp_superheavy_factory={'imp_baneblade'},imp_titan_factory={'imp_warhound'},
@@ -25,7 +25,7 @@ M.Requires={
  imp_tank_factory={buildings={'imp_barracks'}},imp_superheavy_factory={buildings={'imp_hq','imp_tank_factory'}},imp_titan_factory={buildings={'imp_superheavy_factory'}},
  imp_kasrkin={buildings={'imp_research'}},imp_ogryn={buildings={'imp_barracks'}},imp_heavy_weapon_team={buildings={'imp_barracks'}},imp_heavy_weapon_team_deployed={},
  imp_russ={buildings={'imp_tank_factory'}},imp_basilisk={buildings={'imp_tank_factory'}},imp_sentinel={buildings={'imp_tank_factory'}},
- imp_baneblade={buildings={'imp_superheavy_factory'}},imp_warhound={buildings={'imp_titan_factory'}},armack={buildings={'imp_tank_factory'}},armacv={buildings={'imp_tank_factory'}},
+ imp_baneblade={buildings={'imp_superheavy_factory'}},imp_warhound={buildings={'imp_titan_factory'}},wh40k_armack={buildings={'imp_tank_factory'}},wh40k_armacv={buildings={'imp_tank_factory'}},
  smcom={engine_initial_exception=true},imp_marine_builder={},imp_marine_hq={},imp_marine_barracks={},imp_marine_generator={},imp_marine_mex={},imp_marine_thermo={},
  imp_marine_armoury={buildings={'imp_marine_barracks'}},imp_walker_factory={buildings={'imp_marine_hq','imp_marine_barracks'}},
  imp_marine={},imp_scout={},imp_assault_marine={buildings={'imp_marine_barracks'}},imp_devastator={buildings={'imp_marine_armoury'}},imp_terminator={buildings={'imp_marine_armoury','imp_walker_factory'}},
@@ -65,14 +65,14 @@ function M.Apply(defs,o,V)
   local d=defs[key];local c=d and d.customparams or{}
   return d and tostring(c.prototype40k)=='1'and d.objectname and c.animsource and V.FileExists('objects3d/'..d.objectname)and V.FileExists('scripts/generated/'..c.animsource..'_anim.lua')
  end
- assert(ready('armcom')and ready('imp_enginseer'),'Four factions require actual Guard commander and engineer')
+ assert(ready('imp_field_commander')and ready('imp_enginseer'),'Four factions require actual Guard commander and engineer')
  -- Reuse the reviewed complete Force Commander bank; native ARM economic fields
  -- remain the starting template, while the Guard keeps its genuine command actor.
  local working={};for k,d in pairs(defs)do working[k]=d end
  local proof=VFS.Include('40k_configs/commander_presentation_review_hook.lua').Apply(working,{prototype_commander_presentation_review=true,prototype_commander_presentation_mode='both'},V)
  assert(proof.applied,'Four factions require Force Commander assets: '..tostring(proof.reason))
- defs.corcom=copy(working.corcom)
- defs.smcom=copy(working.armcom);defs.smcom.name='Space Marine Force Commander'
+ defs.ork_big_mek_commander=copy(working.ork_big_mek_commander)
+ defs.smcom=copy(working.imp_field_commander);defs.smcom.name='Space Marine Force Commander'
  defs.smcom.customparams.prototype40k_donor='smcom';defs.smcom.customparams.prototype40k_tech_requires='smcom'
  local function alias(name,source,label)
   assert(ready(source),'Four faction shared source missing: '..source)
@@ -82,7 +82,7 @@ function M.Apply(defs,o,V)
   d.customparams.i18n_en_humanname=nil;d.customparams.i18n_en_tooltip=nil
   report.aliases[#report.aliases+1]=name
  end
- alias('imp_marine_builder','armck','Chapter Engineer')
+ alias('imp_marine_builder','wh40k_armck','Chapter Engineer')
  defs.imp_marine_builder.description='Marine construction detachment; shared Enginseer actor, native paid construction and repair'
  for _,row in ipairs({{'generator','Plasma Generator'},{'mex','Listening Post'},{'thermo','Thermo Plasma Generator'},{'comms_array','Communications Array'},{'missile_defence','Missile Defence'}})do
   if ready('imp_'..row[1])then alias('imp_marine_'..row[1],'imp_'..row[1],'Chapter '..row[2])end
@@ -93,7 +93,7 @@ function M.Apply(defs,o,V)
   end
   if ready(key)then c.prototype40k_source_progression=1 end
  end
- defs.armcom.name='Imperial Guard Field Commander'
+ defs.imp_field_commander.name='Imperial Guard Field Commander'
  local function menu(key,list)
   if not ready(key)then return end
   local d=defs[key];d.buildoptions={}
@@ -103,7 +103,7 @@ function M.Apply(defs,o,V)
  for _,builder in ipairs(M.GuardBuilders)do menu(builder,M.GuardStructures)end
  menu('smcom',M.MarineStructures);menu('imp_marine_builder',M.MarineStructures)
  for key,list in pairs(M.Menus)do menu(key,list)end
- for alias,source in pairs({armlab='imp_barracks',armalab='imp_barracks',armvp='imp_tank_factory',armavp='imp_tank_factory'})do menu(alias,M.Menus[source])end
+ for alias,source in pairs({wh40k_armlab='imp_barracks',wh40k_armalab='imp_barracks',wh40k_armvp='imp_tank_factory',wh40k_armavp='imp_tank_factory'})do menu(alias,M.Menus[source])end
  -- Reassert baseline identity requirements after legacy source adapters. Never
  -- map Marine products back to Guard facilities through a copied donor field.
  for key in pairs(M.Requires)do if ready(key)then defs[key].customparams.prototype40k_tech_requires=key end end
@@ -111,7 +111,7 @@ function M.Apply(defs,o,V)
  -- Names are native UnitDef identities as well as translated labels: synced
  -- prerequisite command tooltips must name the same facility the player builds.
  local names={imp_hq='Imperial Guard Headquarters',imp_barracks='Imperial Guard Barracks',imp_tank_factory='Imperial Guard Vehicle Factory',
-  armlab='Imperial Guard Barracks',armalab='Veteran Guard Barracks',armvp='Imperial Guard Vehicle Factory',armavp='Veteran Guard Vehicle Factory'}
+  wh40k_armlab='Imperial Guard Barracks',wh40k_armalab='Veteran Guard Barracks',wh40k_armvp='Imperial Guard Vehicle Factory',wh40k_armavp='Veteran Guard Vehicle Factory'}
  for key,name in pairs(names)do if ready(key)then defs[key].name=name end end
  -- Concise role lines remain suitable for the stock Info panel.
  local shortRoles={imp_hq='Optional Guard leadership',imp_barracks='Guard infantry / heavy teams',imp_tank_factory='Guard armour / artillery',

@@ -34,12 +34,12 @@ function M.Tasks(plan)
   {key='ork_generator',owner='commander',role='power2',bill=plan.powerBill},
   {key='ork_listening_post',owner='commander',role='mex2',metal=true,bill=plan.mexBill},
   {key='ork_boyz_hut',owner='commander',role='basicfactory',bill=plan.infantry1Bill},
-  {key='corck',owner='basicfactory',role='builder',product=true,bill=plan.builderBill},
+  {key='wh40k_corck',owner='basicfactory',role='builder',product=true,bill=plan.builderBill},
   {key='ork_generator',owner='builder',role='power3',bill=plan.powerBill},
   {key='ork_boyz_hut_t2',owner='builder',role='infantry2',bill=plan.infantry2Bill}}
  local owner='infantry2'
  if row.tier==3 then
-  t[#t+1]={key='corack',owner='infantry2',role='tier2builder',product=true,bill=plan.tier2BuilderBill}
+  t[#t+1]={key='wh40k_corack',owner='infantry2',role='tier2builder',product=true,bill=plan.tier2BuilderBill}
   t[#t+1]={key='ork_warcamp',owner='tier2builder',role='advancedfactory',bill=plan.advancedBill}
   owner='advancedfactory'
  end
@@ -53,12 +53,12 @@ function M.Plan(D,N,P,actor,cohorts)
  local body=assert(definition(D,N,p.member),'actual_body_definition_required')
  local full=assert(definition(D,N,p.product),'actual_product_definition_required')
  local plan={actor=actor,profile=profile,id=p.id,capacity=p.capacity,cohorts=cohorts,tier=row.tier,label=row.label,
-  builder='corck',builderFactory='ork_boyz_hut',productFactory=row.tier==2 and'ork_boyz_hut_t2'or'ork_warcamp',
+  builder='wh40k_corck',builderFactory='ork_boyz_hut',productFactory=row.tier==2 and'ork_boyz_hut_t2'or'ork_warcamp',
   metal=body.metalCost,energy=body.energyCost,work=body.buildTime,productBill=bill(full),
   mexBill=bill(definition(D,N,'ork_listening_post')),powerBill=bill(definition(D,N,'ork_generator')),
-  infantry1Bill=bill(definition(D,N,'ork_boyz_hut')),builderBill=bill(definition(D,N,'corck')),
+  infantry1Bill=bill(definition(D,N,'ork_boyz_hut')),builderBill=bill(definition(D,N,'wh40k_corck')),
   infantry2Bill=bill(definition(D,N,'ork_boyz_hut_t2'))}
- if row.tier==3 then plan.tier2BuilderBill=bill(definition(D,N,'corack'));plan.advancedBill=bill(definition(D,N,'ork_warcamp'))end
+ if row.tier==3 then plan.tier2BuilderBill=bill(definition(D,N,'wh40k_corack'));plan.advancedBill=bill(definition(D,N,'ork_warcamp'))end
  local ok,why=M.Validate(D,N,P,plan);assert(ok,why)
  return plan
 end
@@ -68,7 +68,7 @@ function M.Validate(D,N,P,plan)
  if not row or not p or plan.profile~=(row.profile or plan.actor)or p.product~=plan.actor or p.member~=plan.actor..'_member'
   or p.id~=row.id or p.capacity~=row.capacity or plan.id~=row.id or plan.capacity~=row.capacity
   or plan.tier~=row.tier or plan.label~=row.label or(plan.cohorts~=1 and plan.cohorts~=2)
-  or plan.builder~='corck'or plan.builderFactory~='ork_boyz_hut'
+  or plan.builder~='wh40k_corck'or plan.builderFactory~='ork_boyz_hut'
   or plan.productFactory~=(row.tier==2 and'ork_boyz_hut_t2'or'ork_warcamp')then return false,'current_exact_recipe_profile_required'end
  local body=definition(D,N,p.member);local full=definition(D,N,p.product)
  if not sameBill({metal=plan.metal,energy=plan.energy,work=plan.work},body)
@@ -77,7 +77,7 @@ function M.Validate(D,N,P,plan)
   or plan.productBill.energy~=plan.energy*plan.capacity or plan.productBill.work~=plan.work*plan.capacity then return false,'exact_full_capacity_product_bill_required'end
  local cp=full.customParams or{}
  if cp.prototype40k_squad_product~=plan.profile or tonumber(cp.prototype40k_squad_capacity)~=plan.capacity then return false,'actual_paid_product_schema_required'end
- local owners={commander='corcom'}
+ local owners={commander='ork_big_mek_commander'}
  for _,task in ipairs(M.Tasks(plan))do
   local d=definition(D,N,task.key);local owner=definition(D,N,owners[task.owner])
   if not d or not owner then return false,'actual_route_definition_absent_'..task.key end

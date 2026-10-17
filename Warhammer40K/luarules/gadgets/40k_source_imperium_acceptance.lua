@@ -354,7 +354,7 @@ function gadget:GameFrame(frame)
  if not started then
   if frame%30~=0 then return end
   for _,id in ipairs(Spring.GetTeamUnits(team))do local d=UnitDefs[Spring.GetUnitDefID(id)];local cp=d.customParams or{}
-   if d.name=='armcom'and cp.prototype40k_vital=='commander'and tostring(cp.prototype40k_source_progression)=='1'then commander=id;base={Spring.GetUnitPosition(id)};started=true;unitTargetReview.CaptureInitial();log('START','engine_initial_commander',id,'no units/resources/health/speed grants');break end
+   if d.name=='imp_field_commander'and cp.prototype40k_vital=='commander'and tostring(cp.prototype40k_source_progression)=='1'then commander=id;base={Spring.GetUnitPosition(id)};started=true;unitTargetReview.CaptureInitial();log('START','engine_initial_commander',id,'no units/resources/health/speed grants');break end
   end
   if not started and frame>=300 then fail('marked_engine_initial_imperium_commander_missing')end
   return

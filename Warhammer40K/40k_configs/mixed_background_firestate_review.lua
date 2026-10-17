@@ -3,7 +3,7 @@ local M={Name='initial_commanders_movement_holdfire_v1'}
 function M.New(S,CMD,defs,options,emit)
  local active=options.prototype_diagnostic=='mixedperf2' and tostring(options.prototype_mixed_v2)=='1' and tostring(options.prototype_mixed_background_holdfire)=='1'
  local births,records,invalid={},{},nil
- local expected={[0]='armcom',[1]='corcom',[2]='corcom'}
+ local expected={[0]='imp_field_commander',[1]='ork_big_mek_commander',[2]='ork_big_mek_commander'}
  local function exact(r)return S.ValidUnitID(r.id) and not S.GetUnitIsDead(r.id) and S.GetUnitDefID(r.id)==r.def end
  local function journal(event,r,reason,actual)emit({actualFireState=actual,event=event,policy=M.Name,id=r and r.id,team=r and r.team,definition=r and r.def,originalFireState=r and r.fire,reason=reason,newBaselineRequired=true})end
  local function restore(reason)

@@ -12,10 +12,10 @@ local result="pending"
 local tasks={"mex","mex","solar","solar","lab","solar","solar","vp"}
 local roster={arm={"imp_guardsman","imp_marine","imp_russ"},cor={"ork_boy","ork_meganob","ork_killa_kan"}}
 local expected={
- armlab={"armck","imp_guardsman","imp_marine"},armalab={"armack","imp_guardsman","imp_marine"},
- armvp={"armcv","imp_russ"},armavp={"armacv","imp_russ"},
- corlab={"corck","ork_boy","ork_meganob"},coralab={"corack","ork_boy","ork_meganob"},
- corvp={"corcv","ork_killa_kan"},coravp={"coracv","ork_killa_kan"},
+ wh40k_armlab={"wh40k_armck","imp_guardsman","imp_marine"},wh40k_armalab={"wh40k_armack","imp_guardsman","imp_marine"},
+ wh40k_armvp={"wh40k_armcv","imp_russ"},wh40k_armavp={"wh40k_armacv","imp_russ"},
+ wh40k_corlab={"wh40k_corck","ork_boy","ork_meganob"},wh40k_coralab={"wh40k_corack","ork_boy","ork_meganob"},
+ corvp={"wh40k_corcv","ork_killa_kan"},coravp={"wh40k_coracv","ork_killa_kan"},
 }
 local permitted={imp_guardsman=true,imp_marine=true,imp_russ=true,ork_boy=true,ork_meganob=true,ork_killa_kan=true}
 local function log(...) Spring.Echo("40K PRODUCTION",...) end
@@ -172,7 +172,7 @@ function gadget:GameFrame(f)
   local units=Spring.GetTeamUnits(0) or {};table.sort(units)
   for _,id in ipairs(units) do
    local name=UnitDefs[Spring.GetUnitDefID(id)].name
-   if name=="armcom" or name=="corcom" then
+   if name=="imp_field_commander" or name=="ork_big_mek_commander" then
     commander=id;prefix=name:sub(1,3)
     local x,y,z=Spring.GetUnitPosition(id);base={x,y,z}
     log("HUMAN_FACTION",0,prefix,id,x,z);break

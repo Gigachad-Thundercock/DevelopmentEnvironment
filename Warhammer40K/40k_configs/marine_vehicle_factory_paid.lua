@@ -12,7 +12,7 @@ function M.Validate(D,N)
  end
  local c,f,p=D[plan.smcom],D[plan.imp_walker_factory],D[plan.imp_predator];local cp=f.customParams or{}
  assert(f.isFactory==true and f.canAttack==false and #(f.weapons or{})==0,'Actual unarmed vehicle factory required')
- assert(tonumber(cp.prototype40k_native_factory_pilot)==1 and cp.prototype40k_native_factory_donor=='armvp'
+ assert(tonumber(cp.prototype40k_native_factory_pilot)==1 and cp.prototype40k_native_factory_donor=='wh40k_armvp'
   and cp.prototype40k_native_factory_domain=='vehicle','Reviewed native ARMVP pilot required')
  assert(f.metalCost==590 and f.energyCost==1550 and f.buildTime==5700 and f.buildSpeed==150,'Current factory bill required')
  assert(type(f.scriptName)=='string'and f.scriptName:lower()=='units/armvp.cob','Existing native production script required')

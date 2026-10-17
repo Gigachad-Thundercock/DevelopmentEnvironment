@@ -17,7 +17,7 @@ function M.Capture(c,f,S,R,C,p,unit,copy)
   preserved[slot]={heading=S.GetUnitHeading(id),states=copy(S.GetUnitStates(id))}
  end
  if n~=8 or not bodies[8]or bodies[8].hp<=0 or bodies[8].hp/bodies[8].max>=.999 or bodies[8].xp<=0 then return nil,'pending_wounded_current_eight_missing'end
- local commander=unit(c.commander);if not commander or commander.team~=c.team or commander.def~=UnitDefNames.armcom.id then return nil,'pending_real_commander_missing'end
+ local commander=unit(c.commander);if not commander or commander.team~=c.team or commander.def~=UnitDefNames.imp_field_commander.id then return nil,'pending_real_commander_missing'end
  return{frame=f,seed=s.id,team=s.team,profile=s.profile,commander=commander,missingSlot=8,originalMembers=copy(c.originalMembers),proof=copy(c.proof),snapshot=R.Snapshot(),bodies=bodies,
   resources={metal={S.GetTeamResources(c.team,'metal')},energy={S.GetTeamResources(c.team,'energy')}},research={jobs=copy(C.jobs),done=copy(C.done),tiers=copy(C.tiers),reserved=copy(C.reserved)},
   pendingResearch={key=p.research,producer=producer,producerBody=producerBody,job=copy(j),preserved=preserved,remainingSteps=rec.frames-j.steps,remainingMetal=200-j.metal,remainingEnergy=1000-j.energy}}

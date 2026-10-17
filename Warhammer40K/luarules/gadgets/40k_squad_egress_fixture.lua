@@ -16,8 +16,8 @@ local S=Spring;local phase='initial';local team=0;local startFrame
 local sentinelCombat;local sentinelEnabled=enabled(options.prototype_guard_sentinel_weapon_fixture)
 local family=options.prototype_squad_egress_faction or'marine'
 local routes={marine={commander='smcom',factory='imp_marine_barracks',product='imp_marine',profile='marine_tactical'},
- guard={commander='armcom',factory='imp_barracks',product='imp_guardsman',profile='guard_line'},
- ork={commander='corcom',factory='ork_boyz_hut',product='ork_boy',profile='ork_shoota'},
+ guard={commander='imp_field_commander',factory='imp_barracks',product='imp_guardsman',profile='guard_line'},
+ ork={commander='ork_big_mek_commander',factory='ork_boyz_hut',product='ork_boy',profile='ork_shoota'},
  necron={commander='nec_lord',factory='nec_hq',product='nec_warrior',profile='necron_warrior'}}
 local route=routes[family];local profile,capacity,commander,factory,site,rally,bornFactory
 local products,productByID,memberOwner={},{},{};local twoQueueSeen=false;local nativeFinished={}
@@ -244,8 +244,8 @@ function gadget:GameFrame(frame)
    if not tank or not vehicle or not UnitDefs[tank.id].isFactory or not contains(cd.buildOptions,tank.id)or not contains(UnitDefs[tank.id].buildOptions,vehicle.id)then finish('FAIL actual_Guard_vehicle_graph');return end
    local vd=UnitDefs[vehicle.id]
    if not vd.metalCost or vd.metalCost<=0 or not vd.energyCost or vd.energyCost<=0 or not vd.buildTime or vd.buildTime<=0 then finish('FAIL actual_Guard_vehicle_paid_bill');return end
-   if tonumber(cp.prototype40k_native_factory_pilot)~=1 or cp.prototype40k_native_factory_donor~='armlab'
-    or tonumber((UnitDefs[tank.id].customParams or{}).prototype40k_native_factory_pilot)~=1 or(UnitDefs[tank.id].customParams or{}).prototype40k_native_factory_donor~='armvp'then finish('FAIL integrated_native_Guard_pilots_required');return end
+   if tonumber(cp.prototype40k_native_factory_pilot)~=1 or cp.prototype40k_native_factory_donor~='wh40k_armlab'
+    or tonumber((UnitDefs[tank.id].customParams or{}).prototype40k_native_factory_pilot)~=1 or(UnitDefs[tank.id].customParams or{}).prototype40k_native_factory_donor~='wh40k_armvp'then finish('FAIL integrated_native_Guard_pilots_required');return end
    if not S.GetUnitVectors or not S.GetUnitCollisionVolumeData then finish('FAIL actual_collision_api_required');return end
    emit('GUARD_PILOT_LOAD','infantry_donor=armlab','vehicle_donor=armvp','capacity=8','vehicle=imp_sentinel','FactoryGuard_SETTING_RECORD_REQUIRED=true')
   end
@@ -294,7 +294,7 @@ function gadget:GameFrame(frame)
   if not live(factory)or not live(commander)or S.GetUnitTeam(factory)~=team or S.GetUnitTeam(commander)~=team then finish('FAIL Guard_factory_lost_during_idle');return end
   if #((S.GetFactoryCommands(factory,-1))or{})~=0 or S.GetUnitIsBuilding(factory)then finish('FAIL Guard_factory_not_idle_after_two_releases');return end
   if frame-idleStart>=8*rate then
-   route={commander='armcom',factory='imp_tank_factory',product='imp_sentinel'};vehicleMode=true;expectedProducts=1;capacity=1
+   route={commander='imp_field_commander',factory='imp_tank_factory',product='imp_sentinel'};vehicleMode=true;expectedProducts=1;capacity=1
    local tank=UnitDefs[UnitDefNames.imp_tank_factory.id];local vehicle=UnitDefs[UnitDefNames.imp_sentinel.id]
    emit('PAID_VEHICLE_BILL','factory_metal='..tank.metalCost,'factory_energy='..tank.energyCost,'product_metal='..vehicle.metalCost,'product_energy='..vehicle.energyCost,'product_work='..vehicle.buildTime)
    site=chooseSite(tank.id);if not site then finish('INCONCLUSIVE no_clear_Guard_vehicle_site');return end

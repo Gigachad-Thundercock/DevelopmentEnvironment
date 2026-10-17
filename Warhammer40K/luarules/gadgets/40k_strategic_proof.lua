@@ -98,7 +98,7 @@ end
 local function setup()
  for _,id in ipairs(Spring.GetTeamUnits(0))do
   local name=UnitDefs[Spring.GetUnitDefID(id)].name
-  if name=='armcom' or name=='corcom' or name=='nec_lord' then commander=id;faction=name=='armcom' and 'Imperium' or name=='corcom' and 'Orks' or 'Necrons';break end
+  if name=='imp_field_commander' or name=='ork_big_mek_commander' or name=='nec_lord' then commander=id;faction=name=='imp_field_commander' and 'Imperium' or name=='ork_big_mek_commander' and 'Orks' or 'Necrons';break end
  end
  for _,id in ipairs(Spring.GetTeamUnits(1))do enemy=id;break end
  if commander and tostring((UnitDefs[Spring.GetUnitDefID(commander)].customParams or {}).prototype40k)~='1' then finish(false,'engine_initial_commander_not_converted');return end
@@ -108,7 +108,7 @@ local function setup()
  local prefix=faction=='Imperium' and 'arm' or faction=='Orks' and 'cor' or 'nec_'
  for _=1,2 do plan[#plan+1]={name=prefix..'mex',mex=true}end
  for _=1,6 do plan[#plan+1]={name=faction=='Necrons' and 'nec_generator' or prefix..'solar'}end
- if faction=='Orks' then plan[#plan+1]={name=field and 'corlab' or 'corvp',isfactory=true}end
+ if faction=='Orks' then plan[#plan+1]={name=field and 'wh40k_corlab' or 'corvp',isfactory=true}end
  if field and faction=='Imperium' then finish(false,'no_source_imperial_field_candidate');return end
  plan[#plan+1]={name=field and (faction=='Orks' and 'ork_big_mek_defence' or 'nec_shield_spike') or
   (faction=='Imperium' and 'imp_missile_defence' or faction=='Orks' and 'ork_rokkit_interceptor' or 'nec_particle_interceptor'),factory=faction=='Orks',defender=true}

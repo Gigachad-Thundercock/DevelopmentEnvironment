@@ -70,7 +70,7 @@ function gadget:GameFrame(frame)
   for k,v in pairs(options)do if k:match('^prototype_.*fixture$')and k~='prototype_water_combat_paid_fixture'and enabled(v)then finish('FAIL conflicting_fixture');return end end
   local tide=S.GetTidal();if not tide or tide<=0 then finish('INCONCLUSIVE map_has_no_positive_tidal_income');return end
   local m,e=resources('INITIAL');if not m or not e or math.abs(m-1000)>5 or math.abs(e-1000)>5 then finish('FAIL ordinary_1000_start_required');return end
-  local units=S.GetTeamUnits(team)or{};if #units~=1 or not UnitDefNames.corcom or S.GetUnitDefID(units[1])~=UnitDefNames.corcom.id or not live(units[1])then finish('FAIL natural_Ork_commander_required');return end;commander=units[1]
+  local units=S.GetTeamUnits(team)or{};if #units~=1 or not UnitDefNames.ork_big_mek_commander or S.GetUnitDefID(units[1])~=UnitDefNames.ork_big_mek_commander.id or not live(units[1])then finish('FAIL natural_Ork_commander_required');return end;commander=units[1]
   local fn,bn,tn=UnitDefNames[keyFactory],UnitDefNames[keyBoat],UnitDefNames[keyTide]
   if not fn or not bn or not tn then finish('FAIL missing_active_domain');return end
   local f,b,t=UnitDefs[fn.id],UnitDefs[bn.id],UnitDefs[tn.id];local cd=UnitDefs[S.GetUnitDefID(commander)]

@@ -1,8 +1,8 @@
 local M={Version=1}
 M.Factions={
- guard={label='Imperial Guard',commander='armcom',base={'imp_generator','imp_mex','imp_comms_array','imp_missile_defence'},builders={'armck','armcv','armack','armacv','imp_enginseer'}},
+ guard={label='Imperial Guard',commander='imp_field_commander',base={'imp_generator','imp_mex','imp_comms_array','imp_missile_defence'},builders={'wh40k_armck','wh40k_armcv','wh40k_armack','wh40k_armacv','imp_enginseer'}},
  marine={label='Space Marines',commander='smcom',base={'imp_marine_generator','imp_marine_mex','imp_marine_comms_array','imp_marine_missile_defence'},builders={'imp_marine_builder','imp_marine_vehicle_builder','imp_marine_advanced_builder','imp_marine_advanced_vehicle_builder'}},
- ork={label='Orks',commander='corcom',base={'ork_generator','ork_listening_post','ork_waaagh_banner'},builders={'corck','corcv','corack','coracv','ork_grot'}},
+ ork={label='Orks',commander='ork_big_mek_commander',base={'ork_generator','ork_listening_post','ork_waaagh_banner'},builders={'wh40k_corck','wh40k_corcv','wh40k_corack','wh40k_coracv','ork_grot'}},
  necron={label='Necrons',commander='nec_lord',base={'nec_generator','nec_mex','nec_turret','nec_core'},builders={'nec_scarab','nec_vehicle_scarab','nec_advanced_scarab','nec_advanced_vehicle_scarab'}},
 }
 -- Capture true native donors BEFORE any overlay. Never make a ground engineer fly.
@@ -17,7 +17,7 @@ M.Rows={
 -- nonexistent coruwmex. Its unchanged underwater siting requires native review.
 M.WaterEconomyRows={
  water_tidal_generator={'cortide',1,'energy','Tidal Power Array'},
- water_extractor={'cormex',1,'metal','Seabed Extractor'},
+ water_extractor={'wh40k_cormex',1,'metal','Seabed Extractor'},
  advanced_water_generator={'coruwfus',2,'energy','Submerged Fusion Reactor'},
  advanced_water_extractor={'coruwmme',2,'metal','Advanced Seabed Extractor'},
 }

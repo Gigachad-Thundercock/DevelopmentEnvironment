@@ -53,23 +53,23 @@ function gadget:UnitFinished(id,defID,team)
  local birth=births[id];if not birth then return end
  local name=UnitDefs[defID].name
  if team~=0 and team~=1 then return end
- local commander=birth.builderName=="armcom" or birth.builderName=="corcom"
+ local commander=birth.builderName=="imp_field_commander" or birth.builderName=="ork_big_mek_commander"
  if commander then
-  if name=="armlab" or name=="armvp" or name=="corlab" or name=="corvp" then
+  if name=="wh40k_armlab" or name=="wh40k_armvp" or name=="wh40k_corlab" or name=="corvp" then
    factories[team]=factories[team] or {};factories[team][name:sub(4)]=id
    log("COMMANDER_FACTORY_FINISHED",team,name,id,birth.builder,Spring.GetGameFrame())
-  elseif name=="armmex" or name=="cormex" then
+  elseif name=="wh40k_armmex" or name=="wh40k_cormex" then
    mexes[id]={team=team,builder=birth.builder,passed=false}
    log("COMMANDER_MEX_FINISHED",team,name,id,birth.builder)
   end
  end
  if wanted[name] then
   local factory=birth.builderName
-  if factory~="armlab" and factory~="armvp" and factory~="corlab" and factory~="corvp" then
+  if factory~="wh40k_armlab" and factory~="wh40k_armvp" and factory~="wh40k_corlab" and factory~="corvp" then
    fail("non_factory_product_"..name);return
   end
   local parent=births[birth.builder]
-  if not parent or parent.team~=team or (parent.builderName~="armcom" and parent.builderName~="corcom") then
+  if not parent or parent.team~=team or (parent.builderName~="imp_field_commander" and parent.builderName~="ork_big_mek_commander") then
    fail("factory_not_commander_built_"..name);return
   end
   local list=products[name] or {};products[name]=list;list[#list+1]=id

@@ -7,7 +7,7 @@ local function field(d,native,raw)if d[native]~=nil then return d[native]end;ret
 local function cp(d)return d.customParams or d.customparams or{}end
 function M.Check(D,N,W)
  local rows={}
- local donor=N.cormoho and D[N.cormoho.id]
+ local donor=N.wh40k_cormoho and D[N.wh40k_cormoho.id]
  if not donor then return nil,'missing_native_economy_donor'end
  for tier,key in ipairs(M.Keys)do
   local d=N[key]and D[N[key].id]

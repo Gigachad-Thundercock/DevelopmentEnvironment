@@ -89,7 +89,7 @@ function gadget:GameFrame(frame)
   for key,v in pairs(options)do if key:match('^prototype_.*fixture$')and key~='prototype_ork_paid_air_fixture'and enabled(v)then finish('FAIL other_fixture_conflict');return end end
   local m,e=resources('INITIAL');if not m or not e or math.abs(m-1000)>5 or math.abs(e-1000)>5 then finish('FAIL ordinary_1000_start_required');return end
   local units=S.GetTeamUnits(team)or{}
-  if #units~=1 or not UnitDefNames.corcom or S.GetUnitDefID(units[1])~=UnitDefNames.corcom.id or not live(units[1])then finish('FAIL natural_single_Ork_commander_required');return end
+  if #units~=1 or not UnitDefNames.ork_big_mek_commander or S.GetUnitDefID(units[1])~=UnitDefNames.ork_big_mek_commander.id or not live(units[1])then finish('FAIL natural_single_Ork_commander_required');return end
   commander=units[1];local fd=UnitDefNames[factoryKey];local pd=UnitDefNames[productKey];local cd=UnitDefs[S.GetUnitDefID(commander)]
   if not fd or not pd or not contains(cd.buildOptions,fd.id)or not contains(UnitDefs[fd.id].buildOptions,pd.id)then finish('FAIL native_paid_build_menu');return end
   local gate=GG.Recoil40KResearch

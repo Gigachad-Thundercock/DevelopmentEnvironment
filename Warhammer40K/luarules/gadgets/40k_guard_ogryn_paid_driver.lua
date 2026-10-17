@@ -9,8 +9,8 @@ assert(not GG.Recoil40KOgrynPaidContext,'Duplicate paid Ogryn route');GG.Recoil4
 local tasks={{key='imp_mex',owner='commander',role='mex1',metal=true},{key='imp_generator',owner='commander',role='power1'},
  {key='imp_generator',owner='commander',role='power2'},{key='imp_mex',owner='commander',role='mex2',metal=true},
  {key='imp_generator',owner='commander',role='power3'},{key='imp_mex',owner='commander',role='mex3',metal=true},
- {key='imp_barracks',owner='commander',role='basicfactory'},{key='armck',owner='basicfactory',role='basic',product=true},
- {key='armalab',owner='basic',role='advancedfactory'},{key='imp_ogryn',owner='advancedfactory',role='cohort',product=true}}
+ {key='imp_barracks',owner='commander',role='basicfactory'},{key='wh40k_armck',owner='basicfactory',role='basic',product=true},
+ {key='wh40k_armalab',owner='basic',role='advancedfactory'},{key='imp_ogryn',owner='advancedfactory',role='cohort',product=true}}
 local function emit(...)S.Echo('40K_OGRYN_PAID_DRIVER',...)end
 local function finish(why)phase='done';emit('COMPLETE',why,'ordinary_native_orders_only=true paid_economy_acceptance=false')end
 local function finite(v)return type(v)=='number'and v==v and math.abs(v)<math.huge end
@@ -50,7 +50,7 @@ function gadget:GameFrame(frame)
   if frame~=1 or type(S.GetGameFrame)~='function'or S.GetGameFrame()~=frame then finish('FAIL fresh_native_frame_one_required');return end
   for _,key in ipairs({'prototype_squad_paid_fixture','prototype_squad_fixture','prototype_squad_egress_fixture','prototype_extractor_paid_fixture','prototype_necron_factory_paid_fixture','prototype_immortal_paid_driver','prototype_ork_air_factory_repeat_fixture','prototype_terminator_paid_driver','prototype_necron_remains_paid_driver','prototype_guard_squad_paid_research_fixture','prototype_basilica_paid_driver'})do if enabled(options[key])then finish('FAIL competing_paid_driver');return end end
   local all=S.GetTeamUnits(team)or{};local m=S.GetTeamResources(team,'metal');local e=S.GetTeamResources(team,'energy')
-  if #all~=1 or not UnitDefNames.armcom or S.GetUnitDefID(all[1])~=UnitDefNames.armcom.id or not complete(all[1])or not finite(m)or math.abs(m-1000)>5 or not finite(e)or math.abs(e-1000)>5 then finish('FAIL ordinary_natural_commander_1000_start_required');return end
+  if #all~=1 or not UnitDefNames.imp_field_commander or S.GetUnitDefID(all[1])~=UnitDefNames.imp_field_commander.id or not complete(all[1])or not finite(m)or math.abs(m-1000)>5 or not finite(e)or math.abs(e-1000)>5 then finish('FAIL ordinary_natural_commander_1000_start_required');return end
   units.commander=all[1];for _,t in ipairs(tasks)do if not UnitDefNames[t.key]then finish('INCONCLUSIVE actual_route_definition_absent_'..t.key);return end end
   phase='next';emit('ROUTE','existing_armcom_economy_Guard_barracks_armck_T2_armalab_Ogryn3','no_separate_HQ_or_grants=true')
  elseif phase=='next'then

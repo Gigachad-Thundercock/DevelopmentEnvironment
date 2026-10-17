@@ -5,11 +5,11 @@ local function cp(d)return d and(d.customparams or d.customParams)or{}end
 local function enabled(v)return v==true or v==1 or v=='1'end
 function M.AdvancedAir(options)return enabled((options or{})[M.AirOption])end
 M.Factories={
- {'ORK-INF-1','ork_boyz_hut','infantry',1,'Da Boyz Hut',{'corck','ork_slugga','ork_gretchin_squad','ork_bomb_squig'}},
- {'ORK-INF-2','ork_boyz_hut_t2','infantry',2,'Expanded Da Boyz Hut',{'corack','ork_nob','ork_boy','ork_ard_boy','ork_burna','ork_stormboy'}},
+ {'ORK-INF-1','ork_boyz_hut','infantry',1,'Da Boyz Hut',{'wh40k_corck','ork_slugga','ork_gretchin_squad','ork_bomb_squig'}},
+ {'ORK-INF-2','ork_boyz_hut_t2','infantry',2,'Expanded Da Boyz Hut',{'wh40k_corack','ork_nob','ork_boy','ork_ard_boy','ork_burna','ork_stormboy'}},
  {'ORK-INF-3','ork_warcamp','infantry',3,'Ork Warcamp',{'ork_flash_gitz','ork_loota','ork_meganob','ork_tankbusta','ork_kommando','ork_big_mek_defence'}},
- {'ORK-VEH-1','ork_mek_shop','vehicle',1,'Da Mek Shop',{'corcv','ork_trukk','ork_wartrak','ork_killa_kan','ork_kan_twin_shoota','ork_kan_twin_kmb','ork_kan_twin_rokkit','ork_grot_tank','ork_warbike_crewed'}},
- {'ORK-VEH-2','ork_mek_lab','vehicle',2,'Mek Lab',{'coracv','ork_gunwagon','ork_battlewagon_armageddon','ork_deff_dread','ork_dread_ranged_fourarm','ork_looted_tank'}},
+ {'ORK-VEH-1','ork_mek_shop','vehicle',1,'Da Mek Shop',{'wh40k_corcv','ork_trukk','ork_wartrak','ork_killa_kan','ork_kan_twin_shoota','ork_kan_twin_kmb','ork_kan_twin_rokkit','ork_grot_tank','ork_warbike_crewed'}},
+ {'ORK-VEH-2','ork_mek_lab','vehicle',2,'Mek Lab',{'wh40k_coracv','ork_gunwagon','ork_battlewagon_armageddon','ork_deff_dread','ork_dread_ranged_fourarm','ork_looted_tank'}},
  {'ORK-VEH-3','ork_mek_lab_t3','vehicle',3,'Expanded Mek Lab',{'ork_kill_bursta','ork_kill_krusha','ork_squiggoth','ork_battlefortress_armageddon','ork_morkanaut'}},
  {'ORK-AIR-1','fortyk_ork_air_factory','air',1,'Ork Airfield',{'ork_mek_kopta','ork_fighta_bomba'}},
  {'ORK-AIR-2','fortyk_ork_advanced_air_factory','air',2,'Advanced Ork Airfield',{'ork_big_mek_kopta'}},
@@ -20,10 +20,10 @@ M.Factories={
 -- currently share genuine repair-capable Big Mek artwork; their final appearances remain
 -- explicitly pending. Commander and mega-armoured support are not constructors.
 M.Builders={
- {'ORK-BLD-I1','corck','infantry',1,'Gretchin Builder'},
- {'ORK-BLD-I2','corack','infantry',2,'Ork Builder'},
- {'ORK-BLD-V1','corcv','vehicle',1,'Mek Builder'},
- {'ORK-BLD-V2','coracv','vehicle',2,'Big Mek Constructor'},
+ {'ORK-BLD-I1','wh40k_corck','infantry',1,'Gretchin Builder'},
+ {'ORK-BLD-I2','wh40k_corack','infantry',2,'Ork Builder'},
+ {'ORK-BLD-V1','wh40k_corcv','vehicle',1,'Mek Builder'},
+ {'ORK-BLD-V2','wh40k_coracv','vehicle',2,'Big Mek Constructor'},
  {'ORK-BLD-A1','ork_mek_kopta','air',1,'Mek Kopta'},
  {'ORK-BLD-A2','ork_big_mek_kopta','air',2,'Big Mek Kopta'},
 }
@@ -48,7 +48,7 @@ M.Structures={
  {'ORK-DEF-W2','ork_waaagh_banner_t2',2,1},
  {'ORK-DEF-G1','ork_grot_turret',1,0},
 }
-M.Known={corcom=true};M.Producer={};M.AdvancedAirKeys={}
+M.Known={ork_big_mek_commander=true};M.Producer={};M.AdvancedAirKeys={}
 for _,r in ipairs(M.Factories)do
  M.Known[r[2]]=true
  for _,key in ipairs(r[6])do
@@ -61,10 +61,10 @@ end
 for _,r in ipairs(M.Structures)do M.Known[r[2]]=true end
 -- Donor/legacy identities are not alternate products or extra builders.
 M.Legacy={ork_settlement=true,ork_hq=true,ork_resource_factory=true,
- ork_grot=true,ork_kustim_stompa=true,corlab=true,coralab=true,corvp=true,coravp=true,
- corsolar=true,corwin=true,coradvsol=true,corfus=true,corafus=true,corgeo=true,
- cormex=true,cormoho=true,corestor=true,cormstor=true,corrad=true,corarad=true,
- corjamt=true,corshroud=true,cornanotc=true,cornanotcplat=true,cormakr=true,cormmkr=true}
+ ork_grot=true,ork_kustim_stompa=true,wh40k_corlab=true,wh40k_coralab=true,corvp=true,coravp=true,
+ wh40k_corsolar=true,wh40k_corwin=true,wh40k_coradvsol=true,wh40k_corfus=true,wh40k_corafus=true,wh40k_corgeo=true,
+ wh40k_cormex=true,wh40k_cormoho=true,wh40k_corestor=true,wh40k_cormstor=true,wh40k_corrad=true,wh40k_corarad=true,
+ wh40k_corjamt=true,wh40k_corshroud=true,wh40k_cornanotc=true,wh40k_cornanotcplat=true,wh40k_cormakr=true,wh40k_cormmkr=true}
 function M.IsOrk(key,d)
  return M.Known[key]or M.Legacy[key]or key:sub(1,4)=='ork_'or key:sub(1,11)=='fortyk_ork_'or cp(d).faction=='Orks'
 end
@@ -101,7 +101,7 @@ end
 -- which do not yet exist. These four new definitions need authored recipe IDs;
 -- availability itself is not proof that their art/egress passed native review.
 M.ActivationRecipes={ork_boyz_hut_t2='ORK-INF-2',ork_warcamp='ORK-INF-3',ork_mek_lab_t3='ORK-VEH-3',ork_mek_kopta='ORK-BLD-A1'}
-M.ActivationRequired={'corcom','corck','corack','corcv','coracv','ork_boyz_hut','ork_boyz_hut_t2','ork_warcamp','ork_mek_shop','ork_mek_lab','ork_mek_lab_t3','ork_hq_super','fortyk_ork_air_factory','ork_mek_kopta'}
+M.ActivationRequired={'ork_big_mek_commander','wh40k_corck','wh40k_corack','wh40k_corcv','wh40k_coracv','ork_boyz_hut','ork_boyz_hut_t2','ork_warcamp','ork_mek_shop','ork_mek_lab','ork_mek_lab_t3','ork_hq_super','fortyk_ork_air_factory','ork_mek_kopta'}
 function M.Readiness(defs,V)
  local missing={}
  for _,key in ipairs(M.ActivationRequired)do
@@ -172,9 +172,9 @@ function M.Apply(defs,options,V)
  end
  local active,blockers=M.Readiness(defs,V)
  local report={policy=M.Version,active=active,blockers=blockers,advancedAir=M.AdvancedAir(options),present={},missing={},incomplete={},disabled={}}
- if defs.corcom then
-  defs.corcom.customparams=cp(defs.corcom)
-  defs.corcom.customparams.prototype40k_ork_v13_graph_active=active and 1 or 0
+ if defs.ork_big_mek_commander then
+  defs.ork_big_mek_commander.customparams=cp(defs.ork_big_mek_commander)
+  defs.ork_big_mek_commander.customparams.prototype40k_ork_v13_graph_active=active and 1 or 0
  end
  if not active then
   -- Keep the previous useful ground/T1-air milestone until the four genuine
@@ -214,7 +214,7 @@ function M.Apply(defs,options,V)
   end
   return list
  end
- menus.corcom=construction(0)
+ menus.ork_big_mek_commander=construction(0)
  for _,r in ipairs(M.Builders)do menus[r[2]]=allowed[r[2]]and construction(r[4])or{}end
  for key,d in pairs(defs)do
   local c=cp(d);local ork=M.IsOrk(key,d);local reason=M.BlockReason(key,d,options)
@@ -251,7 +251,7 @@ function M.Apply(defs,options,V)
   local note=c.prototype40k_constructor_appearance_note
   label(r[2],r[5],'T'..r[4]..' builder; constructs T1-T'..(r[4]+1)..' structures'..(note and'; '..note or''))
  end end
- if defs.corcom then defs.corcom.customparams.prototype40k_constructor_tier=0 end
+ if defs.ork_big_mek_commander then defs.ork_big_mek_commander.customparams.prototype40k_constructor_tier=0 end
  -- The old adapter incorrectly gives this combat/support actor construction.
  if defs.ork_big_mek_defence then
   local d=defs.ork_big_mek_defence;d.builder=false;d.buildoptions={}
@@ -262,7 +262,7 @@ function M.Apply(defs,options,V)
 end
 function M.ApplyGraph(graph,defs,options)
  graph.Requires=graph.Requires or{}
- local active=enabled(cp(defs.corcom).prototype40k_ork_v13_graph_active)
+ local active=enabled(cp(defs.ork_big_mek_commander).prototype40k_ork_v13_graph_active)
  -- Stale entries may outlive definition registration. Clear only Ork entries;
  -- the existing squad research and other factions retain their own contracts.
  if active then for key in pairs(graph.Requires)do if M.IsOrk(key,defs[key])then graph.Requires[key]={}end end end
@@ -272,7 +272,7 @@ function M.ApplyGraph(graph,defs,options)
   elseif active and M.IsOrk(key,d)then graph.Requires[key]={}end
  end
  -- Native frame-zero starting commander exception, never a paid factory entry.
- if active then graph.Requires.corcom={unit_limit=1,engine_initial_exception=true,production_method='Starting commander'}end
+ if active then graph.Requires.ork_big_mek_commander={unit_limit=1,engine_initial_exception=true,production_method='Starting commander'}end
  graph.OrkAvailability=M.Version;graph.OrkGraphActive=active;graph.OrkAdvancedAir=M.AdvancedAir(options)
  return graph
 end

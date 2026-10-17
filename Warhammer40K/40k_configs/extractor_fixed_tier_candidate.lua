@@ -1,7 +1,7 @@
 -- Reviewed source-only fixed tiers. Native upgrade-yard/lifecycle gates remain.
-local M={Families={imp_mex={label='Imperial Guard',template='armmoho'},
- imp_marine_mex={label='Space Marine',template='armmoho'},ork_listening_post={label='Ork',template='cormoho'},
- nec_mex={label='Necron',template='armmoho'}}}
+local M={Families={imp_mex={label='Imperial Guard',template='wh40k_armmoho'},
+ imp_marine_mex={label='Space Marine',template='wh40k_armmoho'},ork_listening_post={label='Ork',template='wh40k_cormoho'},
+ nec_mex={label='Necron',template='wh40k_armmoho'}}}
 local fields={'metalcost','energycost','buildtime','extractsmetal','energyupkeep','metalstorage'}
 local strongest={metalcost=2400,energycost=12000,buildtime=32500,extractsmetal=.004,energyupkeep=20,metalstorage=600}
 local faction={['Imperial Guard']='imp_mex',['Space Marines']='imp_marine_mex',['Orks']='ork_listening_post',['Necrons']='nec_mex'}

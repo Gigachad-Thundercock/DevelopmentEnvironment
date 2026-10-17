@@ -69,10 +69,10 @@ function M.Apply(defs,ready)
    else report.blocked[#report.blocked+1]=parent..':'..k end
   end
  end
- for _,builder in ipairs({'armcom','armck','armcv','armack','armacv','imp_enginseer'})do options(builder,M.Rosters.structures)end
+ for _,builder in ipairs({'imp_field_commander','wh40k_armck','wh40k_armcv','wh40k_armack','wh40k_armacv','imp_enginseer'})do options(builder,M.Rosters.structures)end
  for parent,list in pairs(M.Rosters)do if parent~='structures'then options(parent,list)end end
  -- Recognised accepted native wrappers retain real native cost/build power.
- local aliases={armlab='imp_barracks',armalab='imp_barracks',armvp='imp_tank_factory',armavp='imp_tank_factory'}
+ local aliases={wh40k_armlab='imp_barracks',wh40k_armalab='imp_barracks',wh40k_armvp='imp_tank_factory',wh40k_armavp='imp_tank_factory'}
  for alias,donor in pairs(aliases)do
   if accepted(alias)and (defs[alias].customparams or {}).prototype40k_donor==donor then options(alias,M.Rosters[donor])end
  end

@@ -18,7 +18,7 @@ function M.New(S,defs,profile,controllers,ready,emit,probe)
   for _,id in ipairs(teams)do if S.GetTeamLuaAI(id)==M.AI then if team then return refuse('exactly_one_centremarch_required')end;team=id end end
   if team==nil then return refuse('centremarch_absent')end
   local units=S.GetTeamUnits(team)
-  if type(units)~='table'or #units~=1 or not defs[S.GetUnitDefID(units[1])]or defs[S.GetUnitDefID(units[1])].name~='armcom'then return refuse('natural_single_guard_commander_required')end
+  if type(units)~='table'or #units~=1 or not defs[S.GetUnitDefID(units[1])]or defs[S.GetUnitDefID(units[1])].name~='imp_field_commander'then return refuse('natural_single_guard_commander_required')end
   local m=S.GetTeamResources(team,'metal');local e=S.GetTeamResources(team,'energy')
   if not finite(m)or not finite(e)or math.abs(m-1000)>5 or math.abs(e-1000)>5 then return refuse('ordinary_1000_start_required')end
   log('AI_ADMISSION','team='..team,'name='..M.AI,'commander='..units[1],'initial_metal='..m,'initial_energy='..e,'observer_orders=false grants=false');return true

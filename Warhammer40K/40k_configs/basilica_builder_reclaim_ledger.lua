@@ -4,7 +4,7 @@ local function finite(v)return type(v)=='number'and v==v and math.abs(v)<math.hu
 function M.New(S,D,builder,team,emit,contract)
  local L={phase='baseline',sum=0,zeros=0,started=S.GetGameFrame(),lastFrame=S.GetGameFrame()-1}
  local function fail(why)L.result='INCONCLUSIVE native_builder_ledger_'..why;return L.result end
- local expected=2;local builderName='armcv';local fixedFeature,fixedFeatureDef
+ local expected=2;local builderName='wh40k_armcv';local fixedFeature,fixedFeatureDef
  if contract~=nil then
   if type(contract)~='table'or type(contract.builderName)~='string'or not contract.builderName:match('^[a-z][a-z0-9_]+$')or not finite(contract.builderDefID)or contract.builderDefID%1~=0 or contract.builderDefID<=0
    or not finite(contract.featureID)or contract.featureID%1~=0 or contract.featureID<0 or not finite(contract.featureDefID)or contract.featureDefID%1~=0 or contract.featureDefID<=0

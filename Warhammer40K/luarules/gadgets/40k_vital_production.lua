@@ -242,7 +242,7 @@ function gadget:GameFrame(frame)
   for _,id in ipairs(Spring.GetTeamUnits(0))do
    local ud=UnitDefs[Spring.GetUnitDefID(id)];local cp=ud.customParams or {}
    if ud.name=='nec_lord' then gadgetHandler:RemoveGadget(self);return end
-   if ud.name=='armcom' or ud.name=='corcom' then
+   if ud.name=='imp_field_commander' or ud.name=='ork_big_mek_commander' then
     if cp.prototype40k_vital~='commander' then fail('commander_actor_not_converted');return end
     commander=id;prefix=ud.name:sub(1,3);base={Spring.GetUnitPosition(id)};started=true
     plan={prefix..'mex',prefix..'mex',prefix..'solar',prefix..'solar',prefix..'lab',prefix..'solar',prefix..'solar',prefix..'vp',

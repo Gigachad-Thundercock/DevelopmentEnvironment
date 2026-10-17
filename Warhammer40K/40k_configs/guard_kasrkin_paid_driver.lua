@@ -10,8 +10,8 @@ function M.Tasks(plan)
  {key='imp_generator',owner='commander',role='power3'},
  {key='imp_mex',owner='commander',role='mex3',metal=true},
  {key='imp_barracks',owner='commander',role='basicfactory'},
- {key='armck',owner='basicfactory',role='builder',product=true,bill=plan.builderBill},
- {key='armalab',owner='builder',role='advancedfactory',bill=plan.advancedBill},
+ {key='wh40k_armck',owner='basicfactory',role='builder',product=true,bill=plan.builderBill},
+ {key='wh40k_armalab',owner='builder',role='advancedfactory',bill=plan.advancedBill},
  {key='imp_kasrkin',owner='advancedfactory',role='cohort1',product=true,cohort=true,bill=plan.productBill},
  {key='imp_kasrkin',owner='advancedfactory',role='cohort2',product=true,cohort=true,bill=plan.productBill}}
 end
@@ -30,12 +30,12 @@ function M.New(S,D,N,P,R,physical,placement,plan,emit)
  if type(plan)~='table'or type(plan.builderBill)~='table'or type(plan.productBill)~='table'or type(plan.advancedBill)~='table'then fail('typed_exact_recipe_required');return C end
  local p=P and P.profiles and P.profiles[plan.profile]
  if not p or p.id~=plan.id or p.capacity~=plan.capacity or p.product~=plan.actor or not N[p.member]or not N[p.product]
-  or plan.builder~='armck'or plan.builderFactory~='imp_barracks'or not plan.productBill then fail('current_exact_recipe_profile_required');return C end
+  or plan.builder~='wh40k_armck'or plan.builderFactory~='imp_barracks'or not plan.productBill then fail('current_exact_recipe_profile_required');return C end
  if plan.actor~='imp_kasrkin'or plan.profile~='guard_kasrkin'or plan.capacity~=5 or plan.id~=5 or plan.cohorts~=2 or plan.metal~=55 or plan.energy~=280 or plan.work~=520 then fail('actual_Kasrkin5_profile_required');return C end
  for _,bill in ipairs({plan.productBill,plan.builderBill,plan.advancedBill})do for _,key in ipairs({'metal','energy','work'})do if not finite(bill[key])or bill[key]<=0 then fail('finite_positive_actual_bill_required');return C end end end
- local advanced=N.armalab and D[N.armalab.id]
+ local advanced=N.wh40k_armalab and D[N.wh40k_armalab.id]
  if not advanced or not advanced.isFactory or plan.advancedBill.work~=advanced.buildTime or plan.advancedBill.metal~=advanced.metalCost or plan.advancedBill.energy~=advanced.energyCost then fail('actual_current_T2_factory_bill_required');return C end
- local bd=N.armck;local bdef=bd and D[bd.id]
+ local bd=N.wh40k_armck;local bdef=bd and D[bd.id]
  if not bdef or plan.builderBill.work~=bdef.buildTime or plan.builderBill.metal~=bdef.metalCost or plan.builderBill.energy~=bdef.energyCost then fail('actual_current_constructor_bill_required');return C end
  if plan.productBill.metal~=plan.metal*plan.capacity or plan.productBill.energy~=plan.energy*plan.capacity or plan.productBill.work~=plan.work*plan.capacity then fail('exact_full_capacity_product_bill_required');return C end
  C.tasks=M.Tasks(plan);C.team=0
@@ -64,7 +64,7 @@ function M.New(S,D,N,P,R,physical,placement,plan,emit)
   if not finite(id)or id<0 or id%1~=0 or id>2147483647 or not C.births[id]or C.births[id].def~=def or C.births[id].team~=team then return fail('actual_native_finish_birth_identity_required')end
   if C.finishes[id]then return fail('duplicate_native_finish')end
   C.finishes[id]={def=def,team=team,frame=S.GetGameFrame()}
-  if def==N.armck.id or def==N[plan.actor].id or def==N[p.member].id then
+  if def==N.wh40k_armck.id or def==N[plan.actor].id or def==N[p.member].id then
    local hp,max,_,_,progress=S.GetUnitHealth(id);local work,metal,energy=S.GetUnitCosts(id)
    emit('PAID_NATIVE_FINISHED',id,def,team,S.GetGameFrame(),hp,max,progress,work,metal,energy,'actual_UnitFinished=true')
   end
@@ -145,7 +145,7 @@ function M.New(S,D,N,P,R,physical,placement,plan,emit)
    -- Synced native has no saved-game query: root fresh-script/receipt gate excludes SSF/replay.
    if frame~=1 or S.GetGameFrame()~=frame then return fail('fresh_native_frame_one_required')end
    local all=S.GetTeamUnits(C.team);if type(all)~='table'then return fail('typed_native_initial_team_units_required')end;local metal=S.GetTeamResources(C.team,'metal');local energy=S.GetTeamResources(C.team,'energy')
-   if #all~=1 or not N.armcom or S.GetUnitDefID(all[1])~=N.armcom.id or not complete(all[1])or not finite(metal)or not finite(energy)or math.abs(metal-1000)>5 or math.abs(energy-1000)>5 then return fail('ordinary_natural_commander_1000_start_required')end
+   if #all~=1 or not N.imp_field_commander or S.GetUnitDefID(all[1])~=N.imp_field_commander.id or not complete(all[1])or not finite(metal)or not finite(energy)or math.abs(metal-1000)>5 or math.abs(energy-1000)>5 then return fail('ordinary_natural_commander_1000_start_required')end
    C.units.commander=all[1];C.phase='next'
   elseif C.phase=='next'then
    task=C.tasks[C.step]

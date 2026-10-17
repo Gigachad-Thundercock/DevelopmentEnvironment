@@ -66,12 +66,12 @@ function M.NativeReviewConfig(defs,options)
   elseif cp.source_entity~=p.entity or cp.source_squad~=path or d.metalCost~=170 or d.energyCost~=30 or d.buildTime~=900 then return nil,'registry_contract_line_17' end
  end
  -- Narrow borrowed Guard infrastructure: no blanket Imperium/native exclusion.
- for _,name in ipairs({'armcom','imp_mex','imp_generator','imp_hq'})do
+ for _,name in ipairs({'imp_field_commander','imp_mex','imp_generator','imp_hq'})do
   local row=byName[name];if not row then return nil,'registry_contract_line_21' end
   local cp=row.def.customParams or{}
   local animation=cp.animsource or cp.prototype40k_donor
   if cp.faction~='Imperium'or tostring(cp.prototype40k)~='1'or not animation then return nil,'registry_contract_line_24' end
-  if name=='armcom'then
+  if name=='imp_field_commander'then
    if cp.prototype40k_vital~='commander'or (cp.prototype40k_donor~='imp_commissar'and not VFS.Include('40k_configs/commander_paid_registry_alternative.lua').Force(row.def,row.id,UnitDefNames,defs))then return nil,'registry_contract_line_26' end
   elseif animation~=name then return nil,'registry_contract_line_27' end
   policy.outsideDefinitions[row.id]={definition_name=row.def.name,reason='Explicit borrowed Guard commander/economy for combined-Imperium paid Marine review'}

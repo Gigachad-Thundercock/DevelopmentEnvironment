@@ -11,8 +11,8 @@ local tasks={{key='imp_mex',owner='commander',role='mex1',metal=true},{key='imp_
  {key='imp_generator',owner='commander',role='power2'},{key='imp_mex',owner='commander',role='mex2',metal=true},
  {key='imp_generator',owner='commander',role='power3'},{key='imp_mex',owner='commander',role='mex3',metal=true},
  {key='imp_barracks',owner='commander',role='barracks'},{key='imp_guardsman',owner='barracks',role='cohort',product=true,bill={64,320,800}},
- {key='imp_tank_factory',owner='commander',role='tank'},{key='armcv',owner='tank',role='basic',product=true,bill={135,1950,4050}},
- {key='armavp',owner='basic',role='advancedfactory'},{key='imp_russ',owner='advancedfactory',role='russ',product=true,bill={480,2400,4000}}}
+ {key='imp_tank_factory',owner='commander',role='tank'},{key='wh40k_armcv',owner='tank',role='basic',product=true,bill={135,1950,4050}},
+ {key='wh40k_armavp',owner='basic',role='advancedfactory'},{key='imp_russ',owner='advancedfactory',role='russ',product=true,bill={480,2400,4000}}}
 local function emit(...)S.Echo('40K_BASILICA_PAID_DRIVER',...)end
 local function finish(why)phase='done';emit('COMPLETE',why,'ordinary_native_orders_only=true paid_economy_acceptance=false')end
 local function complete(id)if not id or S.GetUnitIsDead(id)then return false end;local hp,_,_,_,p=S.GetUnitHealth(id);return hp and hp>0 and p==1 end
@@ -46,12 +46,12 @@ function gadget:GameFrame(frame)
   local digestSource=options.prototype_squad_state_digest_source;local digestFrames=options.prototype_squad_state_digest_frames
   if type(digestSource)~='string'or #digestSource~=40 or not digestSource:match('^[0-9a-fA-F]+$')or type(digestFrames)~='string'or digestFrames==''then finish('FAIL exact_common_digest_source_and_frames_required');return end
   for key,value in pairs(options)do if key:match('^prototype_')and(key:match('_fixture$')or key:find('benchmark')or key:find('probe')or key:match('_paid_driver$')and key~='prototype_basilica_paid_driver')and enabled(value)then finish('FAIL competing_native_diagnostic_'..key);return end end
-  for key,donor in pairs({imp_barracks='armlab',imp_tank_factory='armvp'})do local n=UnitDefNames[key];local cp=n and UnitDefs[n.id].customParams;if not cp or tonumber(cp.prototype40k_native_factory_pilot)~=1 or cp.prototype40k_native_factory_donor~=donor then finish('INCONCLUSIVE actual_native_pilot_'..key);return end end
+  for key,donor in pairs({imp_barracks='wh40k_armlab',imp_tank_factory='wh40k_armvp'})do local n=UnitDefNames[key];local cp=n and UnitDefs[n.id].customParams;if not cp or tonumber(cp.prototype40k_native_factory_pilot)~=1 or cp.prototype40k_native_factory_donor~=donor then finish('INCONCLUSIVE actual_native_pilot_'..key);return end end
   -- Synced native has no saved-game query: root fresh-script/receipt gate excludes SSF/replay.
   if frame~=1 or type(S.GetGameFrame)~='function'or S.GetGameFrame()~=frame then finish('FAIL fresh_native_frame_one_required');return end
   for _,key in ipairs({'prototype_squad_paid_fixture','prototype_squad_fixture','prototype_squad_egress_fixture','prototype_extractor_paid_fixture','prototype_necron_factory_paid_fixture','prototype_ork_air_factory_paid_fixture','prototype_immortal_paid_driver','prototype_squad_cancel_fixture','prototype_russ_wreck_paid_fixture'})do if enabled(options[key])then finish('FAIL competing_paid_driver');return end end
   local all=S.GetTeamUnits(team)or{};local m=S.GetTeamResources(team,'metal');local e=S.GetTeamResources(team,'energy')
-  if #all~=1 or not UnitDefNames.armcom or S.GetUnitDefID(all[1])~=UnitDefNames.armcom.id or not complete(all[1])or not m or math.abs(m-1000)>5 or not e or math.abs(e-1000)>5 then finish('FAIL ordinary_natural_commander_1000_start_required');return end
+  if #all~=1 or not UnitDefNames.imp_field_commander or S.GetUnitDefID(all[1])~=UnitDefNames.imp_field_commander.id or not complete(all[1])or not m or math.abs(m-1000)>5 or not e or math.abs(e-1000)>5 then finish('FAIL ordinary_natural_commander_1000_start_required');return end
   units.commander=all[1];for _,t in ipairs(tasks)do if not UnitDefNames[t.key]then finish('INCONCLUSIVE actual_route_definition_absent_'..t.key);return end end
   phase='next';emit('ROUTE','actual_armcom_barracks_Guard8_tankfactory_armcv_armavp_Russ','no_separate_HQ_or_grants=true')
  elseif phase=='next'then

@@ -18,7 +18,7 @@ function widget:Update()
  if mode=="production" and slot<=2 then
   for _,id in ipairs(Spring.GetTeamUnits(0)) do
    local name=UnitDefs[Spring.GetUnitDefID(id)].name
-   if (slot==1 and (name=="armlab" or name=="corlab")) or (slot==2 and (name=="armvp" or name=="corvp")) then
+   if (slot==1 and (name=="wh40k_armlab" or name=="wh40k_corlab")) or (slot==2 and (name=="wh40k_armvp" or name=="corvp")) then
     local ux,uy,uz=Spring.GetUnitPosition(id);x,z=ux,uz;Spring.SelectUnitArray({id});break
    end
   end

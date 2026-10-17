@@ -6,7 +6,7 @@ local guardResearch=family=='guard'and on(o.prototype_guard_squad_paid_research_
 local marinePaid=family=='marine'and on(o.prototype_squad_paid_fixture)and not on(o.prototype_guard_squad_paid_research_fixture)
 if not on(o.prototype_squad_save_checkpoint_fixture)or not(marinePaid or guardResearch)or o.prototype_diagnostic~='normal'or not on(o.prototype_source_progression)or tonumber(o.prototype_test_speed or 1)~=1 then return false end
 local profileKey=guardResearch and'guard_line'or'marine_tactical'
-local commanderName=guardResearch and'armcom'or'smcom'
+local commanderName=guardResearch and'imp_field_commander'or'smcom'
 local firstTick=on(o.prototype_squad_save_first_tick_fixture)
 local pendingResearch=on(o.prototype_squad_save_pending_research_fixture)
 local pendingFirstTick=on(o.prototype_squad_save_pending_first_tick_fixture)

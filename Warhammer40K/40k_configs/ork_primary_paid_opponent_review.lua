@@ -19,7 +19,7 @@ function M.New(S,D,N,CMD,C,o,log,E)
  end
  function P.Birth(id,def,team,builder,frame)
   if not enabled then return end
-  if team==1 and builder==nil and frame<=0 and N.corcom and def==N.corcom.id then
+  if team==1 and builder==nil and frame<=0 and N.ork_big_mek_commander and def==N.ork_big_mek_commander.id then
    if next(initial)then fail('duplicate_initial_opponent')else initial[id]=def end
   end
   if not active or team~=1 or builder~=active.producer or def~=active.def or active.created then return end
@@ -42,7 +42,7 @@ function M.New(S,D,N,CMD,C,o,log,E)
  end
  function P.Frame(frame)
   if not enabled then return true end;if failed then return false,failed end
-  if starter and not current(starter,N.corcom.id)then return fail('initial_opponent_capture_or_death')end
+  if starter and not current(starter,N.ork_big_mek_commander.id)then return fail('initial_opponent_capture_or_death')end
   if target then if not current(target,N.ork_slugga.id)then return fail('paid_opponent_target_capture_or_death')end;return true end
   if not starter then
    for id,def in pairs(initial)do

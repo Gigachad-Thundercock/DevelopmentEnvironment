@@ -18,7 +18,7 @@ function gadget:GameFrame(frame)
   for id,jobs in pairs(c.jobs)do local j=jobs.guard_squad_flamer;if j and j.team==0 and j.steps>0 then assert(not producer,'ambiguous source research producer');producer=id end end
   if producer then
    for _,s in pairs(r.squads)do if s.team==0 and s.profile=='guard_line'and #r.Members(s.leader)==8 then assert(not product,'ambiguous source cohort');product=s.leader end end
-   for _,id in ipairs(Spring.GetTeamUnits(1)or{})do local d=UnitDefs[Spring.GetUnitDefID(id)];if d and d.name=='armcom'and d.canCapture==true then assert(not capturer,'ambiguous Guard capture commander');capturer=id end end
+   for _,id in ipairs(Spring.GetTeamUnits(1)or{})do local d=UnitDefs[Spring.GetUnitDefID(id)];if d and d.name=='imp_field_commander'and d.canCapture==true then assert(not capturer,'ambiguous Guard capture commander');capturer=id end end
    if product and capturer then O.Arm(producer,capturer,product)end
   end
  end

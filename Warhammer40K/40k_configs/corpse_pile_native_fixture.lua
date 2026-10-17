@@ -95,7 +95,7 @@ function M.New(S,U,N,F,W,GG,G,CMD,emit)
   if C.builder and(S.GetUnitIsDead(C.builder)~=false or S.GetUnitTeam(C.builder)~=0)then return stop('FAIL original_native_builder_lost')end
   if C.phase=='wait'then
    if f<30 then return end
-   local units=S.GetTeamUnits(0)or{};if #units~=1 or S.GetUnitDefID(units[1])~=N.corcom.id then return stop('FAIL sole_native_commander_required')end
+   local units=S.GetTeamUnits(0)or{};if #units~=1 or S.GetUnitDefID(units[1])~=N.ork_big_mek_commander.id then return stop('FAIL sole_native_commander_required')end
    C.builder=units[1];if #queue()>0 then return stop('FAIL existing_user_orders')end
    C.x,C.y,C.z=candidateSite();if not C.x then return stop('INCONCLUSIVE no_flat_safe_reclaim_projectile_site')end
    C.ids={};for i=1,6 do C.ids[i]=seed(donors[(i-1)%2+1],C.x+(i-3.5)*2,C.z,32,64);if C.result then return C.result end end

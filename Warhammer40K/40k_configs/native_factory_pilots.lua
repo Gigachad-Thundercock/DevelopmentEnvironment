@@ -3,11 +3,11 @@
 -- until the project scale has a measured production/egress acceptance result.
 local M={}
 M.Pilots={
- imp_barracks={donor='armlab',domain='infantry',object='40k_native_guard_armlab.s3o',theme='guard_olive_material_pilot'},
- imp_tank_factory={donor='armvp',domain='vehicle',object='40k_native_guard_armvp.s3o',theme='guard_olive_material_pilot'},
- imp_marine_barracks={donor='armlab',domain='infantry',object='40k_native_marine_armlab.s3o'},
- imp_walker_factory={donor='armvp',domain='vehicle',object='40k_native_marine_armvp.s3o'},
- nec_vehicle_factory={donor='armvp',domain='vehicle',object='40k_native_necron_armvp.s3o',theme='necron_matte_graphite_green_pilot',option='prototype_necron_native_factory_pilot',requireUnarmed=true},
+ imp_barracks={donor='wh40k_armlab',domain='infantry',object='40k_native_guard_armlab.s3o',theme='guard_olive_material_pilot'},
+ imp_tank_factory={donor='wh40k_armvp',domain='vehicle',object='40k_native_guard_armvp.s3o',theme='guard_olive_material_pilot'},
+ imp_marine_barracks={donor='wh40k_armlab',domain='infantry',object='40k_native_marine_armlab.s3o'},
+ imp_walker_factory={donor='wh40k_armvp',domain='vehicle',object='40k_native_marine_armvp.s3o'},
+ nec_vehicle_factory={donor='wh40k_armvp',domain='vehicle',object='40k_native_necron_armvp.s3o',theme='necron_matte_graphite_green_pilot',option='prototype_necron_native_factory_pilot',requireUnarmed=true},
 }
 M.Fields={
  'script','footprintx','footprintz','yardmap','buildangle','builder','canmove',
@@ -16,7 +16,7 @@ M.Fields={
  'usepiececollisionvolumes','terraformspeed','canreclaim','corpse','featuredefs',
 }
 -- Non-ground donor interface: domains are deliberately matched to donor roles.
-M.DomainDonors={infantry={t1='armlab',t2='armalab'},vehicle={t1='armvp',t2='armavp'},
+M.DomainDonors={infantry={t1='wh40k_armlab',t2='wh40k_armalab'},vehicle={t1='wh40k_armvp',t2='wh40k_armavp'},
  air={t1='armap',t2='armaap'},naval={t1='armsy',t2='armasy'}}
 function M.Capture(defs,copy)
  local captured={}

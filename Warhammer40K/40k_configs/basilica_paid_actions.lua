@@ -15,7 +15,7 @@ function M.New(S,D,W,F,R,paid,P,emit,Ledger)
  local function live(id)return id and not S.GetUnitIsDead(id)and S.GetUnitTeam(id)==team and select(5,S.GetUnitHealth(id))==1 end
  local row=R.Get(cohort)
  if not row or row.profile~='guard_line'or row.leader~=cohort or row.team~=team or #R.Members(cohort)~=8 or not live(builder)or not live(russ)
-  or D[S.GetUnitDefID(builder)].name~='armcv'or not D[S.GetUnitDefID(builder)].canReclaim or D[S.GetUnitDefID(russ)].name~='imp_russ'then fail('actual_paid_Guard8_armcv_Russ_context_required');return C end
+  or D[S.GetUnitDefID(builder)].name~='wh40k_armcv'or not D[S.GetUnitDefID(builder)].canReclaim or D[S.GetUnitDefID(russ)].name~='imp_russ'then fail('actual_paid_Guard8_armcv_Russ_context_required');return C end
  C.members={};for slot=1,8 do local id=row.slots[slot]
   if C.members[id]or not live(id)or not paid.finished[id]or not row.generations[slot]or S.GetUnitTransporter(id)
    or S.GetUnitRulesParam(id,'40k_squad_schema')~=2 or S.GetUnitRulesParam(id,'40k_squad_id')~=row.id

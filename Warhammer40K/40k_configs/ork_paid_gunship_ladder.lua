@@ -18,7 +18,7 @@ function M.Validate(D,N,o,exclusions)
  assert(o.prototype_diagnostic=='normal'and tonumber(o.prototype_test_speed or 1)==1,'Normal simulation clock required')
  for _,key in ipairs(exclusions)do assert(key==M.Option or not yes(o[key]),'Conflicting explicit diagnostic '..key)end
  local recipes={'ORK-AIR-1','ORK-BLD-A1','ORK-AIR-2','ORK-BLD-A2','ORK-AIR-3','ORK-AIR-3-GUNSHIP'}
- local ids={};for _,key in ipairs({'corcom','ork_listening_post','ork_generator'})do ids[key]=assert(N[key],'Missing '..key).id end
+ local ids={};for _,key in ipairs({'ork_big_mek_commander','ork_listening_post','ork_generator'})do ids[key]=assert(N[key],'Missing '..key).id end
  for i,key in ipairs(M.Route)do
   local d=D[assert(N[key],'Missing '..key).id];ids[key]=N[key].id
   local c=d.customParams or{}
@@ -46,7 +46,7 @@ local function typed(v)
  return'nil~unavailable'
 end
 function M.Observe(D,N,log)
- local keys={'corcom','ork_listening_post','ork_generator'};for _,k in ipairs(M.Route)do keys[#keys+1]=k end
+ local keys={'ork_big_mek_commander','ork_listening_post','ork_generator'};for _,k in ipairs(M.Route)do keys[#keys+1]=k end
  for _,key in ipairs(keys)do
   local n=N[key];local d=n and D[n.id];local cp=d and d.customParams or{}
   local values={definition=n and n.id,model=d and d.modelname,script=d and d.scriptName,metal=d and d.metalCost,energy=d and d.energyCost,work=d and d.buildTime,labor=d and d.buildSpeed,
@@ -56,7 +56,7 @@ function M.Observe(D,N,log)
    log('OBSERVED_FIELD','schema=1','owner='..key,'field='..field,'value='..typed(values[field]))
   end
  end
- local previous='corcom';for _,key in ipairs(M.Route)do
+ local previous='ork_big_mek_commander';for _,key in ipairs(M.Route)do
   local p=N[previous];local d=p and D[p.id];local target=N[key]
   log('OBSERVED_MENU','producer='..previous,'producer_def='..tostring(p and p.id),'product='..key,'product_def='..tostring(target and target.id),'present='..tostring(d and target and has(d.buildOptions,target.id)or false));previous=key
  end
@@ -154,8 +154,8 @@ function M.New(S,D,N,G,Game,CMD,o,geometry,exclusions,emit)
    M.Observe(D,N,log);local ok,ids=pcall(M.Validate,D,N,o,exclusions);if not ok then return stop('FAIL source_contract '..tostring(ids))end;C.ids=ids
    if not G.Recoil40KResearch or type(G.Recoil40KResearch.CanBuild)~='function'then return stop('FAIL sole_paid_gate_absent')end
    local all=S.GetTeamUnits(0)or{};local m,e=budget('INITIAL')
-   if #all~=1 or S.GetUnitDefID(all[1])~=ids.corcom or not live(all[1],true)or not m or math.abs(m-1000)>5 or math.abs(e-1000)>5 then return stop('FAIL ordinary_natural_single_commander_1000_start')end
-   C.started=frame;C.actors[0]=all[1];C.initial=all[1];log('INITIAL_COMMANDER','id='..all[1],'def='..ids.corcom,'team=0');log('SCOPE','ordinary_resource_paid_air_ladder=true','test_only_advanced_air_availability=true','timeout_seconds='..M.TimeoutSeconds)
+   if #all~=1 or S.GetUnitDefID(all[1])~=ids.ork_big_mek_commander or not live(all[1],true)or not m or math.abs(m-1000)>5 or math.abs(e-1000)>5 then return stop('FAIL ordinary_natural_single_commander_1000_start')end
+   C.started=frame;C.actors[0]=all[1];C.initial=all[1];log('INITIAL_COMMANDER','id='..all[1],'def='..ids.ork_big_mek_commander,'team=0');log('SCOPE','ordinary_resource_paid_air_ladder=true','test_only_advanced_air_availability=true','timeout_seconds='..M.TimeoutSeconds)
    return advance(frame)
   end
   if frame-C.started>M.TimeoutSeconds*30 then return stop('INCONCLUSIVE bounded_ordinary_income_path_or_queue_timeout_'..C.index)end

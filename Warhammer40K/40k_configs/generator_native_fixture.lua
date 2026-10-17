@@ -16,7 +16,7 @@ function M.Keys(contract,mode,key)
  if key=='land'then
   if mode~='appearance'or contract.scope~='fixed-tier-model-qa'then return nil,'FAIL exact_land_appearance_qa_required'end
   local keys={'imp_generator','imp_marine_generator','nec_generator','ork_generator','ork_generator_t2','ork_generator_t3'}
-  for _,k in ipairs(keys)do local r=contract.rows[k];if not r or (r.referenceOriginalKey or r.referenceKey)=='corgeo'then return nil,'FAIL exact_six_land_contract_required'end end
+  for _,k in ipairs(keys)do local r=contract.rows[k];if not r or (r.referenceOriginalKey or r.referenceKey)=='wh40k_corgeo'then return nil,'FAIL exact_six_land_contract_required'end end
   return keys
  end
  local keys={};if key=='all'and mode=='appearance'then for k in pairs(contract.rows)do keys[#keys+1]=k end;table.sort(keys)

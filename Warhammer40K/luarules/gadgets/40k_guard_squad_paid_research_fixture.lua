@@ -365,7 +365,7 @@ function gadget:GameFrame(frame)
   if not enabled(options.prototype_guard_squad_flamer)then fail('genuine_guard_flamer_profile_not_enabled');return end
   if enabled(options.prototype_scale085_pilot)then fail('unpaired_guard_flamer_scale085');return end
   for _,key in ipairs({'prototype_squad_fixture','prototype_squad_paid_fixture','prototype_squad_egress_fixture','prototype_corpse_blast_fixture','prototype_squad_paid_research_fixture','prototype_ork_squad_paid_research_fixture'})do if enabled(options[key])then fail('conflicting_fixture '..key);return end end
-  for _,key in ipairs({'armcom','imp_barracks','imp_research','imp_guardsman','imp_guardsman_member','imp_guardsman_flamer_member'})do if not UnitDefNames[key]then fail('missing_definition '..key);return end end
+  for _,key in ipairs({'imp_field_commander','imp_barracks','imp_research','imp_guardsman','imp_guardsman_member','imp_guardsman_flamer_member'})do if not UnitDefNames[key]then fail('missing_definition '..key);return end end
   local R,C=GG.Recoil40KSquads,GG.Recoil40KResearch
   if not R or not C or next(R.squads)then fail('missing_or_preexisting_controller_squads');return end
   profile=VFS.Include('40k_configs/active_squad_profiles.lua').profiles.guard_line
@@ -374,7 +374,7 @@ function gadget:GameFrame(frame)
   record=C.records[profile.research]
   if profile.capacity~=8 or profile.specialSlot~=8 or not record or record.producer~='imp_research'
    or record.row.cost.metal~=200 or record.row.cost.energy~=1000 or record.row.time~=35 or record.frames~=35*Game.gameSpeed then fail('wrong_genuine_research_contract');return end
-  local units=S.GetTeamUnits(team)or{};if #units~=1 or not role(units[1],'armcom')then fail('need_natural_single_armcom');return end;commander=units[1]
+  local units=S.GetTeamUnits(team)or{};if #units~=1 or not role(units[1],'imp_field_commander')then fail('need_natural_single_armcom');return end;commander=units[1]
   local m,e=resources('INITIAL_RESOURCES');if not near(m,1000)and math.abs((m or 0)-1000)>5 or not near(e,1000)and math.abs((e or 0)-1000)>5 then fail('not_ordinary_start');return end
   repairWitness.initialPaid=true
   local pd,md=UnitDefs[UnitDefNames.imp_guardsman.id],UnitDefs[UnitDefNames[profile.member].id]

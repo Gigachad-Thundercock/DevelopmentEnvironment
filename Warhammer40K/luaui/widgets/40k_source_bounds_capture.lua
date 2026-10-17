@@ -30,7 +30,7 @@ local function emit(t)
   Spring.Echo('40K_SOURCE_BOUNDS '..json({event='fragment',schema=1,serial=transportSerial,part=part,parts=parts,bytes=#raw,encoding='hex',data=data}))
  end
 end
-local originalRefs={corsolar=true,corfus=true,corafus=true,corgeo=true}
+local originalRefs={wh40k_corsolar=true,wh40k_corfus=true,wh40k_corafus=true,wh40k_corgeo=true}
 local function selected(d)local cp=d.customParams or{};local key=cp.prototype40k_original_generator_reference
  return (on(cp.prototype40k)and(d.modeltype=='glb'or d.modeltype=='gltf'))or(d.modeltype=='s3o'and originalRefs[key]and d.name=='40k_generator_ref_'..key and cp.original_reference_profile==d.name and on(cp.diagnostic_only))end
 local ids,index,started,done={},1,false,false

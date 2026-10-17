@@ -69,7 +69,7 @@ function M.New(c)
   local def=N[name];local d=D[def.id]
   if not finite(d.metalCost)or d.metalCost<=0 or not finite(d.energyCost)or d.energyCost<=0 or not finite(d.buildTime)or d.buildTime<=0 then stop('FAIL transport_native_paid_cost_missing '..name);return end
   local p={};if construction then
-   local productDef=name=='ork_mek_shop'and N.corcv or N.ork_looted_rhino
+   local productDef=name=='ork_mek_shop'and N.wh40k_corcv or N.ork_looted_rhino
    p=c.Site(builder,def.id,true,productDef and productDef.id)
    if not p then stop('INCONCLUSIVE transport_no_legal_factory_site '..name);return end
   end
@@ -151,8 +151,8 @@ function M.New(c)
   if T.phase=='initial'then paid(c.commander,'ork_mek_shop',true)
   elseif T.pending then
    local name,id=product();if T.result then return T.result end
-   if name=='ork_mek_shop'then paid(id,'corcv',false)
-   elseif name=='corcv'then paid(id,'ork_resource_factory',true)
+   if name=='ork_mek_shop'then paid(id,'wh40k_corcv',false)
+   elseif name=='wh40k_corcv'then paid(id,'ork_resource_factory',true)
    elseif name=='ork_resource_factory'then paid(id,'ork_looted_rhino',false)
    elseif name=='ork_looted_rhino'then
     T.rhino=id;local d=D[S.GetUnitDefID(id)];local cp=d.customParams or{}

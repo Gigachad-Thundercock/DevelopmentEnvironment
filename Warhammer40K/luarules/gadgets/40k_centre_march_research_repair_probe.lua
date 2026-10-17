@@ -18,7 +18,7 @@ function gadget:GameFrame(frame)
   for _,t in ipairs(S.GetTeamList())do if S.GetTeamLuaAI(t)=='40K Test AI - Centre March'then if team~=nil then emit('REFUSED','exactly_one_AI_required');O=nil;return end;team=t end end
   if team==nil then emit('REFUSED','AI_required');O=nil;return end
   local ids=S.GetTeamUnits(team)
-  if type(ids)~='table'or #ids~=1 or not UnitDefs[S.GetUnitDefID(ids[1])]or UnitDefs[S.GetUnitDefID(ids[1])].name~='armcom'then emit('REFUSED','natural_guard_commander_required');O=nil;return end
+  if type(ids)~='table'or #ids~=1 or not UnitDefs[S.GetUnitDefID(ids[1])]or UnitDefs[S.GetUnitDefID(ids[1])].name~='imp_field_commander'then emit('REFUSED','natural_guard_commander_required');O=nil;return end
   if not O.Initialize(team)then return end
  end
  if frame>=54000 and O.phase~='PASS'and not O.failed then emit('INCONCLUSIVE','natural_AI_decision_or_repair_timing_pending_phase='..O.phase);O=nil;return end

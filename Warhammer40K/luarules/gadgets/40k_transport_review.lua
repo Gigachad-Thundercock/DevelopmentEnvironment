@@ -99,7 +99,7 @@ local function setup()
  local td,sd=UnitDefNames.ork_trukk,UnitDefNames.ork_slugga
  if not td or not sd then finish(false,'genuine_source_definitions_missing');return end
  local ork=false
- for _,id in ipairs(Spring.GetTeamUnits(0)) do local u=UnitDefs[Spring.GetUnitDefID(id)];if u and (u.name=='corcom' or (u.customParams or {}).faction=='Orks') then ork=true end end
+ for _,id in ipairs(Spring.GetTeamUnits(0)) do local u=UnitDefs[Spring.GetUnitDefID(id)];if u and (u.name=='ork_big_mek_commander' or (u.customParams or {}).faction=='Orks') then ork=true end end
  if not ork then finish(false,'requires_ork_team_zero');return end
  local tu,su=UnitDefs[td.id],UnitDefs[sd.id]
  local footprint=(su.xsize or (su.footprintX and su.footprintX*2) or 0)/2

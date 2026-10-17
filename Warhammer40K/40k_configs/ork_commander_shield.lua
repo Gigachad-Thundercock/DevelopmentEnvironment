@@ -12,7 +12,7 @@ function M.Capture(nativeCommander,nativeGate)
  return{upkeep=nativeGate.energyupkeep or 0,weapon=copy(shield),gateParams=copy(nativeGate.customparams)}
 end
 function M.Apply(defs,reference)
- local d=assert(defs.corcom,'Missing Ork commander');local cp=assert(d.customparams)
+ local d=assert(defs.ork_big_mek_commander,'Missing Ork commander');local cp=assert(d.customparams)
  assert(tostring(cp.prototype40k)=='1'and cp.faction=='Orks','Actual Ork commander presentation required')
  assert(reference.upkeep==0 and reference.weapon.shield.powerregenenergy==562.5 and reference.weapon.shield.radius==550,'Checked native reference required')
  local key,index
@@ -34,7 +34,7 @@ function M.Apply(defs,reference)
  cp.shield_color_mult=reference.gateParams.shield_color_mult
  cp.prototype40k_commander_shield=M.Tag
  cp.commander_shield_idle_energy=nil;cp.commander_shield_moving_energy=nil
- return{unit='corcom',weapon=index,radius=weapon.shield.radius,power=weapon.shield.power,nativeRechargeEnergy=weapon.shield.powerregenenergy,unitUpkeep=reference.upkeep,defaultOn=false}
+ return{unit='ork_big_mek_commander',weapon=index,radius=weapon.shield.radius,power=weapon.shield.power,nativeRechargeEnergy=weapon.shield.powerregenenergy,unitUpkeep=reference.upkeep,defaultOn=false}
 end
 function M.CanAim(id,S)return S.GetUnitRulesParam(id,M.ActiveParam)==1 end
 return M

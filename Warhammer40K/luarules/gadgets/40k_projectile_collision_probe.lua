@@ -62,10 +62,10 @@ local function setup()
   local c={name=name,x=x,z=z,hits={},explosions=0}
   c.owner=create("imp_marine",x-48,z,0)
   if name~="terrain_crossing" then
-   c.target=create("cormex",x+220,z,1)
+   c.target=create("wh40k_cormex",x+220,z,1)
    c.targetBefore=c.target and Spring.GetUnitHealth(c.target)
-   if name=="friendly_blocker" then c.blocker=create("armmex",x+110,z,0)
-   elseif name=="enemy_nontarget_blocker" then c.blocker=create("cormex",x+110,z,1) end
+   if name=="friendly_blocker" then c.blocker=create("wh40k_armmex",x+110,z,0)
+   elseif name=="enemy_nontarget_blocker" then c.blocker=create("wh40k_cormex",x+110,z,1) end
    c.blockerBefore=c.blocker and Spring.GetUnitHealth(c.blocker)
   end
   if not c.owner or (name~="terrain_crossing" and not c.target) or

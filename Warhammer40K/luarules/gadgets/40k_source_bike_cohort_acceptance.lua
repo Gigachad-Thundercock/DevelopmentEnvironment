@@ -124,7 +124,7 @@ function gadget:GameFrame(frame)
  if not commander then
   if frame%30~=0 then return end
   for _,id in ipairs(Spring.GetTeamUnits(team))do local d=UnitDefs[Spring.GetUnitDefID(id)];local cp=d.customParams or{}
-   if d.name=='armcom'and cp.prototype40k_vital=='commander'and cp.prototype40k_donor=='imp_commissar'and tostring(cp.prototype40k_source_progression)=='1'then
+   if d.name=='imp_field_commander'and cp.prototype40k_vital=='commander'and cp.prototype40k_donor=='imp_commissar'and tostring(cp.prototype40k_source_progression)=='1'then
     commander=id;base={Spring.GetUnitPosition(id)};H=helper.New(Spring,UnitDefs,Game,F,commander,base,factories,mexes,controller);log('START_ENGINE_INITIAL_GUARD_COMMANDER',id,'no_grants');break
    end
   end

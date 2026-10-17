@@ -1,7 +1,7 @@
 -- Read-only current production contract; no model or donor replacement.
 local M={}
 function M.Validate(D,N)
- local commander=N.corcom;local factory=N.fortyk_ork_air_factory;local product=N.ork_fighta_bomba
+ local commander=N.ork_big_mek_commander;local factory=N.fortyk_ork_air_factory;local product=N.ork_fighta_bomba
  assert(commander and factory and product,'Current genuine Ork air route absent')
  local c,f,p=D[commander.id],D[factory.id],D[product.id];local cp=f.customParams or{};local pp=p.customParams or{}
  assert(f.isFactory and not f.canFly and cp.prototype40k_native_donor=='corap'

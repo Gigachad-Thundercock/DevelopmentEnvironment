@@ -4,7 +4,7 @@ function M.Validate(D,N)
  local lord=N.nec_lord;local factory=N.nec_vehicle_factory;local product=N.nec_destroyer
  assert(lord and factory and product,'Necron paid route absent')
  local c,f,p=D[lord.id],D[factory.id],D[product.id];local cp=f.customParams or{}
- assert(tonumber(cp.prototype40k_native_factory_pilot)==1 and cp.prototype40k_native_factory_donor=='armvp'
+ assert(tonumber(cp.prototype40k_native_factory_pilot)==1 and cp.prototype40k_native_factory_donor=='wh40k_armvp'
   and cp.prototype40k_native_factory_domain=='vehicle','Necron native pilot required')
  assert(not f.canAttack and #(f.weapons or{})==0 and f.isFactory,'Genuinely unarmed native producer required')
  assert(f.metalCost==590 and f.energyCost==1550 and f.buildTime==5700 and f.buildSpeed==150,'Current Necron native factory bill changed')

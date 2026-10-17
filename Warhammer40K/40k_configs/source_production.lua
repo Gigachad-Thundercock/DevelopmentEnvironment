@@ -7,8 +7,8 @@ M.SupplementalRequirements={
  ork_big_mek_defence={buildings={'ork_settlement'},unit_limit=1},
  ork_flak_wartrak={buildings={'ork_mek_shop'},research={'ork_mek_technology'},tier=2},
  ork_rokkit_interceptor={buildings={'ork_mek_shop'},research={'ork_mek_technology'},tier=2},
- armack={buildings={'imp_hq','imp_research'},research={'imperial_logistics'},tier=2},
- armacv={buildings={'imp_hq','imp_research'},research={'imperial_logistics'},tier=2},
+ wh40k_armack={buildings={'imp_hq','imp_research'},research={'imperial_logistics'},tier=2},
+ wh40k_armacv={buildings={'imp_hq','imp_research'},research={'imperial_logistics'},tier=2},
 }
 local function marker(key)return VFS.FileExists('40k_configs/validated/'..key..'.lua')end
 function M.Enabled(opts)
@@ -74,13 +74,13 @@ function M.Apply(defs,opts,nativeOriginals)
  append('ork_mek_shop','ork_flak_wartrak')
  append('ork_mek_shop','ork_rokkit_interceptor')
  append('ork_boyz_hut','ork_big_mek_defence')
- for _,child in ipairs({'armack','armacv'})do
+ for _,child in ipairs({'wh40k_armack','wh40k_armacv'})do
   local d=defs[child];local cp=d and d.customparams or {}
   if d and d.builder==true and cp.faction=='Imperium' and cp.prototype40k_donor=='imp_enginseer'
    and cp.prototype40k_vital=='constructor' and ready('imp_enginseer')then
    append('imp_hq',child)
-   local veteran=defs.armalab;local vp=veteran and veteran.customparams or {}
-   if vp.prototype40k_donor=='imp_barracks' and vp.prototype40k_vital=='barracks'then append('armalab',child)end
+   local veteran=defs.wh40k_armalab;local vp=veteran and veteran.customparams or {}
+   if vp.prototype40k_donor=='imp_barracks' and vp.prototype40k_vital=='barracks'then append('wh40k_armalab',child)end
   end
  end
  if ready('nec_lord') and ready('nec_nightbringer')then VFS.Include('40k_configs/necron_possession.lua').Configure(defs.nec_lord,defs.nec_nightbringer,true)end

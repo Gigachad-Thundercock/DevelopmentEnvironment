@@ -47,7 +47,7 @@ local function auditMap()
   end end
   if high-low>0.02 then return failed("sloped_start_"..i) end
   -- Actual builder footprints, away from the native commander in the pad centre.
-  for _,name in ipairs({"armlab","corlab","armvp","corvp","armsolar","corsolar"}) do
+  for _,name in ipairs({"wh40k_armlab","wh40k_corlab","wh40k_armvp","corvp","wh40k_armsolar","wh40k_corsolar"}) do
    local ud=UnitDefNames[name];if not ud then stop(-2,"missing_base_scaffold_"..name);return false end
    local status=Spring.TestBuildOrder(ud.id,x+256,low,z+256,0)
    -- Pinned engine maps OPEN(3) to RECLAIMABLE(2) for legacy callers.

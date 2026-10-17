@@ -14,10 +14,10 @@ local function makePlan()
  assert(o.prototype_diagnostic=='normal'and (o.prototype_test_speed==1 or o.prototype_test_speed=='1')and yes(o.prototype_development_playtest)and yes(o.prototype_source_progression)and yes(o.prototype_ork_slugga_squad)and not yes(o.prototype_scale085_pilot),'explicit_unscaled_source_Slugga8_route_required')
  for key,value in pairs(o)do if yes(value)and(key:match('fixture$')or key:match('driver$')or key=='prototype_mount_burst_observer'or key=='prototype_mixed_force')and key~='prototype_ork_slugga_native_fixture'then error('competing_native_diagnostic_owner_'..key)end end
  profiles=VFS.Include('40k_configs/active_squad_profiles.lua');local p=assert(profiles.profiles.ork_slugga);assert(p.id==19 and p.capacity==8 and p.product=='ork_slugga'and p.member=='ork_slugga_member','actual_fixed_profile_required')
- local body=assert(UnitDefNames[p.member]);local full=assert(UnitDefNames[p.product]);local builder=assert(UnitDefNames.corck)
+ local body=assert(UnitDefNames[p.member]);local full=assert(UnitDefNames[p.product]);local builder=assert(UnitDefNames.wh40k_corck)
  assert(body.metalCost==12 and body.energyCost==60 and body.buildTime==144 and full.metalCost==96 and full.energyCost==480 and full.buildTime==1152,'actual_native_full8_bill_required')
  for _,path in ipairs({'objects3d/ork_slugga.glb','scripts/generated/ork_slugga_anim.lua','scripts/40k_roster.lua'})do assert(VFS.FileExists(path),'genuine_asset_absent_'..path)end
- return{actor=p.product,profile='ork_slugga',capacity=8,id=19,cohorts=2,builder='corck',builderFactory='ork_boyz_hut',metal=body.metalCost,energy=body.energyCost,work=body.buildTime,
+ return{actor=p.product,profile='ork_slugga',capacity=8,id=19,cohorts=2,builder='wh40k_corck',builderFactory='ork_boyz_hut',metal=body.metalCost,energy=body.energyCost,work=body.buildTime,
  productBill={metal=full.metalCost,energy=full.energyCost,work=full.buildTime},builderBill={metal=builder.metalCost,energy=builder.energyCost,work=builder.buildTime}}
 end
 function gadget:Initialize()local ok,value=pcall(makePlan);if not ok then close('REFUSAL '..tostring(value));return end;plan=value end

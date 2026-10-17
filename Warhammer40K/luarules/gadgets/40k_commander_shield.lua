@@ -8,7 +8,7 @@ local targets,tracked={},{}
 for id,d in pairs(UnitDefs)do
  local p=d.customParams or{}
  if p.prototype40k_commander_shield==policy.Tag then
-  assert(d.name=='corcom','Commander shield policy on a non-commander')
+  assert(d.name=='ork_big_mek_commander','Commander shield policy on a non-commander')
   local number
   for n,w in ipairs(d.weapons)do if WeaponDefs[w.weaponDef].type=='Shield'then assert(not number);number=n end end
   assert(number,'Commander native shield missing')

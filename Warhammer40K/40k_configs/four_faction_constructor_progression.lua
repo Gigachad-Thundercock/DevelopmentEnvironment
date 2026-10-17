@@ -3,9 +3,9 @@
 local M={}
 M.EconomicFields={'metalcost','energycost','buildtime','workertime'}
 M.Aliases={
- {'imp_marine_vehicle_builder','armcv','Chapter Vehicle Works Engineer','Space Marines'},
- {'imp_marine_advanced_builder','armack','Senior Chapter Engineer','Space Marines'},
- {'imp_marine_advanced_vehicle_builder','armacv','Senior Chapter Vehicle Works Engineer','Space Marines'},
+ {'imp_marine_vehicle_builder','wh40k_armcv','Chapter Vehicle Works Engineer','Space Marines'},
+ {'imp_marine_advanced_builder','wh40k_armack','Senior Chapter Engineer','Space Marines'},
+ {'imp_marine_advanced_vehicle_builder','wh40k_armacv','Senior Chapter Vehicle Works Engineer','Space Marines'},
  {'imp_marine_advanced_barracks','imp_marine_barracks','Veteran Space Marine Barracks','Space Marines'},
  {'imp_marine_advanced_factory','imp_walker_factory','Advanced Space Marine Machine Cult','Space Marines'},
  {'nec_vehicle_scarab','nec_scarab','Vehicle Foundry Scarab','Necrons'},
@@ -17,34 +17,34 @@ M.Aliases={
 }
 -- name -> domain, tier, exact pinned BAR economic template.
 M.Factories={
- imp_barracks={'infantry',1,'armlab'},imp_tank_factory={'vehicle',1,'armvp'},
- armlab={'infantry',1,'armlab'},armvp={'vehicle',1,'armvp'},
- armalab={'infantry',2,'armalab'},armavp={'vehicle',2,'armavp'},
+ imp_barracks={'infantry',1,'wh40k_armlab'},imp_tank_factory={'vehicle',1,'wh40k_armvp'},
+ wh40k_armlab={'infantry',1,'wh40k_armlab'},wh40k_armvp={'vehicle',1,'wh40k_armvp'},
+ wh40k_armalab={'infantry',2,'wh40k_armalab'},wh40k_armavp={'vehicle',2,'wh40k_armavp'},
  imp_superheavy_factory={'vehicle',3,'armshltx'},imp_titan_factory={'infantry',3,'armshltx'},
- imp_marine_barracks={'infantry',1,'armlab'},imp_walker_factory={'vehicle',1,'armvp'},
- imp_marine_advanced_barracks={'infantry',2,'armalab'},imp_marine_advanced_factory={'vehicle',2,'armavp'},
- ork_boyz_hut={'infantry',1,'corlab'},ork_mek_shop={'vehicle',1,'corvp'},
- ork_mek_lab={'infantry',2,'coralab'},ork_resource_factory={'vehicle',2,'coravp'},ork_hq_super={'vehicle',3,'corgant'},
- nec_hq={'infantry',1,'armlab'},nec_vehicle_factory={'vehicle',1,'armvp'},
- nec_advanced_factory={'infantry',2,'armalab'},nec_advanced_vehicle_factory={'vehicle',2,'armavp'},
+ imp_marine_barracks={'infantry',1,'wh40k_armlab'},imp_walker_factory={'vehicle',1,'wh40k_armvp'},
+ imp_marine_advanced_barracks={'infantry',2,'wh40k_armalab'},imp_marine_advanced_factory={'vehicle',2,'wh40k_armavp'},
+ ork_boyz_hut={'infantry',1,'wh40k_corlab'},ork_mek_shop={'vehicle',1,'corvp'},
+ ork_mek_lab={'infantry',2,'wh40k_coralab'},ork_resource_factory={'vehicle',2,'coravp'},ork_hq_super={'vehicle',3,'corgant'},
+ nec_hq={'infantry',1,'wh40k_armlab'},nec_vehicle_factory={'vehicle',1,'wh40k_armvp'},
+ nec_advanced_factory={'infantry',2,'wh40k_armalab'},nec_advanced_vehicle_factory={'vehicle',2,'wh40k_armavp'},
 }
 M.Constructors={
- armck={'infantry',1,'armck'},armcv={'vehicle',1,'armcv'},armack={'infantry',2,'armack'},armacv={'vehicle',2,'armacv'},
- imp_enginseer={'infantry',1,'armck'},
- imp_marine_builder={'infantry',1,'armck'},imp_marine_vehicle_builder={'vehicle',1,'armcv'},
- imp_marine_advanced_builder={'infantry',2,'armack'},imp_marine_advanced_vehicle_builder={'vehicle',2,'armacv'},
- corck={'infantry',1,'corck'},corcv={'vehicle',1,'corcv'},corack={'infantry',2,'corack'},coracv={'vehicle',2,'coracv'},
- ork_grot={'infantry',1,'corck'},ork_big_mek_defence={'infantry',2,'corack'},
- nec_scarab={'infantry',1,'armck'},nec_vehicle_scarab={'vehicle',1,'armcv'},
- nec_advanced_scarab={'infantry',2,'armack'},nec_advanced_vehicle_scarab={'vehicle',2,'armacv'},
+ wh40k_armck={'infantry',1,'wh40k_armck'},wh40k_armcv={'vehicle',1,'wh40k_armcv'},wh40k_armack={'infantry',2,'wh40k_armack'},wh40k_armacv={'vehicle',2,'wh40k_armacv'},
+ imp_enginseer={'infantry',1,'wh40k_armck'},
+ imp_marine_builder={'infantry',1,'wh40k_armck'},imp_marine_vehicle_builder={'vehicle',1,'wh40k_armcv'},
+ imp_marine_advanced_builder={'infantry',2,'wh40k_armack'},imp_marine_advanced_vehicle_builder={'vehicle',2,'wh40k_armacv'},
+ wh40k_corck={'infantry',1,'wh40k_corck'},wh40k_corcv={'vehicle',1,'wh40k_corcv'},wh40k_corack={'infantry',2,'wh40k_corack'},wh40k_coracv={'vehicle',2,'wh40k_coracv'},
+ ork_grot={'infantry',1,'wh40k_corck'},ork_big_mek_defence={'infantry',2,'wh40k_corack'},
+ nec_scarab={'infantry',1,'wh40k_armck'},nec_vehicle_scarab={'vehicle',1,'wh40k_armcv'},
+ nec_advanced_scarab={'infantry',2,'wh40k_armack'},nec_advanced_vehicle_scarab={'vehicle',2,'wh40k_armacv'},
 }
 M.Factions={
- ['Imperial Guard']={commander='armcom',base={'imp_barracks','imp_tank_factory','imp_generator','imp_mex','imp_comms_array','imp_hq','imp_research'},
-  support={'imp_thermo','imp_missile_defence'},advanced={infantry='armalab',vehicle='armavp'},
+ ['Imperial Guard']={commander='imp_field_commander',base={'imp_barracks','imp_tank_factory','imp_generator','imp_mex','imp_comms_array','imp_hq','imp_research'},
+  support={'imp_thermo','imp_missile_defence'},advanced={infantry='wh40k_armalab',vehicle='wh40k_armavp'},
   late={infantry={'imp_titan_factory'},vehicle={'imp_superheavy_factory'}}},
  ['Space Marines']={commander='smcom',base={'imp_marine_barracks','imp_walker_factory','imp_marine_generator','imp_marine_mex','imp_marine_comms_array','imp_marine_hq','imp_marine_armoury'},
   support={'imp_marine_thermo','imp_marine_missile_defence'},advanced={infantry='imp_marine_advanced_barracks',vehicle='imp_marine_advanced_factory'},late={}},
- ['Orks']={commander='corcom',base={'ork_boyz_hut','ork_mek_shop','ork_generator','ork_listening_post','ork_settlement','ork_waaagh_banner'},
+ ['Orks']={commander='ork_big_mek_commander',base={'ork_boyz_hut','ork_mek_shop','ork_generator','ork_listening_post','ork_settlement','ork_waaagh_banner'},
   support={},advanced={infantry='ork_mek_lab',vehicle='ork_resource_factory'},late={infantry={'ork_hq_super'},vehicle={'ork_hq_super'}}},
  ['Necrons']={commander='nec_lord',base={'nec_hq','nec_vehicle_factory','nec_generator','nec_mex','nec_turret','nec_core'},
   support={'nec_greater_core','nec_sentry_pylon','nec_shield_spike'},advanced={infantry='nec_advanced_factory',vehicle='nec_advanced_vehicle_factory'},
@@ -52,9 +52,9 @@ M.Factions={
 }
 M.Menus={
  imp_hq={'imp_commissar'},
- imp_barracks={'armck','imp_guardsman','imp_commissar','imp_heavy_weapon_team'},
- imp_tank_factory={'armcv','imp_sentinel','imp_hellhound','imp_hydra'},
- armalab={'armack','imp_kasrkin','imp_ogryn'},armavp={'armacv','imp_russ','imp_basilisk'},
+ imp_barracks={'wh40k_armck','imp_guardsman','imp_commissar','imp_heavy_weapon_team'},
+ imp_tank_factory={'wh40k_armcv','imp_sentinel','imp_hellhound','imp_hydra'},
+ wh40k_armalab={'wh40k_armack','imp_kasrkin','imp_ogryn'},wh40k_armavp={'wh40k_armacv','imp_russ','imp_basilisk'},
  imp_superheavy_factory={'imp_baneblade'},imp_titan_factory={'imp_warhound'},
  imp_marine_hq={'imp_scout'},
  imp_marine_barracks={'imp_marine_builder','imp_scout','imp_marine','imp_assault_marine'},
@@ -62,17 +62,17 @@ M.Menus={
  imp_marine_advanced_barracks={'imp_marine_advanced_builder','imp_devastator','imp_terminator'},
  imp_marine_advanced_factory={'imp_marine_advanced_vehicle_builder','imp_dreadnought_hellfire','imp_dreadnought_ironclad','imp_dreadnought_venerable'},
  ork_settlement={'ork_slugga','ork_warboss'},
- ork_boyz_hut={'corck','ork_boy','ork_slugga','ork_burna','ork_tankbusta'},
- ork_mek_shop={'corcv','ork_wartrak','ork_lobba','ork_killa_kan','ork_flak_wartrak'},
- ork_mek_lab={'corack','ork_loota','ork_nob','ork_meganob','ork_big_mek_defence'},
- ork_resource_factory={'coracv','ork_gunwagon','ork_deff_dread','ork_squiggoth','ork_looted_rhino','ork_battlewagon_armageddon','ork_battlefortress_armageddon','ork_rokkit_interceptor'},
+ ork_boyz_hut={'wh40k_corck','ork_boy','ork_slugga','ork_burna','ork_tankbusta'},
+ ork_mek_shop={'wh40k_corcv','ork_wartrak','ork_lobba','ork_killa_kan','ork_flak_wartrak'},
+ ork_mek_lab={'wh40k_corack','ork_loota','ork_nob','ork_meganob','ork_big_mek_defence'},
+ ork_resource_factory={'wh40k_coracv','ork_gunwagon','ork_deff_dread','ork_squiggoth','ork_looted_rhino','ork_battlewagon_armageddon','ork_battlefortress_armageddon','ork_rokkit_interceptor'},
  -- Great Teleporta keeps its existing accepted products; retirement policy is final.
  nec_hq={'nec_scarab','nec_warrior','nec_flayed','nec_wraith'},
  nec_vehicle_factory={'nec_vehicle_scarab','nec_destroyer'},
  nec_advanced_factory={'nec_advanced_scarab','nec_immortal','nec_spyder'},
  nec_advanced_vehicle_factory={'nec_advanced_vehicle_scarab','nec_heavy_destroyer','nec_monolith_mobile'},
 }
-M.Menus.armlab=M.Menus.imp_barracks;M.Menus.armvp=M.Menus.imp_tank_factory
+M.Menus.wh40k_armlab=M.Menus.imp_barracks;M.Menus.wh40k_armvp=M.Menus.imp_tank_factory
 M.Requires={}
 for name in pairs(M.Factories)do M.Requires[name]={}end
 for name in pairs(M.Constructors)do M.Requires[name]={}end
