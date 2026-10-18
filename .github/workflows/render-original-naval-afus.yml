@@ -4,6 +4,7 @@ on:
     branches: [main]
     paths:
       - tools/render_original_naval_afus.py
+      - tools/review_naval_afus_atlas.py
       - NavalAfus/objects3d/Units/armuwafus.s3o
       - NavalAfus/objects3d/Units/coruwafus.s3o
       - NavalAfus/objects3d/Units/leguwafus.s3o
@@ -40,6 +41,10 @@ jobs:
           for file in Arm_color.dds Arm_other.dds cor_color.dds cor_other.dds leg_color.dds leg_shader.dds; do
             curl -fLsS --retry 3 "https://raw.githubusercontent.com/beyond-all-reason/Beyond-All-Reason/master/unittextures/$file" -o "/tmp/afus-atlas/$file"
           done
+      - name: Mark actual faction atlas coordinates
+        run: |
+          python3 -m pip install --user pillow
+          python3 tools/review_naval_afus_atlas.py
       - name: Render three unit previews
         run: |
           set -euo pipefail
@@ -52,6 +57,7 @@ jobs:
           git switch -C naval-afus-previews
           mkdir -p previews/naval-afus
           cp /tmp/naval_afus_preview_*.png previews/naval-afus/
+          cp /tmp/naval_afus_atlas_*.png previews/naval-afus/
           git add previews/naval-afus/
           git diff --cached --quiet || git commit -m "Render Armada Cortex and Legion original naval AFUS previews"
           git push origin HEAD:refs/heads/naval-afus-previews --force
@@ -59,5 +65,7 @@ jobs:
         if: always()
         with:
           name: original-naval-afus-blender-previews
-          path: /tmp/naval_afus_preview_*.png
+          path: |
+            /tmp/naval_afus_preview_*.png
+            /tmp/naval_afus_atlas_*.png
           retention-days: 14
