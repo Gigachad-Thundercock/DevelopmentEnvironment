@@ -32,3 +32,5 @@ for f in ['arm','cor','leg']:
   lo.location=loc;ld.energy=24000;ld.size=95;lo.rotation_euler=(target-lo.location).to_track_quat('-Z','Y').to_euler()
  out=Path('/tmp/naval_afus_preview_'+f+'.png');scene.render.filepath=str(out);bpy.ops.render.render(write_still=True)
  print('RENDERED_NAVAL_AFUS',f,out.stat().st_size,flush=True)
+
+# Rerender the current main-branch model binaries after the brighter atlas material pass.
