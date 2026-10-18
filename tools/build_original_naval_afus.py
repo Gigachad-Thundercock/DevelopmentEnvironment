@@ -124,7 +124,7 @@ def save(f,root):
    align();ch=len(buf);buf.extend(struct.pack('<'+'I'*len(children),*children))
   P.pack_into(buf,off,nm,len(children),ch,len(p.v),vo,0,0,len(p.idx),io,0,*p.off)
   return off
- ro=write(root);c1=string(TEXTURES[f]);c2=string(f+'_shader.dds')
+ ro=write(root);c1=string(TEXTURES[f]);c2=string({'arm':'Arm_other.dds','cor':'cor_other.dds','leg':'leg_shader.dds'}[f])
  H.pack_into(buf,0,b'Spring unit\0',0,75,85,0,36,0,ro,0,c1,c2)
  path.write_bytes(buf)
  # Verify S3O is playable with closed indices, engine-visible surfaces and all script pieces.
