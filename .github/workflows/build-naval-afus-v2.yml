@@ -38,3 +38,40 @@ jobs:
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git add NavalAfus/objects3d/Units/armuwafus.s3o NavalAfus/objects3d/Units/coruwafus.s3o NavalAfus/objects3d/Units/leguwafus.s3o
           git diff --cached --quiet || (git commit -m "Rebuild tri-faction naval advanced fusion models from stock underwater fusion" && git pull --rebase origin main && git push origin HEAD:main)
+      - name: Install Blender 5.2.2 and S3O Kit for model review
+        shell: bash
+        run: |
+          set -euo pipefail
+          curl -fLsS --retry 3 https://download.blender.org/release/Blender5.2/blender-5.2.2-linux-x64.tar.xz -o /tmp/blender-nav.tar.xz
+          mkdir -p /tmp/blender-nav
+          tar -xf /tmp/blender-nav.tar.xz -C /tmp/blender-nav
+          echo "BLENDER_BIN=$(find /tmp/blender-nav -type f -name blender | head -1)" >> "$GITHUB_ENV"
+          curl -fLsS --retry 3 https://github.com/ChrisFloofyKitsune/s3o-blender-tools/releases/download/v0.3.2/s3o_kit_v0_3_2.zip -o /tmp/s3o-kit-nav.zip
+          mkdir -p /tmp/s3o-kit-nav
+          unzip -q /tmp/s3o-kit-nav.zip -d /tmp/s3o-kit-nav
+          python3 - <<'PY'
+          from pathlib import Path
+          import shutil
+          roots=[p.parent for p in Path('/tmp/s3o-kit-nav').rglob('__init__.py') if 'S3O Kit' in p.read_text(errors='ignore') and 'bl_info' in p.read_text(errors='ignore')]
+          assert len(roots)==1,roots
+          shutil.copytree(roots[0],Path('/tmp/python_addons/s3o_kit'))
+          PY
+          mkdir -p /tmp/afus-atlas
+          for file in Arm_color.dds Arm_other.dds cor_color.dds cor_other.dds leg_color.dds leg_shader.dds; do
+            curl -fLsS --retry 3 "https://raw.githubusercontent.com/beyond-all-reason/Beyond-All-Reason/master/unittextures/$file" -o "/tmp/afus-atlas/$file"
+          done
+      - name: Render all three rebuilt models for aesthetic review
+        shell: bash
+        run: |
+          set -euo pipefail
+          "$BLENDER_BIN" --background --factory-startup --python tools/render_original_naval_afus.py
+          for f in arm cor leg; do
+            test -s "/tmp/naval_afus_preview_$f.png"
+            test -s "/tmp/naval_afus_preview_${f}_side.png"
+          done
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: advanced-underwater-fusion-v3-renders
+          path: /tmp/naval_afus_preview_*.png
+          retention-days: 14
