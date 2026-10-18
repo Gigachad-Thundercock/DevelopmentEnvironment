@@ -1,39 +1,51 @@
--- Original Naval AFUS ARM Lua unit animation.
--- Uses exact names present in the generated S3O; no dependency on land AFUS COB pieces.
+-- Naval Advanced Fusion II: ARM faction reactor assembly.
+-- All pieces present in generated S3O. No changes to the finished unitdef.
 local base = piece("base")
 local rotor = piece("rotor")
 local core = piece("core")
 local pulse = piece("pulse")
 local emit = piece("emit")
-local active = false
-local productionThreadStarted = false
-local function ProductionEffects()
+
+local SIG_REACTOR = 1
+local active = true
+
+local function ReactorCycle()
+    Signal(SIG_REACTOR)
+    SetSignalMask(SIG_REACTOR)
     while true do
         if active then
             EmitSfx(emit, 1024)
+            -- Small reactor excitation movement, not the entire foundation.
+            Move(pulse, y_axis, 0.7, 1.4)
+            Sleep(360)
+            Move(pulse, y_axis, 0, 1.4)
         end
-        Sleep(1200)
+        Sleep(1400)
     end
 end
+
 function script.Create()
     active = true
-    Spin(rotor, y_axis, 0.45, 0.12)
-    if not productionThreadStarted then
-        productionThreadStarted = true
-        StartThread(ProductionEffects)
-    end
+    Spin(rotor, y_axis, 0.39, 0.10)
+    StartThread(ReactorCycle)
 end
+
 function script.Activate()
     active = true
-    Spin(rotor, y_axis, 0.45, 0.12)
+    Spin(rotor, y_axis, 0.39, 0.10)
     return 1
 end
+
 function script.Deactivate()
     active = false
-    StopSpin(rotor, y_axis, 0.12)
+    StopSpin(rotor, y_axis, 0.10)
+    Move(pulse, y_axis, 0, 2)
     return 0
 end
+
 function script.Killed(recentDamage, maxHealth)
     active = false
+    Signal(SIG_REACTOR)
+    StopSpin(rotor, y_axis, 0.10)
     return 1
 end
