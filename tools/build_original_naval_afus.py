@@ -8,7 +8,7 @@ from PIL import Image,ImageStat
 H=struct.Struct("<12sI5f4I");P=struct.Struct("<10I3f");V=struct.Struct("<8f")
 OUT=Path("NavalAfus/objects3d/Units");OUT.mkdir(parents=True,exist_ok=True)
 TMP=Path("/tmp/afus-atlas");TMP.mkdir(exist_ok=True)
-TEXTURES={"arm":"arm_color.dds","cor":"cor_color.dds","leg":"leg_color.dds"}
+TEXTURES={"arm":"Arm_color.dds","cor":"cor_color.dds","leg":"leg_color.dds"}
 class Piece:
  def __init__(self,name,off=(0,0,0)):
   self.name=name;self.off=off;self.v=[];self.idx=[];self.children=[]
