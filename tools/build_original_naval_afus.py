@@ -31,17 +31,17 @@ def palette(faction):
   for x in range(8,w-20,12):
    st=ImageStat.Stat(thumb.crop((x,y,x+12,y+12)))
    rgb=st.mean;v=sum(st.var)**.5/3;b=sum(rgb)/3
-   if 38<b<201 and v<38:data.append((x,y,rgb,v,b))
+   if 45<b<247 and v<48:data.append((x,y,rgb,v,b))
  assert len(data)>50,(name,len(data))
- goals={'arm':(111,122,148),'cor':(117,99,96),'leg':(123,104,82)}
+ goals={'arm':(184,192,208),'cor':(155,146,149),'leg':(180,147,113)}
  def quality(a,k):
   x,y,c,v,b=a;r,g,blue=c
   if k=='armor':return sum((c[i]-goals[faction][i])**2 for i in range(3))**.5+abs(v-14)*.4
-  if k=='metal':return abs(b-133)+abs(max(c)-min(c))*0.8
-  if k=='dark':return abs(b-57)+abs(v-10)*.4
-  if faction=='arm':return max(0,r-blue)*4+max(0,g-blue)*2+abs(b-135)*.4
-  if faction=='cor':return max(0,g-r)*4+max(0,blue-r)*3+abs(b-135)*.4
-  return max(0,r-g)*3+max(0,blue-g)*3+abs(b-130)*.4
+  if k=='metal':return abs(b-169)+abs(max(c)-min(c))*0.7
+  if k=='dark':return abs(b-91)+abs(v-12)*.4
+  if faction=='arm':return max(0,blue-r-45)*0.1+max(0,r-blue+35)*12+max(0,g-blue+18)*7+abs(blue-212)*.7+abs(b-148)*.2
+  if faction=='cor':return max(0,g-r+48)*12+max(0,blue-r+50)*12+abs(r-211)*.7+abs(b-136)*.2
+  return max(0,r-g+50)*12+max(0,blue-g+40)*12+abs(g-205)*.7+abs(b-133)*.2
  found={}
  for k in ('armor','metal','dark','glow'):
   ranked=sorted(data,key=lambda a:quality(a,k))
