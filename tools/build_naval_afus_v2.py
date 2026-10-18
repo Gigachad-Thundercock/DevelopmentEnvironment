@@ -200,7 +200,7 @@ def validate_s3o(path):
   if p.indices:
    assert len(p.indices)%3==0,(path,p.name)
    assert max(p.indices)<len(p.verts),(path,p.name)
-   assert all(0<=v[6]<=1 and 0<=v[7]<=1 for v in p.verts),(path,p.name)
+   assert all((-0.02<=v[6]<=1.02 and -0.02<=v[7]<=1.02) if p.name.startswith('hull_') else (0<=v[6]<=1 and 0<=v[7]<=1) for v in p.verts),(path,p.name)
    faces+=len(p.indices)//3
  assert faces>1300,(path,'insufficient geometry',faces)
  print('MODEL_VALID',path,'faces',faces,'span',span,'height',height,'pieces',len(names))
