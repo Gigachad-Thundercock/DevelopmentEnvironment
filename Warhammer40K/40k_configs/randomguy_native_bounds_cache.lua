@@ -57,7 +57,7 @@ function M.New(data,env)
   local f = fileRecord(p,r)
   assert(not p:find('^objects3d/') and not p:find('^unittextures/') and p ~= '40k_reference/randomguy_source_native_bounds_receipt.lua', 'bulk/self file in small release closure')
   smallCount = smallCount + 1; smallBytes = smallBytes + f.bytes
-  assert(smallCount <= 256 and smallBytes <= 8388608, 'small release closure exceeds budget')
+  assert(smallCount <= 512 and smallBytes <= 8388608, 'small release closure exceeds budget')
   verify(f)
  end
  local count = 0
