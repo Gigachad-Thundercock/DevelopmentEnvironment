@@ -32,5 +32,12 @@ for f in ['arm','cor','leg']:
   lo.location=loc;ld.energy=24000;ld.size=95;lo.rotation_euler=(target-lo.location).to_track_quat('-Z','Y').to_euler()
  out=Path('/tmp/naval_afus_preview_'+f+'.png');scene.render.filepath=str(out);bpy.ops.render.render(write_still=True)
  print('RENDERED_NAVAL_AFUS',f,out.stat().st_size,flush=True)
+ # Secondary silhouette angle shows hull anchoring and pressure vessel profile.
+ cam.location=(127,72,63)
+ cam.rotation_euler=(target-cam.location).to_track_quat('-Z','Y').to_euler()
+ side=Path('/tmp/naval_afus_preview_'+f+'_side.png')
+ scene.render.filepath=str(side)
+ bpy.ops.render.render(write_still=True)
+ print('RENDERED_NAVAL_AFUS_SIDE',f,side.stat().st_size,flush=True)
 
 # Render Naval AFUS II freshly rebuilt main-branch model binaries for visual quality review.
