@@ -1,16 +1,77 @@
--- Genuine copied Relic candidate: source strategic object has no health extension.
-local o=Spring.GetModOptions()or{}
-if not VFS.Include('40k_configs/development_playtest.lua').OptionEnabled(o.prototype_source_progression)then return{}end
-local key='40k_relic_objective'
-for _,path in ipairs({'objects3d/'..key..'.glb','scripts/generated/'..key..'_anim.lua','unitpics/40k_'..key..'.png'})do if not VFS.FileExists(path)then return{}end end
-return{[key]={name='Relic',description='Capturable strategic Relic; capture ownership is separate from Gaia lifetime',objectname=key..'.glb',script='40k_roster.lua',buildpic='40k_'..key..'.png',
- -- Stock orphan-factory guard destroys builderless HP<=1 births. Source has no health_ext;
- -- minimum native compatibility health remains nonmilitary and damage is rejected.
- health=2,metalcost=0,energycost=0,buildtime=1,footprintx=14,footprintz=14,blocking=true,
- -- Native maxHeightDif=40*tan(maxSlope); retain the placement adapter's eight-world-unit limit.
- maxslope=math.atan(8/40)*180/math.pi,maxwaterdepth=0,levelground=false,
- canmove=false,canattack=false,builder=false,capturable=false,reclaimable=false,repairable=false,
- category='OBJECTIVE',collisionvolumetype='CylY',collisionvolumescales='210 74 211',collisionvolumeoffsets='0 36.37 0',
- customparams={prototype40k=1,animsource=key,source_idleclip='idle',rosterrole='strategic_objective',production_role='capturable_relic',
- source_entity='attrib/ebps/environment/gameplay/relic_struct.lua',source_objective_health_adaptation='Nonmilitary source lacks health; exact review gadget refuses damage',
- source_capture_ownership_adaptation='Gaia lifetime; actual completed capture sets persistent gameplay owner; not a military victory survivor',source_world_scale=10,source_art_scale=2}}}
+-- Generated at release preparation; complete ordinary UnitDef, no runtime conversion.
+-- Authoring source remains in BAR 40k mod; do not edit this generated file.
+return {
+    ["40k_relic_objective"] = {
+        blocking = true,
+        builder = false,
+        buildoptions = {},
+        buildpic = "40k_40k_relic_objective.png",
+        buildtime = 1,
+        canattack = false,
+        canmove = false,
+        capturable = false,
+        category = "OBJECTIVE",
+        collisionvolumeoffsets = "0 36.37 0",
+        collisionvolumescales = "210 74 211",
+        collisionvolumetype = "CylY",
+        customparams = {
+            animsource = "40k_relic_objective",
+            healthlookmod = 0,
+            i18n_en_humanname = "Relic",
+            i18n_en_tooltip = "Capturable strategic Relic; capture ownership is separate from Gaia lifetime",
+            production_role = "capturable_relic",
+            prototype40k = 1,
+            prototype40k_four_faction = 1,
+            prototype40k_source_progression = 1,
+            prototype40k_ui_description = "Neutral strategic Relic; earned Scarab capture permits relevant paid research. Produces no units or resources.",
+            prototype40k_ui_name = "Relic",
+            prototype40k_ui_ready = 1,
+            rosterrole = "strategic_objective",
+            source_art_scale = 2,
+            source_capture_ownership_adaptation = "Gaia lifetime; actual completed capture sets persistent gameplay owner; not a military victory survivor",
+            source_entity = "attrib/ebps/environment/gameplay/relic_struct.lua",
+            source_idleclip = "idle",
+            source_objective_health_adaptation = "Nonmilitary source lacks health; exact review gadget refuses damage",
+            source_voice_kind = "mobile",
+            source_world_scale = 10,
+            subfolder = "none",
+            techlevel = 1,
+            unitgroup = "util",
+            vertdisp = 7.8333333333333339,
+        },
+        description = "Capturable strategic Relic; capture ownership is separate from Gaia lifetime",
+        energycost = 0,
+        footprintx = 14,
+        footprintz = 14,
+        health = 2,
+        icontype = "40k_relic_objective",
+        idleautoheal = 5,
+        idletime = 1800,
+        levelground = false,
+        maxslope = 11.333333333333334,
+        maxwaterdepth = 0,
+        metalcost = 0,
+        minCollisionSpeed = 2.5,
+        name = "Relic",
+        objectname = "40k_relic_objective.glb",
+        radaremitheight = 110.37,
+        reclaimable = false,
+        repairable = false,
+        script = "40k_roster.lua",
+        selectionvolumeoffsets = "0 36.37 0",
+        selectionvolumescales = "210.32608695652175 63.369565217391312 211.19565217391306",
+        selectionvolumetype = "CylY",
+        sfxtypes = {
+            crashexplosiongenerators = {
+                [1] = "blank",
+            },
+            pieceexplosiongenerators = {
+                [1] = "blank",
+            },
+        },
+        sightemitheight = 110.37,
+        sounds = {},
+        weapondefs = {},
+        weapons = {},
+    },
+}
