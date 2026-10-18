@@ -4,6 +4,7 @@ on:
     branches: [main]
     paths:
       - tools/build_naval_afus_v2.py
+      - tools/render_original_naval_afus.py
       - .github/workflows/build-naval-afus-v2.yml
   workflow_dispatch:
 permissions:
