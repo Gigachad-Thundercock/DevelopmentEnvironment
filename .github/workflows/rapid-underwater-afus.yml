@@ -20,12 +20,24 @@ jobs:
       mods: ${{ steps.catalog.outputs.mods }}
     steps:
       - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
       - id: catalog
         shell: bash
+        env:
+          EVENT_NAME: ${{ github.event_name }}
+          BEFORE_SHA: ${{ github.event.before }}
+          HEAD_SHA: ${{ github.sha }}
         run: |
           python3 - <<'PY' >> "$GITHUB_OUTPUT"
           import json
-          from pathlib import Path
+          import os
+          import subprocess
+          from pathlib import Path, PurePosixPath
+
+          def git(*args):
+              return subprocess.check_output(["git", *args])
+
           catalog = json.loads(Path("mods.json").read_text())
           mods = []
           for mod in catalog["mods"]:
@@ -33,15 +45,49 @@ jobs:
                   continue
               mod_id = mod["id"]
               source = mod["source_dir"]
+              parts = PurePosixPath(source).parts
               if not mod_id.replace("-", "").isalnum() or "/" in mod_id:
                   raise ValueError(f"Invalid mod id: {mod_id}")
-              if Path(source).is_absolute() or ".." in Path(source).parts or not (Path(source) / "modinfo.lua").is_file():
+              if (not parts or source in (".", "..") or
+                      Path(source).is_absolute() or ".." in parts or
+                      not (Path(source) / "modinfo.lua").is_file()):
                   raise ValueError(f"Invalid mod source: {source}")
               expected = f"dev-mods:{mod_id}"
               if mod["rapid_tag"] != expected:
                   raise ValueError(f"Catalog rapid_tag must be {expected}")
               mods.append({"id": mod_id, "source": source})
-          print("mods=" + json.dumps(mods, separators=(",", ":")))
+
+          if os.environ["EVENT_NAME"] == "workflow_dispatch":
+              selected = mods  # Explicit manual republish of all enabled mods.
+          else:
+              before = os.environ["BEFORE_SHA"]
+              head = os.environ["HEAD_SHA"]
+              if not before or set(before) == {"0"}:
+                  # Initial branch push: every mod is new.
+                  changed = set(git("ls-tree", "-r", "--name-only", "-z", head).decode().split("\0"))
+                  old_mods = {}
+              else:
+                  # Compare the full push, not only its last commit.
+                  changed = set(git("diff", "--name-only", "-z", before, head).decode().split("\0"))
+                  try:
+                      previous = json.loads(git("show", f"{before}:mods.json"))
+                      old_mods = {m["id"]: m for m in previous.get("mods", [])}
+                  except subprocess.CalledProcessError:
+                      old_mods = {}
+              selected = []
+              for mod in mods:
+                  mod_id, source = mod["id"], mod["source"]
+                  previous = old_mods.get(mod_id)
+                  folder_changed = any(path.startswith(source.rstrip("/") + "/") for path in changed)
+                  catalog_changed = (previous is None or
+                                     previous.get("enabled", True) is False or
+                                     previous.get("source_dir") != source or
+                                     previous.get("rapid_tag") != f"dev-mods:{mod_id}")
+                  if folder_changed or catalog_changed:
+                      selected.append(mod)
+
+          print("mods=" + json.dumps(selected, separators=(",", ":")))
+          print(f"Rapid publish selection: {[m['id'] for m in selected]}", file=__import__("sys").stderr)
           PY
 
   publish:
