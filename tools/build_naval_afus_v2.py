@@ -139,10 +139,13 @@ def build_cor(parts,top,t):
  # concentrated crimson energy channels rather than delicate floating rings.
  ringshell(parts['structure'],20,32,top-3,top+2,d,n=12)
  cyl(parts['mechanism'],21,18,top,top+28,a,n=8)
- cyl(parts['core'],13,15,top+4,top+35,g,n=12)
+ cyl(parts['core'],13,12,top+4,top+28,g,n=12)
+ # Reactor core remains visible through windows but has a proper armored pressure lid.
+ cyl(parts['mechanism'],15,13,top+27,top+31,d,n=12)
+ ringshell(parts['armor'],9.5,16,top+30,top+32,a,n=12)
  ringshell(parts['rotor'],19,23,top+27,top+32,d,n=12)
  ringshell(parts['rotor'],15,18,top+32,top+35,m,n=12)
- ringshell(parts['lights'],13,15,top+34,top+37,g,n=12)
+ ringshell(parts['lights'],15,16.3,top+30,top+32,g,n=12)
  for i in range(6):
   th=i*math.pi/3;c,s=math.cos(th),math.sin(th)
   x,z=29*c,29*s
@@ -186,6 +189,46 @@ def build_leg(parts,top,t):
   th=i*math.pi/6
   box(parts['lights'],33*math.cos(th),top+3,33*math.sin(th),1.5,1.2,1.5,g)
 
+def naval_finish(f,parts,top,t):
+ """Distinctive advanced engineering above authentic stock underwater hull."""
+ a=t['armor'];m=t['metal'];d=t['dark'];g=t['glow']
+ # Integral mounting gasket and continuous lower support ring, not floating features.
+ ringshell(parts['structure'],26,36,top-4,top-1,d,n=24)
+ ringshell(parts['armor'],28,34,top-1,top+1,a,n=24)
+ if f=='arm':
+  # Armada: clean, high-contrast shielding, four symmetric reinforced pylons,
+  # cool luminous strips across visible sloped armor surfaces.
+  ringshell(parts['armor'],17,24,top+26,top+28,a,n=32)
+  ringshell(parts['lights'],17,18,top+25,top+27,g,n=32)
+  for i in range(4):
+   th=i*math.pi/2+math.pi/4;c,s=math.cos(th),math.sin(th)
+   # Each strip is on a structural pylon, so no unsupported floating detail.
+   beam(parts['lights'],(31*c,top+4,31*s),(29*c,top+19,29*s),1.25,g)
+   box(parts['armor'],32*c,top+1,32*s,4.0,2.3,4.0,a)
+  for i in range(8):
+   th=i*math.pi/4
+   box(parts['lights'],35*math.cos(th),top-1,35*math.sin(th),1.3,0.8,1.3,g)
+ elif f=='cor':
+  # Cortex: formidable hexagonal armored industrial containment, reactor
+  # illumination visible in slim slits rather than one oversized red disc.
+  ringshell(parts['mechanism'],17,26,top+28,top+30,d,n=12)
+  for i in range(6):
+   th=i*math.pi/3;c,s=math.cos(th),math.sin(th)
+   beam(parts['armor'],(29*c,top+1,29*s),(24*c,top+27,24*s),3.1,a)
+   beam(parts['lights'],(29.4*c,top+5,29.4*s),(25*c,top+22,25*s),0.9,g)
+   box(parts['armor'],31*c,top+2,31*s,4.0,1.5,4.0,a)
+  ringshell(parts['lights'],17.2,18.2,top+28,top+30,g,n=12)
+ else:
+  # Legion: framed emerald reactor vents and layered bronze/gray armor.
+  ringshell(parts['armor'],18,27,top+25,top+27,a,n=24)
+  ringshell(parts['lights'],18,19,top+27,top+29,g,n=24)
+  for i in range(6):
+   th=i*math.pi/3;c,s=math.cos(th),math.sin(th)
+   box(parts['armor'],30*c,top+1,30*s,5,2,5,a)
+   beam(parts['mechanism'],(30*c,top+3,30*s),(26*c,top+23,26*s),2.4,d)
+   beam(parts['lights'],(30.7*c,top+8,30.7*s),(27*c,top+20,27*s),1.0,g)
+  ringshell(parts['mechanism'],22,25,top+29,top+31,d,n=24)
+
 BUILDERS={'arm':build_arm,'cor':build_cor,'leg':build_leg}
 def validate_s3o(path):
  m=load(str(path));names={p.name for p in walk(m.root)}
@@ -208,6 +251,7 @@ def validate_s3o(path):
 def build(f):
  textures,root,parts,top=new_base(f)
  BUILDERS[f](parts,top,textures)
+ naval_finish(f,parts,top,textures)
  # The actual visual geometry is organized into independently editable pieces.
  # zero-geometry top-level pivots exactly match the new animation script pieces.
  for name in ('structure','armor','mechanism','lights','core','pulse','rotor'):
