@@ -1,0 +1,60 @@
+name: Render Original Naval AFUS Trio
+on:
+  push:
+    branches: [main]
+    paths:
+      - tools/render_original_naval_afus.py
+      - .github/workflows/render-original-naval-afus.yml
+  workflow_dispatch:
+permissions:
+  contents: write
+jobs:
+  preview:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install Blender 5.2.2 and S3O Kit
+        run: |
+          set -euo pipefail
+          curl -fLsS --retry 3 https://download.blender.org/release/Blender5.2/blender-5.2.2-linux-x64.tar.xz -o /tmp/blender.tar.xz
+          mkdir -p /tmp/blender_install
+          tar -xf /tmp/blender.tar.xz -C /tmp/blender_install
+          echo "BLENDER_BIN=$(find /tmp/blender_install -type f -name blender | head -1)" >> "$GITHUB_ENV"
+          curl -fLsS --retry 3 https://github.com/ChrisFloofyKitsune/s3o-blender-tools/releases/download/v0.3.2/s3o_kit_v0_3_2.zip -o /tmp/s3o-kit.zip
+          mkdir -p /tmp/s3o-kit
+          unzip -q /tmp/s3o-kit.zip -d /tmp/s3o-kit
+          python3 - <<'PY'
+          from pathlib import Path
+          import shutil
+          roots=[p.parent for p in Path('/tmp/s3o-kit').rglob('__init__.py') if 'S3O Kit' in p.read_text(errors='ignore') and 'bl_info' in p.read_text(errors='ignore')]
+          assert len(roots)==1,roots
+          shutil.copytree(roots[0],Path('/tmp/python_addons/s3o_kit'))
+          PY
+      - name: Download faction atlas and shader files
+        run: |
+          mkdir -p /tmp/afus-atlas
+          for file in Arm_color.dds arm_shader.dds cor_color.dds cor_shader.dds leg_color.dds leg_shader.dds; do
+            curl -fLsS --retry 3 "https://raw.githubusercontent.com/beyond-all-reason/Beyond-All-Reason/master/unittextures/$file" -o "/tmp/afus-atlas/$file"
+          done
+      - name: Render three unit previews
+        run: |
+          set -euo pipefail
+          "$BLENDER_BIN" --background --factory-startup --python tools/render_original_naval_afus.py
+          for faction in arm cor leg; do test -s "/tmp/naval_afus_preview_$faction.png"; done
+      - name: Publish preview images in a separate branch
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git switch -C naval-afus-previews
+          mkdir -p previews/naval-afus
+          cp /tmp/naval_afus_preview_*.png previews/naval-afus/
+          git add previews/naval-afus/
+          git diff --cached --quiet || git commit -m "Render Armada Cortex and Legion original naval AFUS previews"
+          git push origin HEAD:refs/heads/naval-afus-previews --force
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: original-naval-afus-blender-previews
+          path: /tmp/naval_afus_preview_*.png
+          retention-days: 14
