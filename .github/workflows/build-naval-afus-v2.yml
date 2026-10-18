@@ -1,0 +1,40 @@
+name: Build Naval Advanced Fusion II Models
+on:
+  push:
+    branches: [main]
+    paths:
+      - tools/build_naval_afus_v2.py
+      - .github/workflows/build-naval-afus-v2.yml
+  workflow_dispatch:
+permissions:
+  contents: write
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: main
+      - name: Install atlas reader
+        run: python3 -m pip install --user pillow
+      - name: Preserve original unit definitions
+        shell: bash
+        run: |
+          sha256sum NavalAfus/units/ArmBuildings/SeaEconomy/armuwafus.lua NavalAfus/units/CorBuildings/SeaEconomy/coruwafus.lua NavalAfus/units/Legion/SeaEconomy/T2/leguwafus.lua > /tmp/finished_unitdefs.sha256
+      - name: Construct three faction-authentic naval reactor models and validate
+        run: |
+          set -euo pipefail
+          python3 tools/build_naval_afus_v2.py
+          for faction in arm cor leg; do
+            test -s "NavalAfus/objects3d/Units/${faction}uwafus.s3o"
+            test -s "NavalAfus/scripts/Units/${faction}uwafus.lua"
+          done
+          sha256sum -c /tmp/finished_unitdefs.sha256
+          test -z "$(git diff --name-only -- NavalAfus/units)"
+      - name: Commit models only
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add NavalAfus/objects3d/Units/armuwafus.s3o NavalAfus/objects3d/Units/coruwafus.s3o NavalAfus/objects3d/Units/leguwafus.s3o
+          git diff --cached --quiet || (git commit -m "Rebuild tri-faction naval advanced fusion models from stock underwater fusion" && git pull --rebase origin main && git push origin HEAD:main)
