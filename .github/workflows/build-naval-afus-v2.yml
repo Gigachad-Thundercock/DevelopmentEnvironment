@@ -69,6 +69,18 @@ jobs:
             test -s "/tmp/naval_afus_preview_$f.png"
             test -s "/tmp/naval_afus_preview_${f}_side.png"
           done
+      - name: Publish verified visual previews on dedicated review branch
+        shell: bash
+        run: |
+          set -euo pipefail
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git switch -C naval-afus-v3-review
+          mkdir -p previews/naval-afus-v3
+          cp /tmp/naval_afus_preview_*.png previews/naval-afus-v3/
+          git add previews/naval-afus-v3/
+          git diff --cached --quiet || git commit -m "Render advanced naval fusion Armada Cortex Legion models for review"
+          git push origin HEAD:refs/heads/naval-afus-v3-review --force
       - uses: actions/upload-artifact@v4
         if: always()
         with:
