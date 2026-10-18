@@ -33,4 +33,4 @@ for f in ['arm','cor','leg']:
  out=Path('/tmp/naval_afus_preview_'+f+'.png');scene.render.filepath=str(out);bpy.ops.render.render(write_still=True)
  print('RENDERED_NAVAL_AFUS',f,out.stat().st_size,flush=True)
 
-# Rerender the current main-branch model binaries after the brighter atlas material pass.
+# Render Naval AFUS II freshly rebuilt main-branch model binaries for visual quality review.
