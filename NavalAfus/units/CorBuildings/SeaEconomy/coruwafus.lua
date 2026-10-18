@@ -25,7 +25,7 @@ return {
 		metalcost = 9700,
 		minwaterdepth = 25,
 		objectname = "Units/coruwafus.s3o",
-		script = "Units/CORAFUS.cob",
+		script = "Units/coruwafus.lua",
 		seismicsignature = 0,
 		selfdestructas = "fusionExplosionSelfd-uw",
 		sightdistance = 273,
