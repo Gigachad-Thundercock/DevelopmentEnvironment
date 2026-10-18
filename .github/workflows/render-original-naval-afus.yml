@@ -4,6 +4,9 @@ on:
     branches: [main]
     paths:
       - tools/render_original_naval_afus.py
+      - NavalAfus/objects3d/Units/armuwafus.s3o
+      - NavalAfus/objects3d/Units/coruwafus.s3o
+      - NavalAfus/objects3d/Units/leguwafus.s3o
       - .github/workflows/render-original-naval-afus.yml
   workflow_dispatch:
 permissions:
