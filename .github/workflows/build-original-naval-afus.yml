@@ -1,0 +1,35 @@
+name: Build Original Naval AFUS Trio
+on:
+  push:
+    branches: [main]
+    paths:
+      - tools/build_original_naval_afus.py
+      - .github/workflows/build-original-naval-afus.yml
+  workflow_dispatch:
+permissions:
+  contents: write
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: main
+      - name: Install image reader
+        run: python3 -m pip install --user pillow
+      - name: Build three faction-specific S3Os
+        run: |
+          set -euo pipefail
+          python3 tools/build_original_naval_afus.py
+          for faction in arm cor leg; do
+            test -s "NavalAfus/objects3d/Units/${faction}uwafus.s3o"
+            test -s "NavalAfus/scripts/Units/${faction}uwafus.lua"
+            grep -Fq "script = \"Units/${faction}uwafus.lua\"" "$(find NavalAfus/units -name "${faction}uwafus.lua" -print -quit)"
+          done
+      - name: Commit original S3O model files
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add NavalAfus/objects3d/Units/armuwafus.s3o NavalAfus/objects3d/Units/coruwafus.s3o NavalAfus/objects3d/Units/leguwafus.s3o
+          git diff --cached --quiet || (git commit -m "Build three original faction naval AFUS models" && git pull --rebase origin main && git push origin HEAD:main)
