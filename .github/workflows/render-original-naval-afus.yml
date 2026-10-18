@@ -34,7 +34,7 @@ jobs:
       - name: Download faction atlas and shader files
         run: |
           mkdir -p /tmp/afus-atlas
-          for file in Arm_color.dds arm_shader.dds cor_color.dds cor_shader.dds leg_color.dds leg_shader.dds; do
+          for file in Arm_color.dds Arm_other.dds cor_color.dds cor_other.dds leg_color.dds leg_shader.dds; do
             curl -fLsS --retry 3 "https://raw.githubusercontent.com/beyond-all-reason/Beyond-All-Reason/master/unittextures/$file" -o "/tmp/afus-atlas/$file"
           done
       - name: Render three unit previews
