@@ -1,4 +1,4 @@
-name: Render Original Naval AFUS Trio
+name: Render Naval AFUS II Trio
 on:
   push:
     branches: [main]
