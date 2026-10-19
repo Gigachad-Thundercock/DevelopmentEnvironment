@@ -1,0 +1,57 @@
+name: Inspect Warhammer Assets
+on:
+  push:
+    paths:
+      - '.github/workflows/inspect-warhammer-assets.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  inspect:
+    runs-on: ubuntu-latest
+    timeout-minutes: 12
+    steps:
+      - name: Check out complete repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Audit Warhammer assets
+        shell: bash
+        run: |
+          python3 - <<'PY'
+          import pathlib,struct,collections,os
+          root=pathlib.Path("Warhammer40K")
+          files=[p for p in root.rglob("*") if p.is_file()]
+          print("FILES",len(files),"TOTAL_BYTES",sum(p.stat().st_size for p in files),flush=True)
+          for ext in (".png",".dds",".glb",".s3o",".lua"):
+              selected=[p for p in files if p.suffix.lower()==ext]
+              print("GROUP",ext,len(selected),"BYTES",sum(p.stat().st_size for p in selected),flush=True)
+          tex=[]
+          for p in files:
+              if p.suffix.lower() not in (".dds",".png"):continue
+              try:
+                  with p.open("rb") as f:h=f.read(148)
+                  if p.suffix.lower()==".png" and h[:8]==b"\x89PNG\r\n\x1a\n":
+                      w,hgt=struct.unpack(">II",h[16:24]); fmt="PNG"; est=w*hgt*4
+                  elif p.suffix.lower()==".dds" and h[:4]==b"DDS ":
+                      hgt,w=struct.unpack_from("<II",h,12)
+                      fourcc=h[84:88]; mip=struct.unpack_from("<I",h,28)[0]
+                      fmt="DDS:"+repr(fourcc)+":mips="+str(mip)
+                      est=w*hgt*4
+                  else:continue
+                  tex.append((est,p.stat().st_size,w,hgt,fmt,str(p)))
+              except Exception as e:print("ERROR",p,e)
+          print("TEXTURES",len(tex),"SUM_RGBA_EQUIVALENT_MIB",round(sum(x[0] for x in tex)/1048576,1))
+          for row in sorted(tex,reverse=True)[:45]: print("TEX",round(row[0]/1048576,1),"MiB_RGBA",row[2],row[3],row[4],row[5])
+          for p in sorted([p for p in files if p.suffix.lower()==".lua"],key=lambda p:p.stat().st_size,reverse=True)[:18]:
+              with p.open("rb") as f:head=f.read(220)
+              print("LUA",p.stat().st_size,str(p),"HEADER",repr(head[:90]))
+          glb_errors=[]
+          for p in [p for p in files if p.suffix.lower()==".glb"]:
+              with p.open("rb") as f:h=f.read(12)
+              if len(h)!=12 or h[:4]!=b"glTF" or struct.unpack_from("<I",h,8)[0]!=p.stat().st_size:
+                  glb_errors.append(str(p))
+          print("GLB_INVALID_HEADER_OR_LENGTH",len(glb_errors),glb_errors[:30])
+          print("GIT LATEST WARHAMMER COMMITS")
+          os.system("git log -5 --format='%h %s' -- Warhammer40K")
+          PY
